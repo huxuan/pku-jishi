@@ -1,0 +1,24 @@
+#category-list{
+	padding-left: 14px;
+	padding-right: 14px;
+}
+#category-list>li
+{
+	height: 40px;
+	line-height: 40px;
+	font-size: 15px;
+	text-align: center;
+	border: 1px solid #fff;
+	background-color: #f9f9f9;
+}
+.floor {
+	margin-top: 10px;
+}
+.floor .goods-div .caption > h3 {
+	font-size: 1em;
+	font-weight: bold;
+}
+.floor .goods-div .caption > p {
+	font-size: 0.6em;
+}
+.price { color: red;}

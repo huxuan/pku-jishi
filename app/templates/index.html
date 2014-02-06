@@ -15,11 +15,11 @@
 {% endblock %}
 
 {% block content %}
-{% include 'header.html' with context %}
+{% include 'inc/header.html' with context %}
 <div class="container">
 <div class="col-md-9">
-  {% include 'carousel.html' with context %}
-  {% include 'category.html' with context %}
+  {% include 'shared/carousel.html' with context %}
+  {% include 'shared/category.html' with context %}
   <!-- Free Floor -->
   <div class="floor">
   <div class="row">
@@ -175,5 +175,5 @@
 </div><!-- ./col-md-3 -->
 </div>
 
-{% include 'footer.html' with context %}
+{% include 'inc/footer.html' with context %}
 {% endblock %}

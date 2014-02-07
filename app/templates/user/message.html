@@ -1,8 +1,11 @@
 {% extends "layout/default.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}我的消息{% endblock %}
 
 {% block custom_css %}
+<style type="text/css">
+#message-div {padding: 20px 20px;}
+</style>
 {% endblock %}
 
 {% block custom_script %}
@@ -10,6 +13,26 @@
 
 {% block content %}
 {% include 'inc/header.html' with context %}
+<div id="main" class="container">
+<div class="row">
+<div class="col-md-12">
+<ul class="nav nav-pills">
+  <li><a href="{{ url_for('user_sell') }}">我发布的商品</a></li>
+  <li><a href="{{ url_for('user_buy') }}">我求购的商品</a></li>
+  <li class="active"><a href="{{ url_for('user_message') }}">我的消息</a></li>
+  <li><a href="{{ url_for('user_info') }}">我的资料</a></li>
+</ul>
+</div>
+</div>
 
+<div  id="message-div" class="row">
+	<div class="col-md-12">
+		<p>您有 <span>3</span> 条未读信息:</p>
+		<p>您发布的<span>“二手IPAD出售，1800”</span>中有 <span>2</span>条信息  <a href="">查看</a></p>
+		<p>您发布的<span>“求购二手IPAD出售，1800”</span>中有 <span>1</span>条信息 <a href="">查看</a></p>
+	</div>
+</div>
+
+</div><!--/.container-->
 {% include 'inc/footer.html' with context %}
 {% endblock %}

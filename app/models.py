@@ -44,7 +44,7 @@ class Category(db.Model):
         """docstring for __repr__"""
         return '<Category %r>' % self.name
 
-class location(db.Model):
+class Location(db.Model):
     """docstring for location"""
 
     id = db.Column(db.Integer, primary_key = True)

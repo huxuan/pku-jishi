@@ -1,8 +1,9 @@
 {% extends "layout/default.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}注册{% endblock %}
 
 {% block custom_css %}
+<link href="{{ url_for('static', filename='css/register.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block custom_script %}
@@ -10,6 +11,84 @@
 
 {% block content %}
 {% include 'inc/header.html' with context %}
-
+<div id="main" class="container">
+<div class="row">
+<form role="form" class="form-horizontal" >
+  <div class="form-group">
+    <label for="email" class="col-sm-2 control-label">注册邮箱</label>
+    <div class="col-sm-6">
+      <input type="email" class="form-control" id="email" placeholder="example@pku.edu.cn">
+    </div>
+	<div class="col-sm-4">
+		<p class="input-notes">
+		*请使用北大邮箱@pku.edu.cn注册
+		</p>
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="name" class="col-sm-2 control-label">注册邮箱</label>
+    <div class="col-sm-6">
+      <input type="name" class="form-control" id="name">
+    </div>
+	<div class="col-sm-4">
+		<p class="input-notes">
+		*请填写用户名，少于6个字符
+		</p>
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="password" class="col-sm-2 control-label">密码</label>
+    <div class="col-sm-6">
+      <input type="password" class="form-control" id="password">
+    </div>
+	<div class="col-sm-4">
+		<p class="input-notes">
+		*请设置密码，不少于6位
+		</p>
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="password" class="col-sm-2 control-label">确认密码</label>
+    <div class="col-sm-6">
+      <input type="password" class="form-control" id="password">
+    </div>
+	<div class="col-sm-4">
+		<p class="input-notes">
+		*请重复上面设置的密码
+		</p>
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="vcode" class="col-sm-2 control-label">验证码</label>
+    <div class="col-sm-3">
+      <input type="vcode" class="form-control" id="vcode">
+    </div>
+	<div class="col-sm-3">
+      <image src="" alt="验证码"/>
+    </div>
+	<div class="col-sm-4">
+		<p class="input-notes">
+		*看不清楚，<a href="">换一张</a>
+		</p>
+	</div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> 同意网站协议
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">确认注册</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+</div> <!-- ./container -->      
 {% include 'inc/footer.html' with context %}
 {% endblock %}

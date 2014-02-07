@@ -3,7 +3,7 @@
 {% block title %}首页{% endblock %}
 
 {% block custom_css %}
-<link href="static/css/home.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block custom_script %}

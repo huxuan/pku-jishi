@@ -1,8 +1,9 @@
 {% extends "layout/default.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}登陆{% endblock %}
 
 {% block custom_css %}
+<link href="{{ url_for('static', filename='css/login.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block custom_script %}
@@ -10,6 +11,27 @@
 
 {% block content %}
 {% include 'inc/header.html' with context %}
+<div id="main" class="container">
+<div class="row">
+	<div id="login-div" class="col-md-6">
+	<form class="form-signin" role="form" action="#" method="post">
+	<h2 class="form-signin-heading">用户登录</h2>
+	<input type="email" class="form-control" placeholder="邮箱" required autofocus>
+	<input type="password" class="form-control" placeholder="密码" required>
+	<label class="checkbox">
+	  <input type="checkbox" value="remember-me">记住我
+      <a href="{{ url_for('user_forget_password') }}" class="pull-right">忘记密码</a>
+	</label>
+	<button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+	</form>
+	</div>
 
+	<div id="register-div" class="col-md-6">
+		<p>如果您还不是北大集市会员，立即免费注册吧!</p>
+        <a href="{{ url_for('user_register') }}" class="btn btn-primary btn-lg">免费注册</a>
+	</div>
+</div>
+
+</div> <!-- ./container -->  
 {% include 'inc/footer.html' with context %}
 {% endblock %}

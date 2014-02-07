@@ -81,14 +81,14 @@ def user_info():
     return render_template("user/info.html",
         )
 
-@app.route('/sell/category/<id>')
-def sell_category_id():
+@app.route('/sell/category/<int:id>')
+def sell_category_id(id):
     """docstring for sell_category_id"""
     return render_template("sell/category.html",
         )
 
-@app.route('/sell/<id>')
-def sell_id():
+@app.route('/sell/<int:id>')
+def sell_id(id):
     """docstring for sell_id"""
     return render_template("sell/detail.html",
         )
@@ -99,14 +99,14 @@ def sell_post():
     return render_template("sell/post.html",
         )
 
-@app.route('/buy/category/<id>')
-def buy_category_id():
+@app.route('/buy/category/<int:id>')
+def buy_category_id(id):
     """docstring for buy_category_id"""
     return render_template("buy/category.html",
         )
 
-@app.route('/buy/<id>')
-def buy_id():
+@app.route('/buy/<int:id>')
+def buy_id(id):
     """docstring for buy_id"""
     return render_template("buy/detail.html",
         )
@@ -118,7 +118,7 @@ def buy_post():
         )
 
 @app.route('/search/<q>')
-def search():
+def search(q):
     """docstring for search"""
     return render_template("search.html",
         )

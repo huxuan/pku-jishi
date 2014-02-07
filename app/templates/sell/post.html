@@ -1,6 +1,6 @@
 {% extends "layout/default.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}发布商品{% endblock %}
 
 {% block custom_css %}
 {% endblock %}
@@ -10,6 +10,87 @@
 
 {% block content %}
 {% include 'inc/header.html' with context %}
-
+<div id="main" class="container">
+<div class="row">
+<form role="form" class="form-horizontal" method="post" enctype='multipart/form-data'>
+  <legend>发布商品</legend>
+  <div class="form-group">
+    <label for="name" class="col-sm-2 control-label">名称</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="name" id="name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pics" class="col-sm-2 control-label">商品图片</label>
+	<div class="col-sm-10">
+		<input type="file" id="pics" name="pics">
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="price" class="col-sm-2 control-label">售价</label>
+    <div class="col-sm-10">
+	  <div class="input-group">
+		  <span class="input-group-addon">¥</span>
+		  <input type="text" name="price" class="form-control" id="price">
+		  <span class="input-group-addon">.00</span>
+	  </div>
+      
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="category" class="col-sm-2 control-label">商品分类</label>
+    <div class="col-sm-10">
+      <select name="category" id="location">
+		<option value="1">代步工具</option>
+		<option value="2">电脑办公</option>
+		<option value="2">手机数码</option>
+	  </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="location" class="col-sm-2 control-label">交易地点</label>
+    <div class="col-sm-10">
+		<select name="location" id="location">
+			<option value="0">北大本部</option>
+		</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-sm-2 control-label">商品详情</label>
+    <div class="col-sm-10">
+		<textarea class="form-control"  name="description" id="description" rows="5"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="phone" class="col-sm-2 control-label">联系手机</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="phone" id="name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="qq" class="col-sm-2 control-label">联系QQ</label>
+    <div class="col-sm-10">
+      <input type="name" class="form-control" name="qq" id="name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="expire" class="col-sm-2 control-label"></label>
+    <div class="col-sm-10">
+		<select name="expire" id="expire">
+			<option value="15">15</option>
+			<option value="30">30</option>
+		</select>
+		天后自动下架（可在我的个人主页中重新发布）
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">确认发布</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+</div> <!-- ./container -->
 {% include 'inc/footer.html' with context %}
 {% endblock %}

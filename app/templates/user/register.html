@@ -13,11 +13,11 @@
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
 <div class="row">
-<form role="form" class="form-horizontal" >
+<form role="form" class="form-horizontal" method="post" action="">
   <div class="form-group">
     <label for="email" class="col-sm-2 control-label">注册邮箱</label>
     <div class="col-sm-6">
-      <input type="email" class="form-control" id="email" placeholder="example@pku.edu.cn">
+      <input type="email" class="form-control" id="email"  name="email" placeholder="example@pku.edu.cn">
     </div>
 	<div class="col-sm-4">
 		<p class="input-notes">
@@ -28,7 +28,7 @@
   <div class="form-group">
     <label for="name" class="col-sm-2 control-label">用户名</label>
     <div class="col-sm-6">
-      <input type="name" class="form-control" id="name">
+      <input type="text" class="form-control" id="name" name="name">
     </div>
 	<div class="col-sm-4">
 		<p class="input-notes">
@@ -39,7 +39,7 @@
   <div class="form-group">
     <label for="password" class="col-sm-2 control-label">密码</label>
     <div class="col-sm-6">
-      <input type="password" class="form-control" id="password">
+      <input type="password" class="form-control" id="password" name="password">
     </div>
 	<div class="col-sm-4">
 		<p class="input-notes">
@@ -50,7 +50,7 @@
   <div class="form-group">
     <label for="password" class="col-sm-2 control-label">确认密码</label>
     <div class="col-sm-6">
-      <input type="password" class="form-control" id="password">
+      <input type="password" class="form-control" id="password2" name="password2">
     </div>
 	<div class="col-sm-4">
 		<p class="input-notes">
@@ -61,7 +61,7 @@
   <div class="form-group">
     <label for="vcode" class="col-sm-2 control-label">验证码</label>
     <div class="col-sm-3">
-      <input type="vcode" class="form-control" id="vcode">
+      <input type="vcode" class="form-control" id="vcode" name="vcode">
     </div>
 	<div class="col-sm-3">
       <image src="" alt="验证码"/>
@@ -76,7 +76,7 @@
     <div class="col-sm-offset-2 col-sm-10">
       <div class="checkbox">
         <label>
-          <input type="checkbox"> 同意网站协议
+          <input name="terms" type="checkbox"> 同意网站协议
         </label>
       </div>
     </div>
@@ -89,6 +89,6 @@
 </form>
 </div>
 </div>
-</div> <!-- ./container -->      
+</div> <!-- ./container -->
 {% include 'inc/footer.html' with context %}
 {% endblock %}

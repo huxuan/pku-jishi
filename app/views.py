@@ -51,6 +51,12 @@ def user_forget_password():
     return render_template("user/forget_password.html",
         )
 
+@app.route('/user/reset_password')
+def user_reset_password():
+    """docstring for user_reset_password"""
+    return render_template("user/reset_password.html",
+        )
+
 @app.route('/user/change_password')
 def user_change_password():
     """docstring for user_change_password"""

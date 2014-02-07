@@ -66,6 +66,7 @@ class Sell(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     title = db.Column(db.String(30), nullable=False)
+    price = db.Column(db.Integer, nullable = False)
     pics = db.Column(db.String(255))
     deprecate = db.Column(db.SmallInteger)
     description = db.Column(db.String(255))

@@ -1,6 +1,6 @@
 {% extends "layout/default.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}重发确认信{% endblock %}
 
 {% block custom_css %}
 {% endblock %}
@@ -10,6 +10,42 @@
 
 {% block content %}
 {% include 'inc/header.html' with context %}
-
+<div id="main" class="container">
+<div class="row">
+<form role="form" class="form-horizontal" >
+  <div class="form-group">
+    <label for="email" class="col-sm-2 control-label">注册邮箱</label>
+    <div class="col-sm-6">
+      <input type="email" class="form-control" id="email" placeholder="example@pku.edu.cn">
+    </div>
+	<div class="col-sm-4">
+		<p class="input-notes">
+		*请输入注册邮箱
+		</p>
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="vcode" class="col-sm-2 control-label">验证码</label>
+    <div class="col-sm-3">
+      <input type="vcode" class="form-control" id="vcode">
+    </div>
+	<div class="col-sm-3">
+      <image src="" alt="验证码"/>
+    </div>
+	<div class="col-sm-4">
+		<p class="input-notes">
+		*看不清楚，<a href="">换一张</a>
+		</p>
+	</div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">确认发送</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+</div> <!-- ./container -->      
 {% include 'inc/footer.html' with context %}
 {% endblock %}

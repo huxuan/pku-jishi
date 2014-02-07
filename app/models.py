@@ -70,7 +70,7 @@ class Sell(db.Model):
     pics = db.Column(db.String(255))
     deprecate = db.Column(db.SmallInteger)
     description = db.Column(db.String(255))
-    crete_time = db.Column(db.DateTime)
+    create_time = db.Column(db.DateTime)
     valid_time = db.Column(db.DateTime)
     status = db.Column(db.SmallInteger)
 
@@ -89,7 +89,7 @@ class Buy(db.Model):
     price_low = db.Column(db.Integer)
     price_high = db.Column(db.Integer)
     description = db.Column(db.String(255))
-    crete_time = db.Column(db.DateTime)
+    create_time = db.Column(db.DateTime)
     valid_time = db.Column(db.DateTime)
     status = db.Column(db.SmallInteger)
 

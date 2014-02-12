@@ -9,6 +9,10 @@ Description: views for app
 
 from flask import render_template
 from app import app
+from models import User
+from models import Category
+from models import Sell
+from models import Buy
 
 @app.route('/helloworld')
 def helloworld():
@@ -18,8 +22,28 @@ def helloworld():
 @app.route('/')
 def index():
     """docstring for index"""
-    return render_template("index.html",
-        )
+    context = {}
+    context['categories'] = Category.query.all()
+    context['sells_free'] = Sell.query.\
+        filter_by(price=0).\
+        order_by(Sell.create_time.desc()).\
+        limit(4).\
+        all()
+    context['sells_floors'] = []
+    for category in context['categories']:
+        sells_floor = Sell.query.\
+            filter_by(category=category).\
+            order_by(Sell.create_time.desc()).\
+            limit(4).\
+            all()
+        context['sells_floors'].append(sells_floor)
+    context['user_count'] = User.query.count()
+    context['sell_count'] = Sell.query.count()
+    context['buy_count'] = Buy.query.count()
+    print '#' * 80
+    print context
+    print '#' * 80
+    return render_template("index.html", **context)
 
 @app.route('/notes')
 def notes():

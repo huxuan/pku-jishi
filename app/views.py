@@ -122,6 +122,11 @@ def sell_id(id):
     context = {}
     context['categories'] = Category.query.\
             filter_by(status=0).all()
+    context['category'] = Category.query.\
+            filter_by(id=id).first()
+    context['sells_floor'] = Sell.query.\
+            filter_by(category_id=id, status=0).\
+            order_by(Sell.create_time.desc()).all()
     return render_template("sell/detail.html", **context)
 
 @app.route('/sell/post')

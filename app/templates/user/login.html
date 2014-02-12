@@ -15,14 +15,18 @@
 <div class="row">
 	<div id="login-div" class="col-md-6">
 	<form class="form-signin" role="form" action="#" method="post">
+        {{ form.hidden_tag() }}
 	<h2 class="form-signin-heading">用户登录</h2>
-	<input type="text" name="email" class="form-control" placeholder="邮箱" required autofocus>
-	<input type="password" class="form-control" placeholder="密码" required>
-	<label class="checkbox">
-	  <input type="checkbox" name="remember-me">记住我
-      <a href="{{ url_for('user_forget_password') }}" class="pull-right">忘记密码</a>
+        {{ form.email(class="form-control",placeholder="邮箱",autofocus=True,required=True) }}
+        {{ form.password(class="form-control",placeholder="密码",required=True) }}
+        <label class="checkbox">
+            {{ form.remember_me() }}记住我
+            <a href="{{ url_for('user_forget_password') }}" class="pull-right">忘记密码</a>
 	</label>
 	<button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+        {% if error_msg%}
+            {{error_msg}}
+        {% endif %}
 	</form>
 	</div>
 

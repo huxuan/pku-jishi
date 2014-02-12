@@ -7,8 +7,13 @@ Email: i(at)huxuan.org
 Description: views for app
 """
 
+import hashlib
+
 from flask import render_template
+from flask import request
+from flask import redirect
 from app import app
+from app import forms
 from models import User
 from models import Category
 from models import Sell
@@ -50,11 +55,24 @@ def notes():
     return render_template("notes.html",
         )
 
-@app.route('/user/login')
+@app.route('/user/login', methods=('GET', 'POST'))
 def user_login():
     """docstring for user_login"""
-    return render_template("user/login.html",
-        )
+    context = {}
+    context['url'] = request.args.get('url', '/')
+    context['form'] = forms.LoginForm()
+    if context['form'].validate_on_submit():
+        email = context['form'].email.data
+        password = hashlib.md5(context['form'].password.data).hexdigest()
+        user = User.query.filter_by(email=email, status=0). first()
+        if user:
+            if user.password == password:
+                return redirect(context['url'])
+            else:
+                context['error_msg'] = u'密码错误'
+        else:
+            context['error_msg'] = u'用户不存在'
+    return render_template("user/login.html", **context)
 
 @app.route('/user/register')
 def user_register():

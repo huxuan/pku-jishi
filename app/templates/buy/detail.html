@@ -1,6 +1,6 @@
 {% extends "layout/default.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}求购专区{% endblock %}
 
 {% block custom_css %}
 {% endblock %}
@@ -10,6 +10,10 @@
 
 {% block content %}
 {% include 'inc/header.html' with context %}
-
+<div class="container">
+	<div class="row">
+		{% include 'shared/category.html' with context %}
+	</div>
+</div>
 {% include 'inc/footer.html' with context %}
 {% endblock %}

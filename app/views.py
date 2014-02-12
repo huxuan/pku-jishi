@@ -23,19 +23,18 @@ def helloworld():
 def index():
     """docstring for index"""
     context = {}
-    context['categories'] = Category.query.all()
+    context['categories'] = Category.query.\
+            filter_by(status=0).all()
     context['sells_free'] = Sell.query.\
-        filter_by(price=0).\
+        filter_by(price=0, status=0).\
         order_by(Sell.create_time.desc()).\
-        limit(4).\
-        all()
+        limit(4).all()
     context['sells_floors'] = []
     for category in context['categories']:
         sells_floor = Sell.query.\
-            filter_by(category=category).\
+            filter_by(category=category, status=0).\
             order_by(Sell.create_time.desc()).\
-            limit(4).\
-            all()
+            limit(4).all()
         context['sells_floors'].append(sells_floor)
     context['user_count'] = User.query.count()
     context['sell_count'] = Sell.query.count()
@@ -121,7 +120,8 @@ def sell_category_id(id):
 def sell_id(id):
     """docstring for sell_id"""
     context = {}
-    context['categories'] = Category.query.all()
+    context['categories'] = Category.query.\
+            filter_by(status=0).all()
     return render_template("sell/detail.html", **context)
 
 @app.route('/sell/post')
@@ -140,7 +140,8 @@ def buy_category_id(id):
 def buy_id(id):
     """docstring for buy_id"""
     context = {}
-    context['categories'] = Category.query.all()
+    context['categories'] = Category.query.\
+            filter_by(status=0).all()
     return render_template("buy/detail.html", **context)
 
 @app.route('/buy/post')

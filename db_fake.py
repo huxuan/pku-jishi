@@ -105,8 +105,8 @@ def fake_user():
         fake_user_status(user, 1)
     db.session.commit()
 
-def fake_sell_status(category, location, status):
-    """docstring for fake_sell_status"""
+def fake_sell_status_price(category, location, status, price):
+    """docstring for fake_sell_status_price"""
     user_name = USER[random.randint(0, len(USER) - 1)]
     user = models.User.query.filter_by(name = user_name).first()
     create_time = datetime.datetime.now()
@@ -117,7 +117,7 @@ def fake_sell_status(category, location, status):
         category_id = category.id,
         location_id = location.id,
         title = title,
-        price = random.randint(0, 100),
+        price = price,
         pics = '',
         deprecate = random.randint(1, 10),
         description = title * 5,
@@ -133,9 +133,12 @@ def fake_sell():
         category = models.Category.query.filter_by(name = category_name).first()
         for location_name in LOCATION:
             location = models.Location.query.filter_by(name = location_name).first()
-            fake_sell_status(category, location, 0)
-            fake_sell_status(category, location, 1)
-            fake_sell_status(category, location, 2)
+            fake_sell_status_price(category, location, 0, 0)
+            fake_sell_status_price(category, location, 0, random.randint(1, 100))
+            fake_sell_status_price(category, location, 1, 0)
+            fake_sell_status_price(category, location, 1, random.randint(1, 100))
+            fake_sell_status_price(category, location, 2, 0)
+            fake_sell_status_price(category, location, 2, random.randint(1, 100))
     db.session.commit()
 
 def fake_buy_status(category, location, status):

@@ -111,7 +111,8 @@ def fake_sell_status_price(category, location, status, price):
     user = models.User.query.filter_by(name = user_name).first()
     create_time = datetime.datetime.now()
     valid_time = create_time + datetime.timedelta(random.randint(1, 10))
-    title = '-'.join([category.name, location.name, user_name, str(status)])
+    title = '-'.join([
+        category.name, location.name, user_name, str(status), str(price)])
     s = models.Sell(
         user_id = user.id,
         category_id = category.id,

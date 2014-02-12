@@ -1,0 +1,50 @@
+{% extends "layout/default.html" %}
+
+{% block title %}我的资料{% endblock %}
+
+{% block custom_css %}
+<style type="text/css">
+	#info-div {
+		padding: 20px 20px;
+	}
+</style>
+{% endblock %}
+
+{% block custom_script %}
+{% endblock %}
+
+{% block content %}
+{% include 'inc/header.html' with context %}
+<div id="main" class="container">
+<div class="row">
+<div class="col-md-12">
+<ul class="nav nav-pills">
+  <li><a href="{{ url_for('user_sell') }}">我发布的商品</a></li>
+  <li><a href="{{ url_for('user_buy') }}">我求购的商品</a></li>
+  <!--<li><a href="{{ url_for('user_message') }}">我的消息</a></li>-->
+  <li class="active"><a href="{{ url_for('user_info') }}">我的资料</a></li>
+</ul>
+</div>
+</div>
+
+<div id="info-div" class="row">
+	<div class="col-md-12">
+		<table class="table table-bordered table-hover">
+			<tr>
+				<td>用户名</td>
+				<td>qiangrw</td>
+			</tr>
+			<tr>
+				<td>注册邮箱</td>
+				<td>qiangrw@pku.edu.cn</td>
+			</tr>
+		</table>
+		<div id="op-div">
+			<a class="btn btn-link" href="{{ url_for('user_change_password') }}">修改密码</a>
+		</div>
+	</div>
+</div>
+
+</div><!--/.container-->
+{% include 'inc/footer.html' with context %}
+{% endblock %}

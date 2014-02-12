@@ -1,0 +1,65 @@
+{% extends "layout/default.html" %}
+
+{% block title %}我求购的商品{% endblock %}
+
+{% block custom_css %}
+<style type="text/css">
+#goods-div { margin-top: 5px;margin-bottom: 5px;	border: 1px solid grey;}
+#goods-div hr { border-style: dotted; }
+.goods-row {margin-top: 5px; margin-bottom: 5px; padding-left: 10px;}
+.goods-status-1 { color: green; font-weight: bold;}
+.goods-status-2 { color: grey; font-weight: bold;}
+.goods-title {font-size: 1.2em; font-weight: bold; line-height: 1; margin-top: 10px;}
+.goods-time { color: grey; font-size: 0.8em;}
+.goods-img {border: 1px solid transparent; margin-top: 10px; padding-left: 10px;}
+</style>
+{% endblock %}
+
+{% block custom_script %}
+{% endblock %}
+
+{% block content %}
+{% include 'inc/header.html' with context %}
+<div id="main" class="container">
+<div class="row">
+<div class="col-md-12">
+<ul class="nav nav-pills">
+  <li><a href="{{ url_for('user_sell') }}">我发布的商品</a></li>
+  <li class="active"><a href="{{ url_for('user_buy') }}">我求购的商品</a></li>
+  <!--<li><a href="{{ url_for('user_message') }}">我的消息</a></li>-->
+  <li><a href="{{ url_for('user_info') }}">我的资料</a></li>
+</ul>
+</div>
+</div>
+<div id="goods-div">
+	<!-- FOREACH GOODS -->
+	<div class="row goods-row">
+		<div class="col-md-6">
+			<h3 class="goods-title">标题:求购二手IPAD出售</h3>
+			<p class="goods-status-1">状态：正在求购中</p>
+			<p class="goods-time">发布时间: 2014年3月1日</p>		
+		</div>
+		<div class="col-md-6">
+			<a class="btn btn-info">修改信息</a>
+			<a class="btn btn-primary">确认购得</a>
+			<a class="btn btn-default">放弃求购</a>
+		</div>
+	</div>
+	<hr />
+	<!-- ENDFOREACH -->
+	<div class="row goods-row">
+		<div class="col-md-6">
+			<h3 class="goods-title">标题:求购二手IPAD出售</h3>
+			<p class="goods-status-2">状态：超出时间限制，已经下架</p>
+			<p class="goods-time">发布时间: 2014年3月1日</p>
+		</div>
+		<div class="col-md-6">
+			<a class="btn btn-info">修改信息</a>
+			<a class="btn btn-primary">确认购得</a>
+			<a class="btn btn-default">放弃求购</a>
+		</div>
+	</div>
+</div>
+</div>
+{% include 'inc/footer.html' with context %}
+{% endblock %}

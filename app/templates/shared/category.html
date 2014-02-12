@@ -2,7 +2,7 @@
     <div id="category-div">
         <ul id="category-list" class="list-unstyled text-center">			
 			{% for c in categories %}
-			 <li class="col-md-3"><a href="{{ url_for('sell_id',id=c.id) }}">{{c.name}}</a></li>
+			 <li class="col-md-3"><a href="{{ url_for('sell_category_id',id=c.id) }}">{{c.name}}</a></li>
 			{% endfor %}
         </ul>
     </div>

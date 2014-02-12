@@ -98,6 +98,18 @@ def user_buy():
     return render_template("user/buy.html",
         )
 
+@app.route('/user/index')
+def user_index():
+    """docstring for user_index"""
+    return render_template("user/index.html",
+        )
+
+def user_id(id):
+    """docstring for user_id"""
+    return render_template("user/index.html",
+        )
+
+
 @app.route('/user/message')
 def user_message():
     """docstring for user_message"""
@@ -110,15 +122,15 @@ def user_info():
     return render_template("user/info.html",
         )
 
+@app.route('/user/info/edit')
+def user_info_edit():
+    """docstring for user_info_edit"""
+    context = {}
+    return render_template("user/info_edit.html",**context)
+
 @app.route('/sell/category/<int:id>')
 def sell_category_id(id):
     """docstring for sell_category_id"""
-    return render_template("sell/category.html",
-        )
-
-@app.route('/sell/<int:id>')
-def sell_id(id):
-    """docstring for sell_id"""
     context = {}
     context['categories'] = Category.query.\
             filter_by(status=0).all()
@@ -127,7 +139,19 @@ def sell_id(id):
     context['sells_floor'] = Sell.query.\
             filter_by(category_id=id, status=0).\
             order_by(Sell.create_time.desc()).all()
+    return render_template("sell/category.html", **context)
+
+@app.route('/sell/<int:id>')
+def sell_id(id):
+    """docstring for sell_id"""
+    context = {}
     return render_template("sell/detail.html", **context)
+
+@app.route('/sell/edit/<int:id>')
+def sell_edit_id(id):
+    """docstring for sell_detail_id"""
+    context = {}
+    return render_template("sell/detail_edit.html", **context)
 
 @app.route('/sell/post')
 def sell_post():
@@ -135,19 +159,33 @@ def sell_post():
     return render_template("sell/post.html",
         )
 
+@app.route('/buy/')
+def buy():
+    """docstring for buy_category_id"""
+    context = {}
+    context['categories'] = Category.query.\
+            filter_by(status=0).all()
+    return render_template("buy/index.html", **context)
+
 @app.route('/buy/category/<int:id>')
 def buy_category_id(id):
     """docstring for buy_category_id"""
-    return render_template("buy/category.html",
-        )
+    context = {}
+    context['categories'] = Category.query.\
+            filter_by(status=0).all()
+    return render_template("buy/category.html", **context)
 
 @app.route('/buy/<int:id>')
 def buy_id(id):
     """docstring for buy_id"""
     context = {}
-    context['categories'] = Category.query.\
-            filter_by(status=0).all()
     return render_template("buy/detail.html", **context)
+
+@app.route('/buy/edit/<int:id>')
+def buy_edit_id(id):
+    """docstring for buy_edit_id"""
+    context = {}
+    return render_template("buy/detail_edit.html", **context)
 
 @app.route('/buy/post')
 def buy_post():

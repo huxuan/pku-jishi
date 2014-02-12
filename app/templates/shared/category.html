@@ -1,18 +1,9 @@
 <div class="row">
     <div id="category-div">
-        <ul id="category-list" class="list-unstyled text-center">
-            <li class="col-md-3"><a href="">代步工具</a></li>
-            <li class="col-md-3"><a href="">电脑办公</a></li>
-            <li class="col-md-3"><a href="">手机数码</a></li>
-            <li class="col-md-3"><a href="">图书音像</a></li>
-            <li class="col-md-3"><a href="">运动健身</a></li>
-            <li class="col-md-3"><a href="">日用产品</a></li>
-            <li class="col-md-3"><a href="">衣服鞋帽</a></li>
-            <li class="col-md-3"><a href="">娱乐票务</a></li>
-            <li class="col-md-3"><a href="">电器产品</a></li>
-            <li class="col-md-3"><a href="">房屋租赁</a></li>
-            <li class="col-md-3"><a href="">食品饮料</a></li>
-            <li class="col-md-3"><a href="">其他分类</a></li>
+        <ul id="category-list" class="list-unstyled text-center">			
+			{% for c in categories %}
+			 <li class="col-md-3"><a href="">{{c.name}}</a></li>
+			{% endfor %}
         </ul>
     </div>
 </div><!--./row-->

@@ -32,63 +32,30 @@
   <br />
   <div class="row">
   <div class="goods-div">
-    <div class="col-md-3">
+	{% for goods in sells_free %}
+	<div class="col-md-3">
       <div class="thumbnail">
         <img src="static/images/logo.png" alt="...">
         <div class="caption">
-        <h3>二手飞鸽自行车</h3>
+        <h3>{{ goods.title }}</h3>
         <p>
-          <span class="location">北大本部</span>
+          <span class="location">{{ goods.location.name }}</span>
           <span class="price">免费赠送</span>
         </p>
         </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="thumbnail">
-        <img src="static/images/logo.png" alt="...">
-        <div class="caption">
-        <h3>二手飞鸽自行车</h3>
-        <p>
-          <span class="location">北大本部</span>
-          <span class="price">免费赠送</span>
-        </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="thumbnail">
-        <img src="static/images/logo.png" alt="...">
-        <div class="caption">
-        <h3>二手飞鸽自行车</h3>
-        <p>
-          <span class="location">北大本部</span>
-          <span class="price">免费赠送</span>
-        </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="thumbnail">
-        <img src="static/images/logo.png" alt="...">
-        <div class="caption">
-        <h3>二手飞鸽自行车</h3>
-        <p>
-          <span class="location">北大本部</span>
-          <span class="price">免费赠送</span>
-        </p>
-        </div>
-      </div>
-    </div>
+	{% endfor %}
   </div>
   </div>
   </div> <!-- ./floor-->
 
-  <!-- First Floor -->
+  {% for sells_floor in sells_floors %}
+  <!-- Floor -->
   <div class="floor">
   <div class="row">
     <div class="goods-type col-md-12">
-      <span class="pull-left">1F 代步工具</span>
+      <span class="pull-left">{{ loop.index }}F {{categories[loop.index-1].name}}</span>
       <span class="more-category"></span>
       <span class="pull-right"><a href="">查看更多</a></span>
     </div>
@@ -96,57 +63,24 @@
   <br />
   <div class="row">
   <div class="goods-div">
+	{% for goods in sells_floor %}
     <div class="col-md-3">
       <div class="thumbnail">
         <img src="static/images/logo.png" alt="...">
         <div class="caption">
-        <h3>二手飞鸽自行车</h3>
+        <h3>{{ goods.title }}</h3>
         <p>
-          <span class="location">北大本部</span>
-          <span class="price">免费赠送</span>
+          <span class="location">{{ goods.location.name }}</span>
+          <span class="price">{{ goods.price }}</span>
         </p>
         </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="thumbnail">
-        <img src="static/images/logo.png" alt="...">
-        <div class="caption">
-        <h3>二手飞鸽自行车</h3>
-        <p>
-          <span class="location">北大本部</span>
-          <span class="price">免费赠送</span>
-        </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="thumbnail">
-        <img src="static/images/logo.png" alt="...">
-        <div class="caption">
-        <h3>二手飞鸽自行车</h3>
-        <p>
-          <span class="location">北大本部</span>
-          <span class="price">免费赠送</span>
-        </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="thumbnail">
-        <img src="static/images/logo.png" alt="...">
-        <div class="caption">
-        <h3>二手飞鸽自行车</h3>
-        <p>
-          <span class="location">北大本部</span>
-          <span class="price">免费赠送</span>
-        </p>
-        </div>
-      </div>
-    </div>
+	{% endfor %}
   </div>
   </div>
   </div> <!-- ./floor-->
+  {% endfor %}
 
 </div><!-- ./col-md-9 -->
 <div class="col-md-3">
@@ -168,8 +102,8 @@
   <div class="well well-sm">
     <p><strong>在线播报</strong></p>
     <p>
-    截止到{{cur_date}}，已经有
-    {{cur_user_count}}名同学通过北大集市发布了超过{{cur_goods}}件商品。.
+    截止到今，已经有
+    {{user_count}}名同学通过北大集市发布了超过{{sell_count}}件商品，求购了{{buy_count}}件商品。
     </p>
   </div>
 </div><!-- ./col-md-3 -->

@@ -7,20 +7,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">Logo</a>
+        <a class="navbar-brand" href="/">北大集市</a>
     </div>
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li {% if request.path == "/" %}class="active"{% endif %}><a href="/">首页</a></li>
-            <li {% if request.path == "/user/sell" or request.path == "/user/buy" or request.path == "/user/message" or request.path == "/user/info" %}class="active"{% endif %}><a href="{{ url_for('user_sell') }}">个人主页</a></li>
-            <li {% if request.path == "/buy" %}class="active"{% endif %}><a href="#">求购专区</a></li>
+            <li {% if request.path == "/user/sell" or request.path == "/user/buy" or request.path == "/user/message" or request.path == "/user/index" %}class="active"{% endif %}><a href="{{ url_for('user_sell') }}">我的个人主页</a></li>
+            <li {% if request.path == "/buy/0" %}class="active"{% endif %}><a href="{{ '/buy/0' }}">求购专区</a></li>
             <form id="searchForm" class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                    <select name="type">
-                        <option value="0">全部分类</option>
-                        <option value="1">图书</option>
-                        <option value="2">音乐</option>
-                    </select>
                     <input name="q" type="text" class="form-control" placeholder="搜索商品">
                 </div>
             </form>

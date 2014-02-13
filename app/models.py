@@ -85,6 +85,8 @@ class Sell(db.Model):
     create_time = db.Column(db.DateTime)
     valid_time = db.Column(db.DateTime)
     status = db.Column(db.SmallInteger)
+    phone = db.Column(db.String(40))
+    qq = db.Column(db.String(40))
 
     def __repr__(self):
         """docstring for __repr__"""
@@ -104,6 +106,8 @@ class Buy(db.Model):
     create_time = db.Column(db.DateTime)
     valid_time = db.Column(db.DateTime)
     status = db.Column(db.SmallInteger)
+    phone = db.Column(db.String(40))
+    qq = db.Column(db.String(40))
 
     def __repr__(self):
         """docstring for __repr__"""

@@ -23,12 +23,12 @@
 {% include 'inc/header.html' with context %}
 <div class="container">
 <div class="col-md-9">
-  {% include 'shared/category.html' with context %}
+  {% include 'shared/bcategory.html' with context %}
   <!-- Free Floor -->
   <div class="floor">
   <div class="row">
     <div class="goods-type col-md-12">
-      <span class="pull-left">xxx专区</span>
+      <span class="pull-left"> category.name </span>
       <span class="more-category"></span>
       <span class="pull-right"><a href="">查看更多</a></span>
     </div>
@@ -36,7 +36,7 @@
   <br />
   <div class="row">
   <div class="goods-div">
-	{% for goods in sells %}
+	{% for goods in buys %}
 	<div class="col-md-3">
       <div class="thumbnail">
         <div class="caption">

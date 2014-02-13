@@ -23,20 +23,20 @@
 {% include 'inc/header.html' with context %}
 <div class="container">
 <div class="col-md-9">
-  {% include 'shared/category.html' with context %}
-  <!-- Free Floor -->
+  {% include 'shared/bcategory.html' with context %}
+  {% for buys_floor in buys_floors %}
   <div class="floor">
   <div class="row">
     <div class="goods-type col-md-12">
-      <span class="pull-left">xxx专区</span>
+      <span class="pull-left">{{ loop.index }}F {{categories[loop.index-1].name}}</span>
       <span class="more-category"></span>
-      <span class="pull-right"><a href="">查看更多</a></span>
+      <span class="pull-right"><a href="{{ url_for('buy_category_id', categorys[loop.index-1].id) }}">查看更多</a></span>
     </div>
   </div>
   <br />
   <div class="row">
   <div class="goods-div">
-	{% for goods in sells %}
+	{% for goods in buys_floor %}
 	<div class="col-md-3">
       <div class="thumbnail">
         <div class="caption">
@@ -52,6 +52,7 @@
   </div>
   </div>
   </div> <!-- ./floor-->
+  {% endfor %}
 
 </div><!-- ./col-md-9 -->
 <div class="col-md-3">

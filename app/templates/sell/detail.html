@@ -1,6 +1,6 @@
 {% extends "layout/default.html" %}
 
-{% block title %}{{category.name}}{% endblock %}
+{% block title %}goods.name{% endblock %}
 
 {% block custom_css %}
 <link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
@@ -17,29 +17,41 @@
   <!-- Free Floor -->
   <div class="floor">
   <div class="row">
-    <div class="goods-type col-md-12">
-      <span class="pull-left">{{category.name}}专区</span>
-      <span class="more-category"></span>
-      <span class="pull-right"><a href="">查看更多</a></span>
-    </div>
+  <div class="goods-img-div col-md-4">
+    <img src="" alt="商品图片" />
   </div>
-  <br />
-  <div class="row">
-  <div class="goods-div">
-	{% for goods in sells_floor %}
-	<div class="col-md-3">
-      <div class="thumbnail">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="...">
-        <div class="caption">
-        <h3>{{ goods.title }}</h3>
-        <p>
-          <span class="location">{{ goods.location.name }}</span>
-          <span class="price">{{goods.price}}</span>
-        </p>
-        </div>
-      </div>
-    </div>
-	{% endfor %}
+  <div class="goods-detail-div col-md-8">
+    <h2>goods.name</h2>
+    <table class="table table-bordered">
+        <tr>
+        	<th>价格</th>
+        	<td>goods.price</td>
+        </tr>
+        <tr>
+        	<th>交易地点</th>
+        	<td>goods.location.name</td>
+        </tr>
+        <tr>
+        	<th>发布时间</th>
+        	<td>goods.create_time</td>
+        </tr>
+        <tr>
+        	<th>发布者</th>
+        	<td><a href="#">goods.user</a></td>
+        </tr>
+        <tr>
+        	<th>手机号</th>
+        	<td>goods.phone</td>
+        </tr>
+        <tr>
+        	<th>QQ</th>
+        	<td>goods.qq</td>
+        </tr>
+        <tr>
+            <th>详细信息</th>
+            <td>goods.description</td>
+        </tr>
+    </table>
   </div>
   </div>
   </div> <!-- ./floor-->

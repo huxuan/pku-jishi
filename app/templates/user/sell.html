@@ -32,6 +32,7 @@
 </div>
 </div>
 <div id="goods-div">
+    {% for goods in sells %}
 	<!-- FOREACH GOODS -->
 	<div class="row goods-row">
 		<div class="col-md-2">
@@ -48,6 +49,7 @@
 	</div>
 	<hr />
 	<!-- ENDFOREACH -->
+    {% endfor %}
 	<div class="row goods-row">
 		<div class="col-md-2">
 			<img class="goods-img" src="#" alt="商品图片" width="120" height="120"/>

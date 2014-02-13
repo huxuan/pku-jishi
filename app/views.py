@@ -18,6 +18,7 @@ from flask.ext.login import login_required
 from flask.ext.login import current_user
 
 from app import app
+from app import lib
 from app import forms
 from app import models
 from app import login_manager
@@ -86,11 +87,21 @@ def user_logout():
     logout_user()
     return redirect(url_for('user_login'))
 
-@app.route('/user/register')
+@app.route('/user/register', methods=('GET', 'POST'))
 def user_register():
     """docstring for user_register"""
-    return render_template("user/register.html",
+    if g.user and g.user.is_authenticated():
+        return redirect(url_for('index'))
+    context = {}
+    context['form'] = forms.RegisterForm()
+    if context['form'].validate_on_submit():
+        lib.create_user(
+            email = context['form'].email.data,
+            name = context['form'].username.data,
+            password = context['form'].password.data,
         )
+        return redirect(url_for('user_login'))
+    return render_template("user/register.html", **context)
 
 @app.route('/user/resend_confirm_mail')
 @login_required

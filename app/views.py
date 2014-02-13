@@ -74,7 +74,7 @@ def user_login():
     context['form'] = forms.LoginForm()
     if context['form'].validate_on_submit():
         email = context['form'].email.data
-        user = models.User.query.filter_by(email=email, status=0).first()
+        user = models.User.query.filter_by(email=email).first()
         remember = context['form'].remember.data
         login_user(user, remember=remember)
         return redirect(request.args.get('next') or url_for('index'))

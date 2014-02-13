@@ -89,7 +89,7 @@ def fake_user_status(user, status):
         email = user + '@pku.edu.cn',
         name = user,
         password = hashlib.md5(user).hexdigest(),
-        confirm = user,
+        confirm = random.randint(100000, 999999),
         avatar = '',
         phone = '',
         qq = '',

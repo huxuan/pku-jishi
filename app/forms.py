@@ -34,7 +34,7 @@ class EmailValidation(object):
         user = models.User.query.filter_by(email=field.data).first()
         if not user:
             raise validators.StopValidation(MSG_EMAIL_NONEXIST)
-        if user.status != 0:
+        if user.status > 1:
             raise validators.StopValidation(MSG_EMAIL_INVALID)
 
 class CorrespondToEmailPassword(object):

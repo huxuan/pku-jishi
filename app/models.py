@@ -16,7 +16,7 @@ class User(db.Model):
     email = db.Column(db.String(255), index=True, unique=True, nullable=False)
     name = db.Column(db.String(255), index=True, unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    confirm = db.Column(db.String(40), nullable=False)
+    confirm = db.Column(db.Integer, nullable=False)
     avatar = db.Column(db.String(255))
     phone = db.Column(db.String(40))
     qq = db.Column(db.String(40))
@@ -29,7 +29,7 @@ class User(db.Model):
         return True
 
     def is_active(self):
-        return self.status == 0
+        return self.status <= 1
 
     def is_anonymous(self):
         return False

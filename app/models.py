@@ -13,8 +13,8 @@ class User(db.Model):
     """docstring for User"""
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(255), index=True, unique=True)
-    name = db.Column(db.String(255), unique=True, nullable=False)
+    email = db.Column(db.String(255), index=True, unique=True, nullable=False)
+    name = db.Column(db.String(255), index=True, unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     confirm = db.Column(db.String(40), nullable=False)
     avatar = db.Column(db.String(255))

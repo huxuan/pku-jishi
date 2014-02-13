@@ -109,6 +109,7 @@ def user_index():
     return render_template("user/index.html",
         )
 
+@app.route('/user/<int:id>')
 def user_id(id):
     """docstring for user_id"""
     return render_template("user/index.html",

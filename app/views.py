@@ -7,17 +7,13 @@ Email: i(at)huxuan.org
 Description: views for app
 """
 
-import hashlib
-
 from flask import render_template
 from flask import request
 from flask import redirect
+
 from app import app
 from app import forms
-from models import User
-from models import Category
-from models import Sell
-from models import Buy
+from app import models
 
 @app.route('/helloworld')
 def helloworld():
@@ -28,22 +24,22 @@ def helloworld():
 def index():
     """docstring for index"""
     context = {}
-    context['categories'] = Category.query.\
+    context['categories'] = models.Category.query.\
             filter_by(status=0).all()
-    context['sells_free'] = Sell.query.\
+    context['sells_free'] = models.Sell.query.\
         filter_by(price=0, status=0).\
-        order_by(Sell.create_time.desc()).\
+        order_by(models.Sell.create_time.desc()).\
         limit(4).all()
     context['sells_floors'] = []
     for category in context['categories']:
-        sells_floor = Sell.query.\
+        sells_floor = models.Sell.query.\
             filter_by(category=category, status=0).\
-            order_by(Sell.create_time.desc()).\
+            order_by(models.Sell.create_time.desc()).\
             limit(4).all()
         context['sells_floors'].append(sells_floor)
-    context['user_count'] = User.query.count()
-    context['sell_count'] = Sell.query.count()
-    context['buy_count'] = Buy.query.count()
+    context['user_count'] = models.User.query.count()
+    context['sell_count'] = models.Sell.query.count()
+    context['buy_count'] = models.Buy.query.count()
     print '#' * 80
     print context
     print '#' * 80
@@ -62,16 +58,7 @@ def user_login():
     context['url'] = request.args.get('url', '/')
     context['form'] = forms.LoginForm()
     if context['form'].validate_on_submit():
-        email = context['form'].email.data
-        password = hashlib.md5(context['form'].password.data).hexdigest()
-        user = User.query.filter_by(email=email, status=0). first()
-        if user:
-            if user.password == password:
-                return redirect(context['url'])
-            else:
-                context['error_msg'] = u'密码错误'
-        else:
-            context['error_msg'] = u'用户不存在'
+        return redirect(context['url'])
     return render_template("user/login.html", **context)
 
 @app.route('/user/register')
@@ -150,13 +137,13 @@ def user_info_edit():
 def sell_category_id(id):
     """docstring for sell_category_id"""
     context = {}
-    context['categories'] = Category.query.\
+    context['categories'] = models.Category.query.\
             filter_by(status=0).all()
-    context['category'] = Category.query.\
+    context['category'] = models.Category.query.\
             filter_by(id=id).first()
-    context['sells_floor'] = Sell.query.\
+    context['sells_floor'] = models.Sell.query.\
             filter_by(category_id=id, status=0).\
-            order_by(Sell.create_time.desc()).all()
+            order_by(models.Sell.create_time.desc()).all()
     return render_template("sell/category.html", **context)
 
 @app.route('/sell/<int:id>')
@@ -181,7 +168,7 @@ def sell_post():
 def buy():
     """docstring for buy_category_id"""
     context = {}
-    context['categories'] = Category.query.\
+    context['categories'] = models.Category.query.\
             filter_by(status=0).all()
     return render_template("buy/index.html", **context)
 
@@ -189,7 +176,7 @@ def buy():
 def buy_category_id(id):
     """docstring for buy_category_id"""
     context = {}
-    context['categories'] = Category.query.\
+    context['categories'] = models.Category.query.\
             filter_by(status=0).all()
     return render_template("buy/category.html", **context)
 

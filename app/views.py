@@ -40,9 +40,6 @@ def index():
     context['user_count'] = models.User.query.count()
     context['sell_count'] = models.Sell.query.count()
     context['buy_count'] = models.Buy.query.count()
-    print '#' * 80
-    print context
-    print '#' * 80
     return render_template("index.html", **context)
 
 @app.route('/notes')

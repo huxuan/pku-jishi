@@ -60,6 +60,6 @@ class LoginForm(Form):
         validators.InputRequired(MSG_PASSWD_REQUIRED),
         CorrespondToEmailPassword('email'),
     ])
-    remember_me = BooleanField(LABEL_REMEMBER_ME, [
+    remember = BooleanField(LABEL_REMEMBER_ME, [
         validators.Optional(),
     ])

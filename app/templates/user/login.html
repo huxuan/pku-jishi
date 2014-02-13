@@ -21,7 +21,7 @@
         {{ form.email(class="form-control",placeholder="邮箱",autofocus=True,required=True) }}
         {{ form.password(class="form-control",placeholder="密码",required=True) }}
         <label class="checkbox">
-            {{ form.remember_me() }}{{ form.remember_me.label }}
+            {{ form.remember }}{{ form.remember.label }}
             <a href="{{ url_for('user_forget_password') }}" class="pull-right">忘记密码</a>
 	</label>
 	<button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>

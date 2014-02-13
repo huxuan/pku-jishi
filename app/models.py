@@ -25,6 +25,18 @@ class User(db.Model):
     sells = db.relationship('Sell', backref='user', lazy='dynamic')
     buys = db.relationship('Buy', backref='user', lazy='dynamic')
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return self.status == 0
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.id)
+
     def __repr__(self):
         """docstring for __repr__"""
         return '<User %r>' % self.name

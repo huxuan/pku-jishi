@@ -7,18 +7,35 @@ Email: i(at)huxuan.org
 Description: views for app
 """
 
+from flask import g
 from flask import render_template
 from flask import request
 from flask import redirect
+from flask import url_for
+from flask.ext.login import login_user
+from flask.ext.login import logout_user
+from flask.ext.login import login_required
+from flask.ext.login import current_user
 
 from app import app
 from app import forms
 from app import models
+from app import login_manager
 
 @app.route('/helloworld')
 def helloworld():
     """docstring for helloworld"""
     return "Hello, World!"
+
+@login_manager.user_loader
+def load_user(id):
+    """docstring for load_user"""
+    return models.User.query.get(int(id))
+
+@app.before_request
+def before_request():
+    """docstring for before_request"""
+    g.user = current_user
 
 @app.route('/')
 def index():
@@ -51,12 +68,23 @@ def notes():
 @app.route('/user/login', methods=('GET', 'POST'))
 def user_login():
     """docstring for user_login"""
+    if g.user and g.user.is_authenticated():
+        return redirect(url_for('index'))
     context = {}
-    context['url'] = request.args.get('url', '/')
     context['form'] = forms.LoginForm()
     if context['form'].validate_on_submit():
-        return redirect(context['url'])
+        email = context['form'].email.data
+        user = models.User.query.filter_by(email=email, status=0).first()
+        remember = context['form'].remember.data
+        login_user(user, remember=remember)
+        return redirect(request.args.get('next') or url_for('index'))
     return render_template("user/login.html", **context)
+
+@app.route("/user/logout")
+@login_required
+def user_logout():
+    logout_user()
+    return redirect(url_for('user_login'))
 
 @app.route('/user/register')
 def user_register():
@@ -65,67 +93,77 @@ def user_register():
         )
 
 @app.route('/user/resend_confirm_mail')
+@login_required
 def user_resend_confirm_mail():
     """docstring for user_resend_confirm_mail"""
     return render_template("user/resend_confirm_mail.html",
         )
 
 @app.route('/user/forget_password')
+@login_required
 def user_forget_password():
     """docstring for user_forget_password"""
     return render_template("user/forget_password.html",
         )
 
 @app.route('/user/reset_password')
+@login_required
 def user_reset_password():
     """docstring for user_reset_password"""
     return render_template("user/reset_password.html",
         )
 
 @app.route('/user/change_password')
+@login_required
 def user_change_password():
     """docstring for user_change_password"""
     return render_template("user/change_password.html",
         )
 
 @app.route('/user/sell')
+@login_required
 def user_sell():
     """docstring for user_sell"""
     return render_template("user/sell.html",
             )
 
 @app.route('/user/buy')
+@login_required
 def user_buy():
     """docstring for user_buy"""
     return render_template("user/buy.html",
         )
 
 @app.route('/user/index')
+@login_required
 def user_index():
     """docstring for user_index"""
     return render_template("user/index.html",
         )
 
 @app.route('/user/<int:id>')
+@login_required
 def user_id(id):
     """docstring for user_id"""
     return render_template("user/index.html",
         )
 
-
 @app.route('/user/message')
+@login_required
 def user_message():
     """docstring for user_message"""
     return render_template("user/message.html",
         )
 
 @app.route('/user/info')
+@login_required
 def user_info():
     """docstring for user_info"""
     return render_template("user/info.html",
         )
 
 @app.route('/user/info/edit')
+@login_required
 def user_info_edit():
     """docstring for user_info_edit"""
     context = {}
@@ -151,12 +189,14 @@ def sell_id(id):
     return render_template("sell/detail.html", **context)
 
 @app.route('/sell/edit/<int:id>')
+@login_required
 def sell_edit_id(id):
     """docstring for sell_detail_id"""
     context = {}
     return render_template("sell/detail_edit.html", **context)
 
 @app.route('/sell/post')
+@login_required
 def sell_post():
     """docstring for sell_post"""
     return render_template("sell/post.html",
@@ -185,12 +225,14 @@ def buy_id(id):
     return render_template("buy/detail.html", **context)
 
 @app.route('/buy/edit/<int:id>')
+@login_required
 def buy_edit_id(id):
     """docstring for buy_edit_id"""
     context = {}
     return render_template("buy/detail_edit.html", **context)
 
 @app.route('/buy/post')
+@login_required
 def buy_post():
     """docstring for buy_post"""
     return render_template("buy/post.html",

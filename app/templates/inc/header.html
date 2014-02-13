@@ -15,7 +15,7 @@
             <li {% if request.path == "/user/sell" or request.path == "/user/buy" or request.path ==
             "/user/message" or request.path == "/user/index" %}class="active"{% endif %}><a href="{{ url_for('user_index') }}">我的个人主页</a></li>
             <li {% if request.path == "/buy/" %}class="active"{% endif %}><a href="{{ '/buy/' }}">求购专区</a></li>
-            <form id="searchForm" class="navbar-form navbar-left" role="search">
+            <form id="searchForm" class="navbar-form navbar-left" role="search" method="get" action="{{ url_for('search') }}">
                 <div class="form-group">
                     <input name="q" type="text" class="form-control" placeholder="搜索商品">
                 </div>

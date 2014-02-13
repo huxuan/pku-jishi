@@ -238,8 +238,8 @@ def buy_post():
     return render_template("buy/post.html",
         )
 
-@app.route('/search/<q>')
-def search(q):
+@app.route('/search')
+def search():
     """docstring for search"""
     return render_template("search.html",
         )

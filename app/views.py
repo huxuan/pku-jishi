@@ -238,11 +238,15 @@ def sell_post():
 @app.route('/buy/')
 def buy():
     """docstring for buy_category_id"""
+    page = int(request.args.get('page', 1))
     context = {
         'categories': lib.get_categories(status=0),
     }
-    context['sells_floors'] = lib.get_sells_floors(
-        context['categories'], limit=4, status=0),
+    context['buys'] = lib.get_buys()
+    context['pagination'] = Pagination(page=page,
+        total=len(context['buys']),
+        record_name='buys',
+    )
     return render_template("buy/index.html", **context)
 
 @app.route('/buy/category/<int:id>')

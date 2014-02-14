@@ -74,6 +74,10 @@ def get_buy_count():
     """docstring for get_buy_count"""
     return models.Buy.query.count()
 
+def get_buys(status=0):
+    """docstring for get_buys"""
+    return models.Buy.query.filter_by(status=status).all()
+
 def get_buys_by_category(category, status=0):
     """docstring for get_buys_by_category"""
     return models.Buy.query.filter_by(category=category, status=status).all()

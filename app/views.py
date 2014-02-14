@@ -7,6 +7,8 @@ Email: i(at)huxuan.org
 Description: views for app
 """
 
+import datetime
+
 from flask import g
 from flask import render_template
 from flask import request
@@ -32,6 +34,7 @@ MSG_CATEGORY_DANGER = 'danger'
 MSG_DANGER_LOGIN = u'请登录后查看此页面'
 MSG_SUCCESS_LOGIN = u'登录成功！'
 MSG_SUCCESS_REGISTER = u'注册成功！'
+MSG_INFO_USER_INVALID = u'此用户无效'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_DANGER_LOGIN
@@ -159,15 +162,28 @@ def user_buy():
 @login_required
 def user_index():
     """docstring for user_index"""
-    return render_template("user/index.html",
-        )
+    context = {}
+    context['user'] = g.user
+    context['sells'] = models.Sell.query.\
+        filter_by(user_id = g.user.id, status = 0).\
+        filter(models.Sell.valid_time >= datetime.datetime.now()).\
+        order_by(models.Sell.create_time.desc()).all()
+    return render_template("user/index.html", **context)
 
 @app.route('/user/<int:id>')
-@login_required
 def user_id(id):
     """docstring for user_id"""
-    return render_template("user/index.html",
-        )
+    current_time = datetime.datetime.now()
+    context = {}
+    context['user'] = models.User.query.get(id)
+    if not context['user'] or context['user'].status > 1:
+        flash(MSG_INFO_USER_INVALID, MSG_CATEGORY_INFO)
+        return redirect(url_for('index'))
+    context['sells'] = models.Sell.query.\
+        filter_by(user_id = id, status = 0).\
+        filter(models.Sell.valid_time >= datetime.datetime.now()).\
+        order_by(models.Sell.create_time.desc()).all()
+    return render_template("user/index.html", **context)
 
 @app.route('/user/message')
 @login_required

@@ -67,7 +67,7 @@ def get_sells_floors(categories, limit=4, status=0):
             filter_by(category=category, status=0).\
             order_by(models.Sell.create_time.desc()).\
             limit(limit).all()
-        res.append(floor)
+        floors.append(floor)
     return floors
 
 def get_buy_count():

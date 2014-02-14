@@ -31,13 +31,13 @@ MSG_CATEGORY_INFO = 'info'
 MSG_CATEGORY_WARNING = 'warning'
 MSG_CATEGORY_DANGER = 'danger'
 
-MSG_DANGER_LOGIN = u'请登录后查看此页面'
-MSG_SUCCESS_LOGIN = u'登录成功！'
-MSG_SUCCESS_REGISTER = u'注册成功！'
-MSG_INFO_USER_INVALID = u'此用户无效'
+MSG_LOGIN_REQUIRED = u'请登录后查看此页面'
+MSG_LOGIN_SUCCESS = u'登录成功！'
+MSG_REGISTER_SUCCESS = u'注册成功！'
+MSG_USER_INVALID = u'此用户无效'
 
 login_manager.login_view = 'user_login'
-login_manager.login_message = MSG_DANGER_LOGIN
+login_manager.login_message = MSG_LOGIN_REQUIRED
 login_manager.login_message_category = MSG_CATEGORY_DANGER
 
 @app.route('/helloworld')
@@ -89,7 +89,7 @@ def user_login():
         user = models.User.query.filter_by(email=email).first()
         remember = context['form'].remember.data
         login_user(user, remember=remember)
-        flash(MSG_SUCCESS_LOGIN, MSG_CATEGORY_SUCCESS)
+        flash(MSG_LOGIN_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(request.args.get('next') or url_for('index'))
     return render_template("user/login.html", **context)
 
@@ -112,7 +112,7 @@ def user_register():
             name = context['form'].username.data,
             password = context['form'].password.data,
         )
-        flash(MSG_SUCCESS_REGISTER, MSG_CATEGORY_SUCCESS)
+        flash(MSG_REGISTER_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_login'))
     return render_template("user/register.html", **context)
 
@@ -177,7 +177,7 @@ def user_id(id):
     context = {}
     context['user'] = models.User.query.get(id)
     if not context['user'] or context['user'].status > 1:
-        flash(MSG_INFO_USER_INVALID, MSG_CATEGORY_INFO)
+        flash(MSG_USER_INVALID, MSG_CATEGORY_INFO)
         return redirect(url_for('index'))
     context['sells'] = models.Sell.query.\
         filter_by(user_id = id, status = 0).\

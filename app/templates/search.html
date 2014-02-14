@@ -24,38 +24,25 @@
     <div class="panel panel-info">
         <div class="panel-heading">搜索 {{q}} 相关的商品 </div>
         <div id="goods-div" class="panel-body">
-            <!-- FOREACH GOODS -->
-            <div class="row goods-row">
-                <div class="col-md-2">
-                    <img class="goods-img" src="#" alt="商品图片" width="120" height="120"/>
-                </div>
-                <div class="col-md-10">
-                    <h3 class="goods-title">标题:二手IPAD出售 1800元</h3>
-                    <p class="goods-location">北大本部</p>
-                    <p class="goods-price">80元</p>
-                    <p class="goods-time">发布时间: 2014年3月1日</p>
-                </div>
-            </div>
-            <!-- ENDFOREACH -->
             {% for goods in sells %}
             <div class="row goods-row">
                 <div class="col-md-2">
                     <a href="{{ url_for('sell_id', id=goods.id) }}">
-                        <img class="goods-img" src="#" alt="商品图片" width="120" height="120"/>
+                        <img class="goods-img" src="{{ url_for('static', filename='images/logo.png')}}" alt="商品图片" width="120" height="120"/>
                     </a>
                 </div>
                 <div class="col-md-10">
                     <h3 class="goods-title">标题:{{ goods.title }}</h3>
                     <p class="goods-location">{{ goods.location.name }}</p>
                     <p class="goods-price">{{ goods.price }}元</p>
+                    <p class="description">{{goods.description}}</p>		
                     <p class="goods-time">发布时间: {{ goods.create_time }}</p>
                 </div>
             </div>
+            <hr>
             {% endfor %}
         </div>
     </div>
-
-
 
     <div class="panel panel-success">
         <div class="panel-heading">搜索 {{q}} 相关的求购 </div>
@@ -63,22 +50,18 @@
             <!-- FOREACH GOODS -->
             {% for goods in buys %}
             <div class="row goods-row">
-                <div class="col-md-6">
-                    <h3 class="goods-title">标题:求购二手IPAD出售</h3>
-                    <p class="goods-status-1">状态：正在求购中</p>
-                    <p class="goods-time">发布时间: 2014年3月1日</p>		
+                <div class="col-md-12">
+                    <h3 class="goods-title">标题:{{goods.title }}</h3>
+                    <p class="goods-status-1">状态：{{goods.status}}</p>
+                    <p class="goods-price"> 要价范围{{ goods.low_price }} - {{ goods.high_price }}元</p>
+
+                    <p class="description">{{goods.description}}</p>		
+                    <p class="goods-time">发布时间: {{goods.create_time}}</p>		
                 </div>
             </div>
             <hr />
             <!-- ENDFOREACH -->
             {% endfor %}
-            <div class="row goods-row">
-                <div class="col-md-6">
-                    <h3 class="goods-title">标题:求购二手IPAD出售</h3>
-                    <p class="goods-status-2">状态：超出时间限制，已经下架</p>
-                    <p class="goods-time">发布时间: 2014年3月1日</p>
-                </div>
-            </div>
         </div>
     </div>
 

@@ -46,6 +46,10 @@ def get_sell_count():
     """docstring for get_sell_count"""
     return models.Sell.query.count()
 
+def get_sell_by_id(id):
+    """docstring for get_sell_by_id"""
+    return models.Sell.query.get(id)
+
 def get_sells_by_category(category, status=0):
     """docstring for get_sells_by_category"""
     return models.Sell.query.filter_by(category=category, status=status).all()
@@ -82,6 +86,10 @@ def get_sells_q_cid_lid(q, category_id=0, location_id=0):
 def get_buy_count():
     """docstring for get_buy_count"""
     return models.Buy.query.count()
+
+def get_buy_by_id(id):
+    """docstring for get_buy_by_id"""
+    return models.Buy.query.get(id)
 
 def get_buys_by_category(category, status=0):
     """docstring for get_buys_by_category"""

@@ -36,6 +36,8 @@ MSG_LOGIN_REQUIRED = u'请登录后查看此页面'
 MSG_LOGIN_SUCCESS = u'登录成功！'
 MSG_REGISTER_SUCCESS = u'注册成功！'
 MSG_USER_INVALID = u'此用户无效'
+MSG_SELL_INVALID = u'此售出商品无效'
+MSG_BUY_INVALID = u'此求购商品无效'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -219,13 +221,18 @@ def sell_category_id(id):
 @app.route('/sell/detail/<int:id>')
 def sell_id(id):
     """docstring for sell_id"""
-    context = {}
+    context = {
+        'sell': lib.get_sell_by_id(id),
+    }
+    if context['sell'].status != 0:
+        flash(MSG_SELL_INVALID, MSG_CATEGORY_DANGER)
+        return redirect(url_for('index'))
     return render_template("sell/detail.html", **context)
 
 @app.route('/sell/detail/edit/<int:id>')
 @login_required
 def sell_edit_id(id):
-    """docstring for sell_detail_id"""
+    """docstring for sell_edit_id"""
     context = {}
     return render_template("sell/detail_edit.html", **context)
 
@@ -264,7 +271,12 @@ def buy_category_id(id):
 @app.route('/buy/detail/<int:id>')
 def buy_id(id):
     """docstring for buy_id"""
-    context = {}
+    context = {
+        'buy': lib.get_buy_by_id(id),
+    }
+    if context['buy'].status != 0:
+        flash(MSG_BUY_INVALID, MSG_CATEGORY_DANGER)
+        return redirect(url_for('index'))
     return render_template("buy/detail.html", **context)
 
 @app.route('/buy/detail/edit/<int:id>')

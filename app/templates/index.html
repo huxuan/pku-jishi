@@ -26,7 +26,7 @@
     <div class="goods-type col-md-12">
       <span class="pull-left">免费赠送专区</span>
       <span class="more-category"></span>
-      <span class="pull-right"><a href="">查看更多</a></span>
+      <!--<span class="pull-right"><a href="">查看更多</a></span>-->
     </div>
   </div>
   <br />
@@ -57,7 +57,9 @@
     <div class="goods-type col-md-12">
       <span class="pull-left">{{ loop.index }}F {{categories[loop.index-1].name}}</span>
       <span class="more-category"></span>
-      <span class="pull-right"><a href="">查看更多</a></span>
+      <span class="pull-right">
+          <a href="{{ url_for('sell_category_id', id=categories[loop.index-1].id) }}">查看更多</a>
+      </span>
     </div>
   </div>
   <br />

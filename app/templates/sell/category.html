@@ -19,14 +19,12 @@
   <div class="row">
     <div class="goods-type col-md-12">
       <span class="pull-left">{{category.name}}专区</span>
-      <span class="more-category"></span>
-      <span class="pull-right"><a href="">查看更多</a></span>
     </div>
   </div>
   <br />
   <div class="row">
   <div class="goods-div">
-	{% for goods in sells_floor %}
+	{% for goods in sells %}
 	<div class="col-md-3">
       <div class="thumbnail">
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="...">

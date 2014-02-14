@@ -103,6 +103,7 @@ def fake_user():
     for user in USER:
         fake_user_status(user, 0)
         fake_user_status(user, 1)
+        fake_user_status(user, 2)
     db.session.commit()
 
 def fake_sell_status_price(category, location, status, price):

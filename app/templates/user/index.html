@@ -1,12 +1,9 @@
 {% extends "layout/default.html" %}
 
-{% block title %}{{ user_name }} 的个人主页{% endblock %}
+{% block title %}{{ user.name }} 的个人主页{% endblock %}
 
 {% block custom_css %}
 <style type="text/css">
-#goods-div { margin-top: 5px;margin-bottom: 5px;	border: 1px solid grey;}
-#goods-div hr { border-style: dotted; }
-.goods-row {margin-top: 5px; margin-bottom: 5px;}
 .goods-status-1 { color: green; font-weight: bold;}
 .goods-status-2 { color: grey; font-weight: bold;}
 .goods-title {font-size: 1.2em; font-weight: bold; line-height: 1; margin-top: 10px;}
@@ -21,26 +18,13 @@
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
-    <legend>{{user_name}}正在出售的所有商品</legend>
-    <div id="goods-div">
-        <!-- FOREACH GOODS -->
-        <div class="row goods-row">
-            <div class="col-md-2">
-                <img class="goods-img" src="#" alt="商品图片" width="120" height="120"/>
-            </div>
-            <div class="col-md-10">
-                <h3 class="goods-title">标题:二手IPAD出售 1800元</h3>
-                <p class="goods-location">北大本部</p>
-                <p class="goods-price">80元</p>
-                <p class="goods-time">发布时间: 2014年3月1日</p>
-            </div>
-        </div>
-        <hr />
-        <!-- ENDFOREACH -->
+    <div class="panel panel-info">
+    <div class="panel-heading">{{user.name}}正在出售的所有商品</div>
+    <div id="goods-div" class="panel-body">
 	    {% for goods in sells %}
         <div class="row goods-row">
             <div class="col-md-2">
-                <img class="goods-img" src="#" alt="商品图片" width="120" height="120"/>
+                <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}"><img src="{{ url_for('static', filename='images/logo.png') }}"></a>
             </div>
             <div class="col-md-10">
                 <h3 class="goods-title">标题:{{ goods.title }}</h3>
@@ -49,8 +33,9 @@
                 <p class="goods-time">发布时间: {{ goods.create_time }}</p>
             </div>
         </div>
-	    {% endfor %}
         <hr />
+	    {% endfor %}
+    </div>
     </div>
 </div>
 {% include 'inc/footer.html' with context %}

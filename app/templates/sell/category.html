@@ -14,20 +14,16 @@
 <div class="container">
 <div class="col-md-9">
   {% include 'shared/category.html' with context %}
-  <!-- Free Floor -->
-  <div class="floor">
-  <div class="row">
-    <div class="goods-type col-md-12">
+  <div class="floor panel panel-default">
+    <div class="goods-type col-md-12 panel-heading">
       <span class="pull-left">{{category.name}}专区</span>
+      <br />
     </div>
-  </div>
-  <br />
-  <div class="row">
-  <div class="goods-div">
+  <div class="goods-div panel-body">
 	{% for goods in sells %}
 	<div class="col-md-3">
       <div class="thumbnail">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="...">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="商品图片">
         <div class="caption">
         <h3>{{ goods.title }}</h3>
         <p>
@@ -38,7 +34,6 @@
       </div>
     </div>
 	{% endfor %}
-  </div>
   </div>
   </div> <!-- ./floor-->
 

@@ -1,6 +1,6 @@
 {% extends "layout/default.html" %}
 
-{% block title %}goods.name{% endblock %}
+{% block title %}{{ sell.title }}{% endblock %}
 
 {% block custom_css %}
 <link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
@@ -18,38 +18,38 @@
   <div class="floor">
   <div class="row">
   <div class="goods-img-div col-md-4">
-    <img src="" alt="商品图片" />
+      <img src="{{ url_for('static', filename='images/logo.png')}}" alt="商品图片" />
   </div>
   <div class="goods-detail-div col-md-8">
-    <h2>goods.name</h2>
+      <h2>{{ sell.name }}</h2>
     <table class="table table-bordered">
         <tr>
-        	<th>价格</th>
-        	<td>goods.price</td>
+        	<th class="col-md-3">价格</th>
+            <td>{{ sell.price }}</td>
         </tr>
         <tr>
         	<th>交易地点</th>
-        	<td>goods.location.name</td>
+            <td>{{ sell.location.name }}</td>
         </tr>
         <tr>
         	<th>发布时间</th>
-        	<td>goods.create_time</td>
+            <td>{{ sell.create_time }}</td>
         </tr>
         <tr>
         	<th>发布者</th>
-        	<td><a href="#">goods.user</a></td>
+            <td><a href="{{url_for('user_id', id=sell.user.id) }}">{{ sell.user.name }}</a></td>
         </tr>
         <tr>
         	<th>手机号</th>
-        	<td>goods.phone</td>
+            <td>{{ sell.phone }}</td>
         </tr>
         <tr>
         	<th>QQ</th>
-        	<td>goods.qq</td>
+            <td>{{ sell.qq }}</td>
         </tr>
         <tr>
             <th>详细信息</th>
-            <td>goods.description</td>
+            <td>{{ sell.description }}</td>
         </tr>
     </table>
   </div>
@@ -60,26 +60,7 @@
 <div class="col-md-3">
   <a href="{{ url_for('sell_post') }}" class="btn btn-primary btn-lg">我要发布</a>
   <br /><br />
-  <div class="well well-sm">
-    <p><strong>北大集市公告</strong></p>
-    <p>
-      北大集市网是由北大在校生
-      创业团队打造的面向北京大
-      学同学的二手物品交易网络
-      平台.
-      只需要通过北大邮箱注册,即
-      可在北大集市上面发布二手
-      物品信息,.......................
-    </p>
-  </div>
-
-  <div class="well well-sm">
-    <p><strong>在线播报</strong></p>
-    <p>
-    截止到今，已经有
-    {{user_count}}名同学通过北大集市发布了超过{{sell_count}}件商品，求购了{{buy_count}}件商品。
-    </p>
-  </div>
+  {% include 'shared/board.html' with context %}
 </div><!-- ./col-md-3 -->
 </div>
 {% include 'inc/footer.html' with context %}

@@ -64,12 +64,6 @@ def index():
     context['buy_count'] = models.Buy.query.count()
     return render_template("index.html", **context)
 
-@app.route('/notes')
-def notes():
-    """docstring for notes"""
-    return render_template("notes.html",
-        )
-
 @app.route('/user/login', methods=('GET', 'POST'))
 def user_login():
     """docstring for user_login"""

@@ -285,5 +285,23 @@ def buy_post():
 def search():
     """docstring for search"""
     q = request.args.get('q')
-    return render_template("search.html",
+    page = int(request.args.get('page', 1))
+    category_id = int(request.args.get('category_id', 0))
+    location_id = int(request.args.get('location_id', 0))
+    type_id = int(request.args.get('type_id', 0))
+    context = {}
+    if type_id != 2: # not only buy
+        context['sells'] = lib.get_sells_q_cid_lid(
+            q, category_id, location_id)
+        context['sells_pagination'] = Pagination(page=page,
+            total=len(context['sells']),
+            record_name='sells',
         )
+    if type_id != 1: # not only sell
+        context['buys'] = lib.get_buys_q_cid_lid(
+            q, category_id, location_id)
+        context['buys_pagination'] = Pagination(page=page,
+            total=len(context['buys']),
+            record_name='buys',
+        )
+    return render_template("search.html", **context)

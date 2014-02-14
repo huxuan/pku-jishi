@@ -18,3 +18,5 @@ RECAPTCHA_PRIVATE_KEY = '6Ld-ke4SAAAAAJIgozOAfBd3ktLFnCxNeLvLJSGw'
 
 # flask-whooshalchemy
 WHOOSH_BASE = 'whoosh'
+from jieba.analyse import ChineseAnalyzer
+WHOOSH_ANALYZER = ChineseAnalyzer()

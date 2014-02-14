@@ -70,6 +70,15 @@ def get_sells_floors(categories, limit=4, status=0):
         floors.append(floor)
     return floors
 
+def get_sells_q_cid_lid(q, category_id=0, location_id=0):
+    """docstring for get_sells_q_cid_lid"""
+    res = models.Sell.query.whoosh_search(q).filter_by(status=0)
+    if category_id != 0:
+        res = res.filter_by(category_id=category_id)
+    if location_id != 0:
+        res = res.filter_by(location_id=location_id)
+    return res.all()
+
 def get_buy_count():
     """docstring for get_buy_count"""
     return models.Buy.query.count()
@@ -92,3 +101,12 @@ def get_buys_floors(categories, limit=4, status=0):
             limit(limit).all()
         floors.append(floor)
     return floors
+
+def get_buys_q_cid_lid(q, category_id=0, location_id=0):
+    """docstring for get_buys_q_cid_lid"""
+    res = models.Buy.query.whoosh_search(q).filter_by(status=0)
+    if category_id != 0:
+        res = res.filter_by(category_id=category_id)
+    if location_id != 0:
+        res = res.filter_by(location_id=location_id)
+    return res.all()

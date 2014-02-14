@@ -7,6 +7,11 @@ Email: i(at)huxuan.org
 Description: models used in app
 """
 
+import sys
+sys.path.insert(0, 'Flask-WhooshAlchemy')
+import flask_whooshalchemy as whooshalchemy
+
+from app import app
 from app import db
 
 class User(db.Model):
@@ -116,3 +121,6 @@ class Buy(db.Model):
         """docstring for __repr__"""
         return '<Buy id:%r user_id:%r title:%r>' % (self.id, self.user_id,
                 self.title)
+
+whooshalchemy.whoosh_index(app, Sell)
+whooshalchemy.whoosh_index(app, Buy)

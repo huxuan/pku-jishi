@@ -237,7 +237,7 @@ def sell_post():
 
 @app.route('/buy/')
 def buy():
-    """docstring for buy_category_id"""
+    """docstring for buy"""
     page = int(request.args.get('page', 1))
     context = {
         'categories': lib.get_categories(status=0),
@@ -256,7 +256,7 @@ def buy_category_id(id):
     context = {
         'category': lib.get_category(id)
     }
-    context['buys'] = get_buys_by_category(context['category'])
+    context['buys'] = lib.get_buys_by_category(context['category'])
     context['pagination'] = Pagination(page=page,
         total=len(context['buys']),
         record_name='buys',

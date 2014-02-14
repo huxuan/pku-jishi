@@ -19,6 +19,7 @@ from flask.ext.login import login_user
 from flask.ext.login import logout_user
 from flask.ext.login import login_required
 from flask.ext.login import current_user
+from flask.ext.paginate import Pagination
 
 from app import app
 from app import lib
@@ -54,27 +55,19 @@ def load_user(id):
 def before_request():
     """docstring for before_request"""
     g.user = current_user
+    g.user_count = lib.get_user_count()
+    g.sell_count = lib.get_sell_count()
+    g.buy_count = lib.get_buy_count()
 
 @app.route('/')
 def index():
     """docstring for index"""
-    context = {}
-    context['categories'] = models.Category.query.\
-            filter_by(status=0).all()
-    context['sells_free'] = models.Sell.query.\
-        filter_by(price=0, status=0).\
-        order_by(models.Sell.create_time.desc()).\
-        limit(4).all()
-    context['sells_floors'] = []
-    for category in context['categories']:
-        sells_floor = models.Sell.query.\
-            filter_by(category=category, status=0).\
-            order_by(models.Sell.create_time.desc()).\
-            limit(4).all()
-        context['sells_floors'].append(sells_floor)
-    context['user_count'] = models.User.query.count()
-    context['sell_count'] = models.Sell.query.count()
-    context['buy_count'] = models.Buy.query.count()
+    context={
+        'categories': lib.get_categories(status=0),
+        'sells_free': lib.get_sells_free(limit=4, status=0),
+    }
+    context['sells_floors'] = lib.get_sells_floors(
+        context['categories'], limit=4, status=0)
     return render_template("index.html", **context)
 
 @app.route('/user/login', methods=('GET', 'POST'))
@@ -82,8 +75,9 @@ def user_login():
     """docstring for user_login"""
     if g.user and g.user.is_authenticated():
         return redirect(url_for('index'))
-    context = {}
-    context['form'] = forms.LoginForm()
+    context={
+        'form': forms.LoginForm(),
+    }
     if context['form'].validate_on_submit():
         email = context['form'].email.data
         user = models.User.query.filter_by(email=email).first()
@@ -148,15 +142,19 @@ def user_change_password():
 @login_required
 def user_sell():
     """docstring for user_sell"""
-    return render_template("user/sell.html",
-            )
+    context = {
+        'sells': lib.get_sells_by_user(g.user, status=0)
+    }
+    return render_template("user/sell.html", **context)
 
 @app.route('/user/buy')
 @login_required
 def user_buy():
     """docstring for user_buy"""
-    return render_template("user/buy.html",
-        )
+    context = {
+        'buys': lib.get_buys_by_user(g.user),
+    }
+    return render_template("user/buy.html", **context)
 
 @app.route('/user/index')
 @login_required
@@ -179,44 +177,42 @@ def user_id(id):
     if not context['user'] or context['user'].status > 1:
         flash(MSG_USER_INVALID, MSG_CATEGORY_DANGER)
         return redirect(url_for('index'))
-    context['sells'] = models.Sell.query.\
-        filter_by(user_id = id, status = 0).\
-        filter(models.Sell.valid_time >= datetime.datetime.now()).\
-        order_by(models.Sell.create_time.desc()).all()
+    context['sells'] = lib.get_sells_by_user(context['user'])
     return render_template("user/index.html", **context)
 
 @app.route('/user/message')
 @login_required
 def user_message():
     """docstring for user_message"""
-    return render_template("user/message.html",
-        )
+    context = {}
+    return render_template("user/message.html", **context)
 
 @app.route('/user/info')
 @login_required
 def user_info():
     """docstring for user_info"""
-    return render_template("user/info.html",
-        )
+    context = {}
+    return render_template("user/info.html", **context)
 
 @app.route('/user/info/edit')
 @login_required
 def user_info_edit():
     """docstring for user_info_edit"""
     context = {}
-    return render_template("user/info_edit.html",**context)
+    return render_template("user/info_edit.html", **context)
 
 @app.route('/sell/category/<int:id>')
 def sell_category_id(id):
     """docstring for sell_category_id"""
-    context = {}
-    context['categories'] = models.Category.query.\
-            filter_by(status=0).all()
-    context['category'] = models.Category.query.\
-            filter_by(id=id).first()
-    context['sells_floor'] = models.Sell.query.\
-            filter_by(category_id=id, status=0).\
-            order_by(models.Sell.create_time.desc()).all()
+    page = int(request.args.get('page', 1))
+    context = {
+        'category': lib.get_category(id)
+    }
+    context['sells'] = get_sells_by_category(context['category'])
+    context['pagination'] = Pagination(page=page,
+        total=len(context['sells']),
+        record_name='sells',
+    )
     return render_template("sell/category.html", **context)
 
 @app.route('/sell/<int:id>')
@@ -242,17 +238,25 @@ def sell_post():
 @app.route('/buy/')
 def buy():
     """docstring for buy_category_id"""
-    context = {}
-    context['categories'] = models.Category.query.\
-            filter_by(status=0).all()
+    context = {
+        'categories': lib.get_categories(status=0),
+    }
+    context['sells_floors'] = lib.get_sells_floors(
+        context['categories'], limit=4, status=0),
     return render_template("buy/index.html", **context)
 
 @app.route('/buy/category/<int:id>')
 def buy_category_id(id):
     """docstring for buy_category_id"""
-    context = {}
-    context['categories'] = models.Category.query.\
-            filter_by(status=0).all()
+    page = int(request.args.get('page', 1))
+    context = {
+        'category': lib.get_category(id)
+    }
+    context['buys'] = get_buys_by_category(context['category'])
+    context['pagination'] = Pagination(page=page,
+        total=len(context['buys']),
+        record_name='buys',
+    )
     return render_template("buy/category.html", **context)
 
 @app.route('/buy/<int:id>')

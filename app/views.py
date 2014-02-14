@@ -238,13 +238,11 @@ def sell_post():
 @app.route('/buy/')
 def buy():
     """docstring for buy"""
-    page = int(request.args.get('page', 1))
     context = {
         'categories': lib.get_categories(status=0),
     }
     context['buys_floors'] = lib.get_buys_floors(
         context['categories'], limit=4, status=0)
-    print context['buys_floors']
     return render_template("buy/index.html", **context)
 
 @app.route('/buy/category/<int:id>')
@@ -284,5 +282,6 @@ def buy_post():
 @app.route('/search')
 def search():
     """docstring for search"""
+    q = request.args.get('q')
     return render_template("search.html",
         )

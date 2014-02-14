@@ -208,7 +208,7 @@ def sell_category_id(id):
     context = {
         'category': lib.get_category(id)
     }
-    context['sells'] = get_sells_by_category(context['category'])
+    context['sells'] = lib.get_sells_by_category(context['category'])
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
         record_name='sells',

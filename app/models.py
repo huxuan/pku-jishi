@@ -72,6 +72,7 @@ class Location(db.Model):
 
 class Sell(db.Model):
     """docstring for Sell"""
+    __searchable__ = ['title', 'description']
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -95,6 +96,8 @@ class Sell(db.Model):
 
 class Buy(db.Model):
     """docstring for Buy"""
+    __searchable__ = ['title', 'description']
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))

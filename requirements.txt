@@ -4,3 +4,4 @@ flask-sqlalchemy
 mysql-python
 flask-login
 flask-paginate
+flask-whooshalchemy

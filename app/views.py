@@ -12,6 +12,7 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import url_for
+from flask import flash
 from flask.ext.login import login_user
 from flask.ext.login import logout_user
 from flask.ext.login import login_required
@@ -22,6 +23,9 @@ from app import lib
 from app import forms
 from app import models
 from app import login_manager
+
+MSG_LOGIN_SUCCESS = u'登录成功！'
+MSG_REGISTER_SUCCESS = u'注册成功！'
 
 @app.route('/helloworld')
 def helloworld():
@@ -78,6 +82,7 @@ def user_login():
         user = models.User.query.filter_by(email=email).first()
         remember = context['form'].remember.data
         login_user(user, remember=remember)
+        flash(MSG_LOGIN_SUCCESS)
         return redirect(request.args.get('next') or url_for('index'))
     return render_template("user/login.html", **context)
 
@@ -100,6 +105,7 @@ def user_register():
             name = context['form'].username.data,
             password = context['form'].password.data,
         )
+        flash(MSG_REGISTER_SUCCESS)
         return redirect(url_for('user_login'))
     return render_template("user/register.html", **context)
 

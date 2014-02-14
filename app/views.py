@@ -177,7 +177,7 @@ def user_id(id):
     context = {}
     context['user'] = models.User.query.get(id)
     if not context['user'] or context['user'].status > 1:
-        flash(MSG_USER_INVALID, MSG_CATEGORY_INFO)
+        flash(MSG_USER_INVALID, MSG_CATEGORY_DANGER)
         return redirect(url_for('index'))
     context['sells'] = models.Sell.query.\
         filter_by(user_id = id, status = 0).\

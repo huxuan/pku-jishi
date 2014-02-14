@@ -129,8 +129,9 @@ class RegisterForm(Form):
         description = DESC_PASSWD_CONFIRM,
     )
     accept_tos = BooleanField(LABEL_TOS, [
-        validators.InputRequired(MSG_TOS)
-    ])
+        validators.InputRequired(MSG_TOS),],
+        default = True,
+    )
     recaptcha = RecaptchaField(LABEL_CAPTCHA, [
         ext_validators.Recaptcha(MSG_CAPTCHA),],
         description = DESC_CAPTCHA,

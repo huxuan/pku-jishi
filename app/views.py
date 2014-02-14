@@ -24,8 +24,13 @@ from app import forms
 from app import models
 from app import login_manager
 
-MSG_LOGIN_SUCCESS = u'登录成功！'
-MSG_REGISTER_SUCCESS = u'注册成功！'
+MSG_CATEGORY_SUCCESS = 'success'
+MSG_CATEGORY_INFO = 'info'
+MSG_CATEGORY_WARNING = 'warning'
+MSG_CATEGORY_DANGER = 'danger'
+
+MSG_SUCCESS_LOGIN = u'登录成功！'
+MSG_SUCCESS_REGISTER = u'注册成功！'
 
 @app.route('/helloworld')
 def helloworld():
@@ -76,7 +81,7 @@ def user_login():
         user = models.User.query.filter_by(email=email).first()
         remember = context['form'].remember.data
         login_user(user, remember=remember)
-        flash(MSG_LOGIN_SUCCESS)
+        flash(MSG_SUCCESS_LOGIN, MSG_CATEGORY_SUCCESS)
         return redirect(request.args.get('next') or url_for('index'))
     return render_template("user/login.html", **context)
 
@@ -99,7 +104,7 @@ def user_register():
             name = context['form'].username.data,
             password = context['form'].password.data,
         )
-        flash(MSG_REGISTER_SUCCESS)
+        flash(MSG_SUCCESS_REGISTER, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_login'))
     return render_template("user/register.html", **context)
 

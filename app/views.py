@@ -206,6 +206,7 @@ def sell_category_id(id):
     """docstring for sell_category_id"""
     page = int(request.args.get('page', 1))
     context = {
+        'categories': lib.get_categories(status=0),
         'category': lib.get_category(id)
     }
     context['sells'] = lib.get_sells_by_category(context['category'])
@@ -250,6 +251,7 @@ def buy_category_id(id):
     """docstring for buy_category_id"""
     page = int(request.args.get('page', 1))
     context = {
+        'categories': lib.get_categories(status=0),
         'category': lib.get_category(id)
     }
     context['buys'] = lib.get_buys_by_category(context['category'])

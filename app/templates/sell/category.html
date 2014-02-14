@@ -14,7 +14,7 @@
 <div class="container">
 <div class="col-md-9">
   {% include 'shared/category.html' with context %}
-  <div class="floor panel panel-default">
+  <div class="floor panel panel-info">
     <div class="goods-type col-md-12 panel-heading">
       <span class="pull-left">{{category.name}}专区</span>
       <br />
@@ -41,26 +41,7 @@
 <div class="col-md-3">
   <a href="{{ url_for('sell_post') }}" class="btn btn-primary btn-lg">我要发布</a>
   <br /><br />
-  <div class="well well-sm">
-    <p><strong>北大集市公告</strong></p>
-    <p>
-      北大集市网是由北大在校生
-      创业团队打造的面向北京大
-      学同学的二手物品交易网络
-      平台.
-      只需要通过北大邮箱注册,即
-      可在北大集市上面发布二手
-      物品信息,.......................
-    </p>
-  </div>
-
-  <div class="well well-sm">
-    <p><strong>在线播报</strong></p>
-    <p>
-    截止到今，已经有
-    {{user_count}}名同学通过北大集市发布了超过{{sell_count}}件商品，求购了{{buy_count}}件商品。
-    </p>
-  </div>
+  {% include 'shared/board.html' with context %}
 </div><!-- ./col-md-3 -->
 </div>
 {% include 'inc/footer.html' with context %}

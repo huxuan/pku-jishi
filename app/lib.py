@@ -61,22 +61,18 @@ def get_sells_free(limit=4, status=0):
 
 def get_sells_floors(categories, limit=4, status=0):
     """docstring for get_sells_floors"""
-    res = []
+    floors = []
     for category in categories:
-        sells_floor = models.Sell.query.\
+        floor = models.Sell.query.\
             filter_by(category=category, status=0).\
             order_by(models.Sell.create_time.desc()).\
-            limit(4).all()
-        res.append(sells_floor)
-    return res
+            limit(limit).all()
+        res.append(floor)
+    return floors
 
 def get_buy_count():
     """docstring for get_buy_count"""
     return models.Buy.query.count()
-
-def get_buys(status=0):
-    """docstring for get_buys"""
-    return models.Buy.query.filter_by(status=status).all()
 
 def get_buys_by_category(category, status=0):
     """docstring for get_buys_by_category"""
@@ -85,3 +81,14 @@ def get_buys_by_category(category, status=0):
 def get_buys_by_user(user, status=0):
     """docstring for get_buys_by_user"""
     return models.Buy.query.filter_by(user=user, status=status).all()
+
+def get_buys_floors(categories, limit=4, status=0):
+    """docstring for get_buys_floors"""
+    floors = []
+    for category in categories:
+        floor = models.Buy.query.\
+            filter_by(category=category, status=0).\
+            order_by(models.Buy.create_time.desc()).\
+            limit(limit).all()
+        floors.append(floor)
+    return floors

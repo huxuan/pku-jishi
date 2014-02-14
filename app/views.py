@@ -215,20 +215,20 @@ def sell_category_id(id):
     )
     return render_template("sell/category.html", **context)
 
-@app.route('/sell/<int:id>')
+@app.route('/sell/detail/<int:id>')
 def sell_id(id):
     """docstring for sell_id"""
     context = {}
     return render_template("sell/detail.html", **context)
 
-@app.route('/sell/edit/<int:id>')
+@app.route('/sell/detail/edit/<int:id>')
 @login_required
 def sell_edit_id(id):
     """docstring for sell_detail_id"""
     context = {}
     return render_template("sell/detail_edit.html", **context)
 
-@app.route('/sell/post')
+@app.route('/sell/detail/post')
 @login_required
 def sell_post():
     """docstring for sell_post"""
@@ -261,20 +261,20 @@ def buy_category_id(id):
     )
     return render_template("buy/category.html", **context)
 
-@app.route('/buy/<int:id>')
+@app.route('/buy/detail/<int:id>')
 def buy_id(id):
     """docstring for buy_id"""
     context = {}
     return render_template("buy/detail.html", **context)
 
-@app.route('/buy/edit/<int:id>')
+@app.route('/buy/detail/edit/<int:id>')
 @login_required
 def buy_edit_id(id):
     """docstring for buy_edit_id"""
     context = {}
     return render_template("buy/detail_edit.html", **context)
 
-@app.route('/buy/post')
+@app.route('/buy/detail/post')
 @login_required
 def buy_post():
     """docstring for buy_post"""

@@ -29,8 +29,13 @@ MSG_CATEGORY_INFO = 'info'
 MSG_CATEGORY_WARNING = 'warning'
 MSG_CATEGORY_DANGER = 'danger'
 
+MSG_DANGER_LOGIN = u'请登录后查看此页面'
 MSG_SUCCESS_LOGIN = u'登录成功！'
 MSG_SUCCESS_REGISTER = u'注册成功！'
+
+login_manager.login_view = 'user_login'
+login_manager.login_message = MSG_DANGER_LOGIN
+login_manager.login_message_category = MSG_CATEGORY_DANGER
 
 @app.route('/helloworld')
 def helloworld():

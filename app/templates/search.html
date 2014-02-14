@@ -40,7 +40,7 @@
             {% for goods in sells %}
             <div class="row goods-row">
                 <div class="col-md-2">
-                    <a href="{{ url_for('sell_id', goods.id) }}">
+                    <a href="{{ url_for('sell_id', id=goods.id) }}">
                         <img class="goods-img" src="#" alt="商品图片" width="120" height="120"/>
                     </a>
                 </div>

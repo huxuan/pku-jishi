@@ -233,7 +233,9 @@ def sell_id(id):
 @login_required
 def sell_edit_id(id):
     """docstring for sell_edit_id"""
-    context = {}
+    context = {
+        'sell': lib.get_sell_by_id(id),
+    }
     return render_template("sell/detail_edit.html", **context)
 
 @app.route('/sell/detail/post')
@@ -283,7 +285,9 @@ def buy_id(id):
 @login_required
 def buy_edit_id(id):
     """docstring for buy_edit_id"""
-    context = {}
+    context = {
+        'buy': lib.get_buy_by_id(id),
+    }
     return render_template("buy/detail_edit.html", **context)
 
 @app.route('/buy/detail/post')

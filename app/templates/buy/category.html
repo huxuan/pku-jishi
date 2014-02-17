@@ -1,6 +1,6 @@
 {% extends "layout/default.html" %}
 
-{% block title %}求购{% endblock %}
+{% block title %}{{category.name}} - 求购专区{% endblock %}
 
 {% block custom_css %}
 <link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">

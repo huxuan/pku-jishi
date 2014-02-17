@@ -15,9 +15,9 @@
 <form role="form" class="form-horizontal" method="post" enctype='multipart/form-data'>
   <legend>求购商品</legend>
   <div class="form-group">
-    <label for="name" class="col-sm-2 control-label">名称</label>
+    <label for="title" class="col-sm-2 control-label">名称</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="name" id="name">
+      <input type="text" class="form-control" name="title" id="title">
     </div>
   </div>
   <div class="form-group">
@@ -25,14 +25,14 @@
     <div class="col-sm-5">
 	  <div class="input-group">
 		  <span class="input-group-addon">¥</span>
-		  <input type="text" name="min_price" class="form-control" id="min_price" placeholder="最低价格">
+		  <input type="text" name="price_low" class="form-control" id="price_low" placeholder="最低价格">
 		  <span class="input-group-addon">.00</span>
 	  </div>
     </div>
 	<div class="col-sm-5">
 	  <div class="input-group">
 		  <span class="input-group-addon">¥</span>
-		  <input type="text" name="max_price" class="form-control" id="max_price" placeholder="最高价格">
+		  <input type="text" name="price_high" class="form-control" id="price_high" placeholder="最高价格">
 		  <span class="input-group-addon">.00</span>
 	  </div>
     </div>
@@ -64,13 +64,13 @@
   <div class="form-group">
     <label for="phone" class="col-sm-2 control-label">联系手机</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="phone" id="name">
+      <input type="text" class="form-control" name="phone" id="phone">
     </div>
   </div>
   <div class="form-group">
     <label for="qq" class="col-sm-2 control-label">联系QQ</label>
     <div class="col-sm-10">
-      <input type="name" class="form-control" name="qq" id="name">
+      <input type="name" class="form-control" name="qq" id="qq">
     </div>
   </div>
   <div class="form-group">

@@ -36,12 +36,12 @@
     {% for goods in buys %}
 	<div class="row goods-row">
 		<div class="col-md-6">
-			<h3 class="goods-title">标题:求购二手IPAD出售</h3>
-			<p class="goods-status-1">状态：正在求购中</p>
-			<p class="goods-time">发布时间: 2014年3月1日</p>		
+            <h3 class="goods-title">{{ goods.title }}</h3>
+            <p class="goods-status-1">状态：{{goods.status}}</p>
+            <p class="goods-time">发布时间: {{goods.create_time }}</p>		
 		</div>
 		<div class="col-md-6">
-			<a class="btn btn-info">修改信息</a>
+            <a href="{{url_for('buy_edit_id', id=goods.id)}}" class="btn btn-info">修改信息</a>
 			<a class="btn btn-primary">确认购得</a>
 			<a class="btn btn-default">放弃求购</a>
 		</div>
@@ -49,18 +49,6 @@
 	<hr />
 	<!-- ENDFOREACH -->
     {% endfor %}
-	<div class="row goods-row">
-		<div class="col-md-6">
-			<h3 class="goods-title">标题:求购二手IPAD出售</h3>
-			<p class="goods-status-2">状态：超出时间限制，已经下架</p>
-			<p class="goods-time">发布时间: 2014年3月1日</p>
-		</div>
-		<div class="col-md-6">
-			<a class="btn btn-info">修改信息</a>
-			<a class="btn btn-primary">确认购得</a>
-			<a class="btn btn-default">放弃求购</a>
-		</div>
-	</div>
 </div>
 </div>
 {% include 'inc/footer.html' with context %}

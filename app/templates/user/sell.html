@@ -36,13 +36,13 @@
 	<!-- FOREACH GOODS -->
 	<div class="row goods-row">
 		<div class="col-md-2">
-			<img class="goods-img" src="#" alt="商品图片" width="120" height="120"/>
+            <img class="goods-img" src="{{ url_for('static', filename='images/logo.png') }}" alt="商品图片" width="120" height="120"/>
 		</div>
 		<div class="col-md-10">
-			<h3 class="goods-title">标题:二手IPAD出售 1800元</h3>
-			<p class="goods-status-1">状态：正在出售中</p>
-			<p class="goods-time">发布时间: 2014年3月1日</p>
-				<a class="btn btn-info">修改信息</a>
+            <h3 class="goods-title">{{goods.title}}</h3>
+            <p class="goods-status-{{goods.status}}">状态：{{ goods.status }}</p>
+            <p class="goods-time">发布时间: {{goods.create_time}}</p>
+            <a href="{{url_for('sell_edit_id', id=goods.id)}}" class="btn btn-info">修改信息</a>
 				<a class="btn btn-primary">确认售出</a>
 				<a class="btn btn-default">放弃出售</a>			
 		</div>
@@ -50,19 +50,6 @@
 	<hr />
 	<!-- ENDFOREACH -->
     {% endfor %}
-	<div class="row goods-row">
-		<div class="col-md-2">
-			<img class="goods-img" src="#" alt="商品图片" width="120" height="120"/>
-		</div>
-		<div class="col-md-10">
-			<h3 class="goods-title">标题:二手IPAD出售 1800元</h3>
-			<p class="goods-status-2">状态：已售出</p>
-			<p class="goods-time">发布时间: 2014年3月1日</p>
-				<a class="btn btn-info">修改信息</a>
-				<a class="btn btn-primary">确认售出</a>
-				<a class="btn btn-default">放弃出售</a>			
-		</div>
-	</div>
 </div>
 </div>
 {% include 'inc/footer.html' with context %}

@@ -18,24 +18,42 @@
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
-    <div class="panel panel-info">
-    <div class="panel-heading">{{user.name}}正在出售的所有商品</div>
-    <div id="goods-div" class="panel-body">
-	    {% for goods in sells %}
-        <div class="row goods-row">
-            <div class="col-md-2">
-                <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}"><img src="{{ url_for('static', filename='images/logo.png') }}"></a>
-            </div>
-            <div class="col-md-10">
-                <h3 class="goods-title">标题:{{ goods.title }}</h3>
-                <p class="goods-location">{{ goods.location.name }}</p>
-                <p class="goods-price">{{ goods.price }}元</p>
-                <p class="goods-time">发布时间: {{ goods.create_time }}</p>
-            </div>
-        </div>
-        <hr />
-	    {% endfor %}
+    <!-- JiaThis Button BEGIN -->
+    <div class="row"><div class="col-md-12">
+    <div class="jiathis_style_32x32">
+        <a class="jiathis_button_qzone"></a>
+        <a class="jiathis_button_tsina"></a>
+        <a class="jiathis_button_tqq"></a>
+        <a class="jiathis_button_weixin"></a>
+        <a class="jiathis_button_renren"></a>
+        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt
+            jtico jtico_jiathis" target="_blank"></a>
+        <a class="jiathis_counter_style"></a>
     </div>
+    </div></div>
+    <script type="text/javascript"
+        src="http://v3.jiathis.com/code/jia.js?uid=1349306577417518"
+        charset="utf-8"></script>
+    <!-- JiaThis Button END -->
+
+    <div class="panel panel-info">
+        <div class="panel-heading">{{user.name}}正在出售的所有商品</div>
+        <div id="goods-div" class="panel-body">
+            {% for goods in sells %}
+            <div class="row goods-row">
+                <div class="col-md-2">
+                    <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}"><img src="{{ url_for('static', filename='images/logo.png') }}"></a>
+                </div>
+                <div class="col-md-10">
+                    <h3 class="goods-title">标题:{{ goods.title }}</h3>
+                    <p class="goods-location">{{ goods.location.name }}</p>
+                    <p class="goods-price">{{ goods.price }}元</p>
+                    <p class="goods-time">发布时间: {{ goods.create_time }}</p>
+                </div>
+            </div>
+            <hr />
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% include 'inc/footer.html' with context %}

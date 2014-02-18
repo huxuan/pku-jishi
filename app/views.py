@@ -162,13 +162,7 @@ def user_buy():
 @login_required
 def user_index():
     """docstring for user_index"""
-    context = {}
-    context['user'] = g.user
-    context['sells'] = models.Sell.query.\
-        filter_by(user_id = g.user.id, status = 0).\
-        filter(models.Sell.valid_time >= datetime.datetime.now()).\
-        order_by(models.Sell.create_time.desc()).all()
-    return render_template("user/index.html", **context)
+    return redirect(url_for('user_id',id=g.user.id))
 
 @app.route('/user/<int:id>')
 def user_id(id):

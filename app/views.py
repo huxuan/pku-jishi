@@ -120,14 +120,12 @@ def user_resend_confirm_mail():
         )
 
 @app.route('/user/forget_password')
-@login_required
 def user_forget_password():
     """docstring for user_forget_password"""
     return render_template("user/forget_password.html",
         )
 
 @app.route('/user/reset_password')
-@login_required
 def user_reset_password():
     """docstring for user_reset_password"""
     return render_template("user/reset_password.html",

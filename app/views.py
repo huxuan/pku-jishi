@@ -116,18 +116,23 @@ def user_register():
 @login_required
 def user_resend_confirm_mail():
     """docstring for user_resend_confirm_mail"""
+    # TODO(huxuan): form of resend_confirm_mail
+    # TODO(qiangrw): entry of resend_confirm_mail
     return render_template("user/resend_confirm_mail.html",
         )
 
 @app.route('/user/forget_password')
 def user_forget_password():
     """docstring for user_forget_password"""
+    # TODO(huxuan): form of user_forget_password
     return render_template("user/forget_password.html",
         )
 
 @app.route('/user/reset_password')
 def user_reset_password():
     """docstring for user_reset_password"""
+    # TODO(huxuan): form of user_reset_password
+    # TODO(qiangrw): entry of user_reset_password
     return render_template("user/reset_password.html",
         )
 
@@ -135,6 +140,7 @@ def user_reset_password():
 @login_required
 def user_change_password():
     """docstring for user_change_password"""
+    # TODO(huxuan): form of user_change_password
     return render_template("user/change_password.html",
         )
 
@@ -193,6 +199,7 @@ def user_info():
 def user_info_edit():
     """docstring for user_info_edit"""
     context = {}
+    # TODO(huxuan): form of user_info_edit
     return render_template("user/info_edit.html", **context)
 
 @app.route('/sell/category/<int:id>')
@@ -228,12 +235,14 @@ def sell_edit_id(id):
     context = {
         'sell': lib.get_sell_by_id(id),
     }
+    # TODO(huxuan): form of sell_edit_id
     return render_template("sell/detail_edit.html", **context)
 
 @app.route('/sell/detail/post')
 @login_required
 def sell_post():
     """docstring for sell_post"""
+    # TODO(huxuan): form of sell_post (same as sell_edit_id)
     return render_template("sell/post.html",
         )
 
@@ -280,12 +289,14 @@ def buy_edit_id(id):
     context = {
         'buy': lib.get_buy_by_id(id),
     }
+    # TODO(huxuan): form of buy_edit_id
     return render_template("buy/detail_edit.html", **context)
 
 @app.route('/buy/detail/post')
 @login_required
 def buy_post():
     """docstring for buy_post"""
+    # TODO(huxuan): form of buy_post (same as buy_edit_id)
     return render_template("buy/post.html",
         )
 

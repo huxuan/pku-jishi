@@ -4,6 +4,9 @@
 
 {% block custom_css %}
 <link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
+<style type="text/css">
+    
+</style>
 {% endblock %}
 
 {% block custom_script %}
@@ -17,11 +20,42 @@
   <!-- Free Floor -->
   <div class="floor">
   <div class="row">
-  <div class="goods-img-div col-md-4">
-      <img src="{{ url_for('static', filename='images/logo.png')}}" alt="商品图片" />
+  <legend>{{ sell.title }}</legend>
+  <div class="goods-img-div col-md-6">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <!-- FOREACH PICS -->
+            <!-- FIRST IS ACTIVE -->
+            <div class="item active">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="pic">
+                <div class="carousel-caption">
+                    <!-- Description HERE -->
+                </div>
+            </div>
+            <div class="item">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="pic">
+                <div class="carousel-caption">
+                    <!-- Description HERE -->
+                </div>
+            </div>
+            <div class="item">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="pic">
+                <div class="carousel-caption">
+                    <!-- Description HERE -->
+                </div>
+            </div>
+            <!-- ENDFOREACH -->
+        </div>
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
   </div>
-  <div class="goods-detail-div col-md-8">
-      <h2>{{ sell.name }}</h2>
+  <div class="goods-detail-div col-md-6">
     <table class="table table-bordered">
         <tr>
         	<th class="col-md-3">价格</th>

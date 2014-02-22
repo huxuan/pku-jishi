@@ -5,4 +5,5 @@ mysql-python
 flask-login
 flask-paginate
 flask-whooshalchemy
+flask-uploads
 jieba

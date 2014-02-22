@@ -85,7 +85,7 @@ class Sell(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
     title = db.Column(db.String(30), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    pics = db.Column(db.String(255))
+    images = db.Column(db.String(255))
     deprecate = db.Column(db.SmallInteger)
     description = db.Column(db.Text)
     create_time = db.Column(db.DateTime)

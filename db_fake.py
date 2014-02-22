@@ -120,7 +120,7 @@ def fake_sell_status_price(category, location, status, price):
         location_id = location.id,
         title = title,
         price = price,
-        pics = '',
+        images = '',
         deprecate = random.randint(1, 10),
         description = title * 5,
         create_time = create_time,

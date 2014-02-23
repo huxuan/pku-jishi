@@ -11,7 +11,6 @@ import datetime
 import hashlib
 import random
 
-from app import db
 from app import models
 
 def create_user(email, name, password):
@@ -27,8 +26,7 @@ def create_user(email, name, password):
         create_time = datetime.datetime.now(),
         status = 1,
     )
-    db.session.add(user)
-    db.session.commit()
+    return user
 
 def get_user_count():
     """docstring for get_user_count"""

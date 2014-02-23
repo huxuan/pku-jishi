@@ -22,6 +22,7 @@ from flask.ext.login import current_user
 from flask.ext.paginate import Pagination
 
 from app import app
+from app import db
 from app import lib
 from app import forms
 from app import models
@@ -103,11 +104,13 @@ def user_register():
     context = {}
     context['form'] = forms.RegisterForm()
     if context['form'].validate_on_submit():
-        lib.create_user(
+        user = lib.create_user(
             email = context['form'].email.data,
             name = context['form'].username.data,
             password = context['form'].password.data,
         )
+        db.session.add(user)
+        db.session.commit()
         flash(MSG_REGISTER_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_login'))
     return render_template("user/register.html", **context)

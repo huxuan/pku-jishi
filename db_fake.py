@@ -125,6 +125,8 @@ def fake_sell_status_price(category, location, status, price):
         description = title * 5,
         create_time = create_time,
         valid_time = valid_time,
+        qq = '491677777',
+        phone = '13601178890',
         status = status,
     )
     db.session.add(s)
@@ -162,6 +164,8 @@ def fake_buy_status(category, location, status):
         description = title * 5,
         create_time = create_time,
         valid_time = valid_time,
+        phone = '13601198877',
+        qq = '491617788',
         status = status,
     )
     db.session.add(s)

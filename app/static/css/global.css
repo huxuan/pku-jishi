@@ -1,0 +1,10 @@
+body {
+    padding-top: 70px;
+}
+.navbar-brand {
+    background: url(../images/logo_nav.png) no-repeat;
+    background-size: 90px 45px;
+    background-position: 5px;
+    height: 50px;
+    width: 100px;
+} 

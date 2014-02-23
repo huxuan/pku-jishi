@@ -32,18 +32,14 @@
                     <!-- Description HERE -->
                 </div>
             </div>
+            {% for image in images %}
             <div class="item">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="pic">
+                <img src="{{ url_for('static', filename=image) }}" alt="pic">
                 <div class="carousel-caption">
                     <!-- Description HERE -->
                 </div>
             </div>
-            <div class="item">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="pic">
-                <div class="carousel-caption">
-                    <!-- Description HERE -->
-                </div>
-            </div>
+            {% endfor %}
             <!-- ENDFOREACH -->
         </div>
         <!-- Controls -->

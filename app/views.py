@@ -8,6 +8,9 @@ Description: views for app
 """
 
 import datetime
+import random
+import os.path
+import cPickle as pickle
 
 from flask import g
 from flask import render_template
@@ -27,6 +30,8 @@ from app import lib
 from app import forms
 from app import models
 from app import login_manager
+from app import images_avatar
+from app import images_sell
 
 MSG_CATEGORY_SUCCESS = 'success'
 MSG_CATEGORY_INFO = 'info'
@@ -226,6 +231,9 @@ def sell_id(id):
     context = {
         'sell': lib.get_sell_by_id(id),
     }
+    context['images'] = ['uploads/sell/%s' % x
+        for x in pickle.loads(str(context['sell'].images))]
+    print context['images']
     if context['sell'] and context['sell'].status <= 1:
         return render_template("sell/detail.html", **context)
     flash(MSG_SELL_INVALID, MSG_CATEGORY_DANGER)
@@ -241,13 +249,42 @@ def sell_edit_id(id):
     # TODO(huxuan): form of sell_edit_id
     return render_template("sell/detail_edit.html", **context)
 
-@app.route('/sell/detail/post')
+@app.route('/sell/detail/post', methods=('GET', 'POST'))
 @login_required
 def sell_post():
     """docstring for sell_post"""
     # TODO(huxuan): form of sell_post (same as sell_edit_id)
-    return render_template("sell/post.html",
+    context = {
+        'form': forms.SellForm(),
+    }
+    if context['form'].validate_on_submit():
+        sell = lib.create_sell(
+            user_id = g.user.id,
+            title = context['form'].title.data,
+            price = context['form'].price.data,
+            deprecate = context['form'].deprecate.data,
+            category_id = context['form'].category.data,
+            location_id = context['form'].location.data,
+            description = context['form'].description.data,
+            phone = context['form'].phone.data,
+            qq = context['form'].qq.data,
+            valid = context['form'].valid.data,
         )
+        db.session.add(sell)
+        db.session.flush()
+        images_files = request.files.getlist('images')
+        if images_files[0]:
+            images = []
+            for index in xrange(len(images_files)):
+                name = '%d_%d_%d%s' % (sell.id, index,
+                    random.randint(100000, 999999),
+                    os.path.splitext(images_files[index].filename)[-1])
+                images_sell.save(images_files[index], name=name)
+                images.append(name)
+            sell.images = pickle.dumps(images)
+        db.session.commit()
+        return redirect(url_for('sell_id', id=sell.id))
+    return render_template("sell/post.html", **context)
 
 @app.route('/buy/')
 def buy():

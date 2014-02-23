@@ -12,6 +12,7 @@ import hashlib
 import random
 
 from app import models
+from app import db
 
 def create_user(email, name, password):
     """docstring for create_user"""
@@ -27,6 +28,25 @@ def create_user(email, name, password):
         status = 1,
     )
     return user
+
+def create_sell(user_id, title, price, deprecate, category_id, location_id,
+        description, phone, qq, valid):
+    """docstring for create_sell"""
+    sell = models.Sell(
+        user_id = user_id,
+        category_id = category_id,
+        location_id = location_id,
+        title = title,
+        price = price,
+        deprecate = deprecate,
+        description = description,
+        create_time = datetime.datetime.now(),
+        valid_time = datetime.datetime.now() + datetime.timedelta(days=valid),
+        status = 0,
+        phone = phone,
+        qq = qq,
+    )
+    return sell
 
 def get_user_count():
     """docstring for get_user_count"""
@@ -50,7 +70,7 @@ def get_sell_count():
 
 def get_sell_by_id(id):
     """docstring for get_sell_by_id"""
-    return models.Sell.query.get(id)
+    return db.session.query(models.Sell).get(id)
 
 def get_sells_by_category(category, status=0):
     """docstring for get_sells_by_category"""

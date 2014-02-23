@@ -11,13 +11,22 @@ import hashlib
 
 from flask.ext.wtf import Form
 from flask.ext.wtf import RecaptchaField
+from flask.ext.wtf.file import FileField
+from flask.ext.wtf.file import FileAllowed
 from flask.ext.wtf import validators as ext_validators
 from wtforms import BooleanField
 from wtforms import StringField
 from wtforms import PasswordField
+from wtforms import SelectField
+from wtforms import TextAreaField
 from wtforms import validators
 
 from app import models
+from app import lib
+from app import images_avatar
+from app import images_sell
+
+LEN_MAX_NAME = 30
 
 LABEL_EMAIL = u'邮箱'
 LABEL_EMAIL_REGISTER = u'注册邮箱'
@@ -27,6 +36,16 @@ LABEL_PASSWD_CONFIRM = u'确认密码'
 LABEL_REMEMBER = u'记住我'
 LABEL_CAPTCHA = u'验证码'
 LABEL_TOS = u'同意网站协议'
+LABEL_TITLE = u'标题'
+LABEL_IMAGES = u'商品图片'
+LABEL_PRICE = u'商品价格'
+LABEL_DEPRECATE = u'新旧程度'
+LABEL_CATEGORY = u'商品分类'
+LABEL_LOCATION = u'交易地点'
+LABEL_DESCRIPTION = u'商品详情'
+LABEL_PHONE = u'联系手机'
+LABEL_QQ = u'联系QQ'
+LABEL_VALID = u'有效时间'
 
 MSG_EMAIL_FORMAT_ERROR = u'邮箱格式错误'
 MSG_EMAIL_REQUIRED = u'邮箱不能为空'
@@ -44,12 +63,45 @@ MSG_PASSWD_CONFIRM_REQUIRED = u'确认密码不能为空'
 MSG_PASSWD_CONFIRM_EQUAL = u'密码和确认密码必须一致'
 MSG_CAPTCHA = u'验证码错误'
 MSG_TOS = u'必须同意网站协议方可注册'
+MSG_TITLE_REQUIRED = u'标题不能为空'
+MSG_TITLE_LENGTH = u'标题不得多于%d个字符' % LEN_MAX_NAME
+MSG_IMAGE_ALLOW = u'必须上传图片格式'
+MSG_PRICE_REQUIRED = u'商品价格不能为空'
+MSG_PRICE_NOT_DIGIT = u'商品价格必须是正整数'
+MSG_PRICE_INVALID = u'商品价格不能为负数'
+MSG_DEPRECATE_REQUIRED = u'新旧程度不能为空'
+MSG_CATEGORY_REQUIRED = u'商品分类不能为空'
+MSG_LOCATION_REQUIRED = u'交易地点不能为空'
+MSG_DESCRIPTION_REQUIRED = u'商品详情不能为空'
+MSG_PHONE_INVALID = u'请输入正确的手机号码'
+MSG_QQ_INVALID = u'请输入正确的QQ号'
+MSG_VALID_REQUIRED = u'有效时间不能为空'
 
 DESC_EMAIL = u'*请使用北大邮箱@pku.edu.cn注册'
 DESC_USERNAME = u'*请填写用户名，不少于6个字符'
 DESC_PASSWD = u'*请设置密码，不少于6位'
 DESC_PASSWD_CONFIRM = u'*请重复上面设置的密码'
 DESC_CAPTCHA = u'*请输入图中显示的单词'
+
+RE_PHONE = u'(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0-9])\d{8}'
+RE_QQ = u'[1-9][0-9]{4,}'
+
+CHOICE_DEPRECATED = [
+    (10, u'全新(10)'),
+    (9, u'9'),
+    (8, u'8'),
+    (7, u'7'),
+    (6, u'6'),
+    (5, u'5'),
+    (4, u'4'),
+    (3, u'3'),
+    (2, u'2'),
+    (1, u'1'),
+]
+CHOICE_VALID = [
+    (x, unicode(x))
+    for x in range(1, 30)
+]
 
 class EmailValidation(object):
     """docstring for EmailValidation"""
@@ -135,4 +187,56 @@ class RegisterForm(Form):
     recaptcha = RecaptchaField(LABEL_CAPTCHA, [
         ext_validators.Recaptcha(MSG_CAPTCHA),],
         description = DESC_CAPTCHA,
+    )
+
+class PriceValidation(object):
+    """docstring for PriceValidation"""
+    def __call__(self, form, field):
+        if not field.data.isdigit():
+            raise validators.StopValidation(MSG_PRICE_NOT_DIGIT)
+        if int(field.data) < 0:
+            raise validators.StopValidation(MSG_PRICE_INVALID)
+
+class SellForm(Form):
+    """docstring for SellForm"""
+    title = StringField(LABEL_TITLE, [
+        validators.InputRequired(MSG_TITLE_REQUIRED),
+        validators.length(max=LEN_MAX_NAME, message=MSG_TITLE_LENGTH),],
+    )
+    images = FileField(LABEL_IMAGES, [
+        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
+    )
+    price = StringField(LABEL_PRICE, [
+        validators.InputRequired(MSG_PRICE_REQUIRED),
+        PriceValidation(),
+    ])
+    deprecate = SelectField(LABEL_DEPRECATE, [
+        validators.InputRequired(MSG_DEPRECATE_REQUIRED),],
+        choices=CHOICE_DEPRECATED,
+        coerce=int,
+    )
+    category = SelectField(LABEL_CATEGORY, [
+        validators.InputRequired(MSG_CATEGORY_REQUIRED),],
+        choices=[(x.id, x.name) for x in lib.get_categories()],
+        coerce=int,
+    )
+    location = SelectField(LABEL_LOCATION, [
+        validators.InputRequired(MSG_LOCATION_REQUIRED),],
+        choices=[(x.id, x.name) for x in lib.get_locations()],
+        coerce=int,
+    )
+    description = TextAreaField(LABEL_DESCRIPTION, [
+        validators.InputRequired(MSG_DESCRIPTION_REQUIRED),],
+    )
+    phone = StringField(LABEL_PHONE, [
+        validators.Regexp(RE_PHONE, message=MSG_PHONE_INVALID),],
+    )
+    qq = StringField(LABEL_QQ, [
+        validators.Regexp(RE_QQ, message=MSG_QQ_INVALID),],
+    )
+    valid = SelectField(LABEL_VALID, [
+        validators.InputRequired(MSG_VALID_REQUIRED),],
+        choices = CHOICE_VALID,
+        coerce=int,
+        default=7,
     )

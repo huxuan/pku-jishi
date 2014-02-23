@@ -20,3 +20,6 @@ RECAPTCHA_PRIVATE_KEY = '6Ld-ke4SAAAAAJIgozOAfBd3ktLFnCxNeLvLJSGw'
 WHOOSH_BASE = 'whoosh'
 from jieba.analyse import ChineseAnalyzer
 WHOOSH_ANALYZER = ChineseAnalyzer()
+
+# flask-uploads
+UPLOADS_DEFAULT_DEST = 'app/static/uploads/'

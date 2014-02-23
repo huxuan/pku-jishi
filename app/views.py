@@ -253,7 +253,6 @@ def sell_edit_id(id):
 @login_required
 def sell_post():
     """docstring for sell_post"""
-    # TODO(huxuan): form of sell_post (same as sell_edit_id)
     context = {
         'form': forms.SellForm(),
     }

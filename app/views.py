@@ -223,10 +223,10 @@ def sell_id(id):
     context = {
         'sell': lib.get_sell_by_id(id),
     }
-    if context['sell'].status != 0:
-        flash(MSG_SELL_INVALID, MSG_CATEGORY_DANGER)
-        return redirect(url_for('index'))
-    return render_template("sell/detail.html", **context)
+    if context['sell'] and context['sell'].status <= 1:
+        return render_template("sell/detail.html", **context)
+    flash(MSG_SELL_INVALID, MSG_CATEGORY_DANGER)
+    return redirect(url_for('index'))
 
 @app.route('/sell/detail/edit/<int:id>')
 @login_required

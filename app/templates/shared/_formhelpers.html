@@ -1,7 +1,20 @@
 {% macro render_form_error(form) %}
-  {% for field, errors in form.errors.iteritems() %}
-    {{ field }} :
-    {{ ', '.join(errors) }}
-    <br>
-  {% endfor %}
+{% for field, errors in form.errors.iteritems() %}
+{{ field }} :
+{{ ', '.join(errors) }}
+<br>
+{% endfor %}
+{% endmacro %}
+
+{% macro render_field_error(field) %}
+{% if field.errors %}
+{% for error in field.errors %}
+<span class="help-block">
+<p class="text-danger">
+* {{ error }}
+</p>
+</span>
+{% endfor %}
+{% endif %}
+</dd>
 {% endmacro %}

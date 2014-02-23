@@ -34,6 +34,10 @@ def get_user_count():
     """docstring for get_user_count"""
     return models.User.query.count()
 
+def get_locations(status=0):
+    """docstring for get_locations"""
+    return models.Location.query.filter_by(status=status).all()
+
 def get_categories(status=0):
     """docstring for get_categories"""
     return models.Category.query.filter_by(status=status).all()

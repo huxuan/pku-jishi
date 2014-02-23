@@ -20,6 +20,7 @@
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
 <div class="row">
+<legend>注册</legend>
 <form role="form" class="form-horizontal" method="post" action="">
     {{ form.hidden_tag() }}
     <div class="form-group">
@@ -29,7 +30,7 @@
         {{ render_field_error(form.email) }}
         </div>
         <div class="col-sm-4">
-            <p class="input-notes">
+            <p class="text-info">
             {{ form.email.description }}
             </p>
         </div>
@@ -41,7 +42,7 @@
         {{ render_field_error(form.username) }}
         </div>
         <div class="col-sm-4">
-            <p class="input-notes">
+            <p class="text-info">
             {{ form.username.description }}
             </p>
         </div>
@@ -53,7 +54,7 @@
         {{ render_field_error(form.password) }}
         </div>
         <div class="col-sm-4">
-            <p class="input-notes">
+            <p class="text-info">
             {{ form.password.description }}
             </p>
         </div>
@@ -65,7 +66,7 @@
         {{ render_field_error(form.password_confirm) }}
         </div>
         <div class="col-sm-4">
-            <p class="input-notes">
+            <p class="text-info">
             {{ form.password_confirm.description }}
             </p>
         </div>
@@ -77,7 +78,7 @@
         {{ render_field_error(form.recaptcha) }}
         </div>
         <div class="col-sm-4">
-            <p class="input-notes">
+            <p class="text-info">
             {{ form.recaptcha.description }}
             </p>
         </div>

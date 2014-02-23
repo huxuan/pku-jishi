@@ -91,8 +91,8 @@ def fake_user_status(user, status):
         password = hashlib.md5(user).hexdigest(),
         confirm = random.randint(100000, 999999),
         avatar = '',
-        phone = '',
-        qq = '',
+        phone = '13601156789',
+        qq = '498877765',
         create_time = datetime.datetime.now(),
         status = status,
     )

@@ -282,7 +282,7 @@ def sell_post():
                 images.append(name)
             sell.images = pickle.dumps(images)
         db.session.commit()
-        return redirect(url_for('sell_id', id=sell.id))
+        return redirect(url_for('user_sell'))
     return render_template("sell/post.html", **context)
 
 @app.route('/buy/')

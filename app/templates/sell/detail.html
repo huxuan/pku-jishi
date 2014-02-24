@@ -5,13 +5,39 @@
 {% block custom_css %}
 <link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
 <style type="text/css">
-    
+    .carousel-inner .item {
+        height: 300px;
+        width: 400px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .carousel-inner .item > img {
+        max-height: 300px;
+        max-width: 400px;
+    }
+    #thumb-div {
+        margin-top: 10px;
+    }
+    #thumb-div img {
+        width: 50px;
+        height: 50px;
+    }
 </style>
 {% endblock %}
 
 {% block custom_script %}
+<script>
+    $(function(){
+        $('.carousel').carousel({
+            interval: 8000
+        });
+        $("#thumb-div a").click(function(){
+            $(".carousel").carousel(parseInt($(this).attr("name")));
+        })
+    });
+</script>
 {% endblock %}
-
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div class="container">
@@ -25,19 +51,13 @@
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <!-- FOREACH PICS -->
-            <!-- FIRST IS ACTIVE -->
-            <div class="item active">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="pic">
-                <div class="carousel-caption">
-                    <!-- Description HERE -->
-                </div>
-            </div>
             {% for image in images %}
+            {% if loop.first %}
+            <div class="item active">
+            {% else %}
             <div class="item">
+            {% endif %}
                 <img src="{{ url_for('static', filename=image) }}" alt="pic">
-                <div class="carousel-caption">
-                    <!-- Description HERE -->
-                </div>
             </div>
             {% endfor %}
             <!-- ENDFOREACH -->
@@ -49,6 +69,15 @@
         <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
+    </div>
+    <div id="thumb-div" class="row">
+        {% for image in images %}
+        <div class="col-md-3">
+        <a href="#" name="{{loop.index-1}}" class="thumbnail">
+           <img src="{{ url_for('static', filename=image) }}" alt="pic">
+        </a>
+        </div>
+        {% endfor %}
     </div>
   </div>
   <div class="goods-detail-div col-md-6">

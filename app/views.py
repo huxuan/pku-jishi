@@ -43,7 +43,9 @@ MSG_LOGIN_SUCCESS = u'登录成功！'
 MSG_REGISTER_SUCCESS = u'注册成功！'
 MSG_USER_INVALID = u'此用户无效'
 MSG_SELL_INVALID = u'此售出商品无效'
+MSG_SELL_POST_SUCCESS = u'售出商品发布成功！'
 MSG_BUY_INVALID = u'此求购商品无效'
+MSG_BUY_POST_SUCCESS = u'求购商品发布成功！'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -282,6 +284,7 @@ def sell_post():
                 images.append(name)
             sell.images = pickle.dumps(images)
         db.session.commit()
+        flash(MSG_SELL_POST_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_sell'))
     return render_template("sell/post.html", **context)
 
@@ -353,6 +356,7 @@ def buy_post():
         )
         db.session.add(buy)
         db.session.commit()
+        flash(MSG_BUY_POST_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_buy'))
     return render_template("buy/post.html", **context)
 

@@ -331,7 +331,7 @@ def buy_edit_id(id):
     # TODO(huxuan): form of buy_edit_id
     return render_template("buy/detail_edit.html", **context)
 
-@app.route('/buy/detail/post')
+@app.route('/buy/detail/post', methods=('GET', 'POST'))
 @login_required
 def buy_post():
     """docstring for buy_post"""

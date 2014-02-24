@@ -236,6 +236,7 @@ class SellForm(Form):
     )
     valid = SelectField(LABEL_VALID, [
         validators.InputRequired(MSG_VALID_REQUIRED),],
+        description=u'天后自动下架（可在我的个人主页中重新发布）',
         choices = CHOICE_VALID,
         coerce=int,
         default=7,

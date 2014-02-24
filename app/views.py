@@ -346,7 +346,7 @@ def buy_post():
             price_high=context['form'].price_high.data,
             category_id=context['form'].category.data,
             location_id=context['form'].location.data,
-            descripton=context['form'].location.data,
+            description=context['form'].description.data,
             phone=context['form'].phone.data,
             qq=context['form'].qq.data,
             valid=context['form'].valid.data,

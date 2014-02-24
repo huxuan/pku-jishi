@@ -46,6 +46,7 @@ LABEL_DESCRIPTION = u'商品详情'
 LABEL_PHONE = u'联系手机'
 LABEL_QQ = u'联系QQ'
 LABEL_VALID = u'有效时间'
+LABEL_PRICE_RANGE = u'出价范围'
 
 MSG_EMAIL_FORMAT_ERROR = u'邮箱格式错误'
 MSG_EMAIL_REQUIRED = u'邮箱不能为空'
@@ -76,12 +77,17 @@ MSG_DESCRIPTION_REQUIRED = u'商品详情不能为空'
 MSG_PHONE_INVALID = u'请输入正确的手机号码'
 MSG_QQ_INVALID = u'请输入正确的QQ号'
 MSG_VALID_REQUIRED = u'有效时间不能为空'
+MSG_PRICE_LOW_REQUIRED = u'最低价格不能为空'
+MSG_PRICE_HIGH_REQUIRED = u'最高价格不能为空'
 
 DESC_EMAIL = u'*请使用北大邮箱@pku.edu.cn注册'
 DESC_USERNAME = u'*请填写用户名，不少于6个字符'
 DESC_PASSWD = u'*请设置密码，不少于6位'
 DESC_PASSWD_CONFIRM = u'*请重复上面设置的密码'
 DESC_CAPTCHA = u'*请输入图中显示的单词'
+DESC_VALID = u'天后自动下架（可在我的个人主页中重新发布）'
+DESC_PRICE_LOW = u'最低价格'
+DESC_PRICE_HIGH = u'最高价格'
 
 RE_PHONE = u'(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0-9])\d{8}'
 RE_QQ = u'[1-9][0-9]{4,}'
@@ -236,8 +242,56 @@ class SellForm(Form):
     )
     valid = SelectField(LABEL_VALID, [
         validators.InputRequired(MSG_VALID_REQUIRED),],
-        description=u'天后自动下架（可在我的个人主页中重新发布）',
-        choices = CHOICE_VALID,
+        description=DESC_VALID,
+        choices=CHOICE_VALID,
+        coerce=int,
+        default=7,
+    )
+
+class BuyForm(Form):
+    """docstring for BuyForm"""
+    title = StringField(LABEL_TITLE, [
+        validators.InputRequired(MSG_TITLE_REQUIRED),
+        validators.length(max=LEN_MAX_NAME, message=MSG_TITLE_LENGTH),],
+    )
+    price_low = StringField(LABEL_PRICE_RANGE, [
+        validators.InputRequired(MSG_PRICE_LOW_REQUIRED),
+        PriceValidation(),],
+        description=DESC_PRICE_LOW,
+    )
+    price_high = StringField(LABEL_PRICE_RANGE, [
+        validators.InputRequired(MSG_PRICE_HIGH_REQUIRED),
+        PriceValidation(),],
+        description=DESC_PRICE_HIGH,
+    )
+    deprecate = SelectField(LABEL_DEPRECATE, [
+        validators.InputRequired(MSG_DEPRECATE_REQUIRED),],
+        choices=CHOICE_DEPRECATED,
+        coerce=int,
+    )
+    category = SelectField(LABEL_CATEGORY, [
+        validators.InputRequired(MSG_CATEGORY_REQUIRED),],
+        choices=[(x.id, x.name) for x in lib.get_categories()],
+        coerce=int,
+    )
+    location = SelectField(LABEL_LOCATION, [
+        validators.InputRequired(MSG_LOCATION_REQUIRED),],
+        choices=[(x.id, x.name) for x in lib.get_locations()],
+        coerce=int,
+    )
+    description = TextAreaField(LABEL_DESCRIPTION, [
+        validators.InputRequired(MSG_DESCRIPTION_REQUIRED),],
+    )
+    phone = StringField(LABEL_PHONE, [
+        validators.Regexp(RE_PHONE, message=MSG_PHONE_INVALID),],
+    )
+    qq = StringField(LABEL_QQ, [
+        validators.Regexp(RE_QQ, message=MSG_QQ_INVALID),],
+    )
+    valid = SelectField(LABEL_VALID, [
+        validators.InputRequired(MSG_VALID_REQUIRED),],
+        description=DESC_VALID,
+        choices=CHOICE_VALID,
         coerce=int,
         default=7,
     )

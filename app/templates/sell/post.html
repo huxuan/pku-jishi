@@ -13,9 +13,9 @@
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
 <div class="row">
+<legend>发布商品</legend>
 <form role="form" class="form-horizontal" method="post" enctype='multipart/form-data' action="">
     {{ form.hidden_tag() }}
-    <legend>发布商品</legend>
     <div class="form-group">
         {{ form.title.label(class='col-sm-2 control-label') }}
         <div class="col-sm-10">

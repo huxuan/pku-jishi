@@ -1,4 +1,5 @@
 {% extends "layout/default.html" %}
+{% from "shared/_formhelpers.html" import render_field_error %}
 
 {% block title %}求购商品{% endblock %}
 
@@ -12,75 +13,75 @@
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
 <div class="row">
-<form role="form" class="form-horizontal" method="post" enctype='multipart/form-data'>
-  <legend>求购商品</legend>
+<legend>求购商品</legend>
+<form role="form" class="form-horizontal" method="post" enctype='multipart/form-data' action="">
+  {{ form.hidden_tag() }}
   <div class="form-group">
-    <label for="title" class="col-sm-2 control-label">名称</label>
+    {{ form.title.label(class='col-sm-2 control-label') }}
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="title" id="title">
+        {{ form.title(class='form-control') }}
+        {{ render_field_error(form.title) }}
     </div>
   </div>
   <div class="form-group">
-    <label for="price" class="col-sm-2 control-label">出价范围</label>
+    {{ form.price_low.label(class='col-sm-2 control-label') }}
     <div class="col-sm-5">
 	  <div class="input-group">
 		  <span class="input-group-addon">¥</span>
-		  <input type="text" name="price_low" class="form-control" id="price_low" placeholder="最低价格">
+          {{ form.price_low(class='form-control', placeholder='最低价格') }}
 		  <span class="input-group-addon">.00</span>
 	  </div>
+      {{ render_field_error(form.price_low) }}
     </div>
 	<div class="col-sm-5">
 	  <div class="input-group">
 		  <span class="input-group-addon">¥</span>
-		  <input type="text" name="price_high" class="form-control" id="price_high" placeholder="最高价格">
+          {{ form.price_high(class='form-control', placeholder='最高价格') }}
 		  <span class="input-group-addon">.00</span>
 	  </div>
+      {{ render_field_error(form.price_high) }}
     </div>
   </div>
   <div class="form-group">
-    <label for="category" class="col-sm-2 control-label">商品分类</label>
+    {{ form.category.label(class='col-sm-2 control-label') }}
     <div class="col-sm-10">
-      <select name="category" id="location">
-		<option value="1">代步工具</option>
-		<option value="2">电脑办公</option>
-		<option value="2">手机数码</option>
-	  </select>
+      {{ form.category(class='form-control') }}
+      {{ render_field_error(form.category) }}
     </div>
   </div>
   <div class="form-group">
-    <label for="location" class="col-sm-2 control-label">交易地点</label>
+    {{ form.location.label(class='col-sm-2 control-label') }}
     <div class="col-sm-10">
-		<select name="location" id="location">
-			<option value="0">北大本部</option>
-		</select>
+        {{ form.location(class='form-control') }}
+        {{ render_field_error(form.location) }}
     </div>
   </div>
   <div class="form-group">
-    <label for="description" class="col-sm-2 control-label">商品详情</label>
+    {{ form.description.label(class='col-sm-2 control-label') }}
     <div class="col-sm-10">
-		<textarea class="form-control"  name="description" id="description" rows="5"></textarea>
+        {{ form.description(class='form-control', rows='5') }}
+        {{ render_field_error(form.description) }}
     </div>
   </div>
   <div class="form-group">
-    <label for="phone" class="col-sm-2 control-label">联系手机</label>
+    {{ form.phone.label(class='col-sm-2 control-label') }}
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="phone" id="phone">
+        {{ form.phone(class='form-control') }}
+        {{ render_field_error(form.phone) }}
     </div>
   </div>
   <div class="form-group">
-    <label for="qq" class="col-sm-2 control-label">联系QQ</label>
+    {{ form.qq.label(class='col-sm-2 control-label') }}
     <div class="col-sm-10">
-      <input type="name" class="form-control" name="qq" id="qq">
+        {{ form.qq(class='form-control') }}
+        {{ render_field_error(form.qq) }}
     </div>
   </div>
   <div class="form-group">
-    <label for="expire" class="col-sm-2 control-label"></label>
+    {{ form.valid.label(class='col-sm-2 control-label') }}
     <div class="col-sm-10">
-		<select name="expire" id="expire">
-			<option value="15">15</option>
-			<option value="30">30</option>
-		</select>
-		天后自动下架（可在我的个人主页中重新发布）
+        {{ form.valid(class='form-control') }}
+        {{ form.valid.description }}
     </div>
   </div>
   

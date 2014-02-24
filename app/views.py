@@ -335,9 +335,26 @@ def buy_edit_id(id):
 @login_required
 def buy_post():
     """docstring for buy_post"""
-    # TODO(huxuan): form of buy_post (same as buy_edit_id)
-    return render_template("buy/post.html",
+    context = {
+        'form': forms.BuyForm(),
+    }
+    if context['form'].validate_on_submit():
+        buy = lib.create_buy(
+            user_id=g.user.id,
+            title=context['form'].title.data,
+            price_low=context['form'].price_low.data,
+            price_high=context['form'].price_high.data,
+            category_id=context['form'].category.data,
+            location_id=context['form'].location.data,
+            descripton=context['form'].location.data,
+            phone=context['form'].phone.data,
+            qq=context['form'].qq.data,
+            valid=context['form'].valid.data,
         )
+        db.session.add(buy)
+        db.session.commit()
+        return redirect(url_for('buy_id', id=buy.id))
+    return render_template("buy/post.html", **context)
 
 @app.route('/search')
 def search():

@@ -48,6 +48,25 @@ def create_sell(user_id, title, price, deprecate, category_id, location_id,
     )
     return sell
 
+def create_buy(user_id, title, price_low, price_high, category_id, location_id,
+        description, phone, qq, valid):
+    """docstring for create_buy"""
+    buy = models.Buy(
+        user_id = user_id,
+        category_id = category_id,
+        location_id = location_id,
+        title = title,
+        price_low = price_low,
+        price_high = price_high,
+        description = description,
+        create_time = datetime.datetime.now(),
+        valid_time = datetime.datetime.now() + datetime.timedelta(days=valid),
+        status = 0,
+        phone = phone,
+        qq = qq,
+    )
+    return buy
+
 def get_user_count():
     """docstring for get_user_count"""
     return models.User.query.count()

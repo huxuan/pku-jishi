@@ -9,6 +9,7 @@ Description: forms used in app
 
 import hashlib
 
+from flask import g
 from flask.ext.wtf import Form
 from flask.ext.wtf import RecaptchaField
 from flask.ext.wtf.file import FileField
@@ -47,6 +48,8 @@ LABEL_PHONE = u'联系手机'
 LABEL_QQ = u'联系QQ'
 LABEL_VALID = u'有效时间'
 LABEL_PRICE_RANGE = u'出价范围'
+LABEL_OLD_PASSWD = u'旧密码'
+LABEL_NEW_PASSWD = u'新密码'
 
 MSG_EMAIL_FORMAT_ERROR = u'邮箱格式错误'
 MSG_EMAIL_REQUIRED = u'邮箱不能为空'
@@ -79,6 +82,9 @@ MSG_QQ_INVALID = u'请输入正确的QQ号'
 MSG_VALID_REQUIRED = u'有效时间不能为空'
 MSG_PRICE_LOW_REQUIRED = u'最低价格不能为空'
 MSG_PRICE_HIGH_REQUIRED = u'最高价格不能为空'
+MSG_OLD_PASSWD_REQUIRED = u'旧密码不能为空'
+MSG_NEW_PASSWD_REQUIRED = u'新密码不能为空'
+MSG_NEW_PASSWD_LENGTH = u'新密码不得少于6个字符'
 
 DESC_EMAIL = u'*请使用北大邮箱@pku.edu.cn注册'
 DESC_USERNAME = u'*请填写用户名，不少于6个字符'
@@ -88,6 +94,8 @@ DESC_CAPTCHA = u'*请输入图中显示的单词'
 DESC_VALID = u'天后自动下架（可在我的个人主页中重新发布）'
 DESC_PRICE_LOW = u'最低价格'
 DESC_PRICE_HIGH = u'最高价格'
+DESC_OLD_PASSWD = u'*请输入旧密码'
+DESC_NEW_PASSWD = u'*请设置新密码，不少于6位'
 
 RE_PHONE = u'(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0-9])\d{8}'
 RE_QQ = u'[1-9][0-9]{4,}'
@@ -146,6 +154,13 @@ class RegisterUsernameValidation(object):
         user = models.User.query.filter_by(name=field.data).first()
         if user:
             raise validators.StopValidation(MSG_USERNAME_EXIST)
+
+class OldPasswordValidation(object):
+    """docstring for OldPasswordValidation"""
+    def __call__(self, form, field):
+        password = hashlib.md5(field.data).hexdigest()
+        if password != g.user.password:
+            raise validators.StopValidation(MSG_PASSWD_INVALID)
 
 class LoginForm(Form):
     """docstring for LoginForm"""
@@ -289,4 +304,26 @@ class BuyForm(Form):
         choices=CHOICE_VALID,
         coerce=int,
         default=7,
+    )
+
+class ChangePasswordForm(Form):
+    """docstring for ChangePasswordForm"""
+    old_password = PasswordField(LABEL_OLD_PASSWD, [
+        validators.InputRequired(MSG_OLD_PASSWD_REQUIRED),
+        OldPasswordValidation(), ],
+        description = DESC_OLD_PASSWD,
+    )
+    new_password = PasswordField(LABEL_NEW_PASSWD, [
+        validators.InputRequired(MSG_NEW_PASSWD_REQUIRED),
+        validators.Length(min=6, message=MSG_NEW_PASSWD_LENGTH),
+        validators.EqualTo('new_password_confirm', MSG_PASSWD_CONFIRM_EQUAL),],
+        description = DESC_NEW_PASSWD,
+    )
+    new_password_confirm = PasswordField(LABEL_PASSWD_CONFIRM, [
+        validators.InputRequired(MSG_PASSWD_CONFIRM_REQUIRED),],
+        description = DESC_PASSWD_CONFIRM,
+    )
+    recaptcha = RecaptchaField(LABEL_CAPTCHA, [
+        ext_validators.Recaptcha(MSG_CAPTCHA),],
+        description = DESC_CAPTCHA,
     )

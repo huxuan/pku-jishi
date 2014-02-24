@@ -11,6 +11,8 @@ import datetime
 import hashlib
 import random
 
+from flask import g
+
 from app import models
 from app import db
 
@@ -66,6 +68,10 @@ def create_buy(user_id, title, price_low, price_high, category_id, location_id,
         qq = qq,
     )
     return buy
+
+def set_password(password):
+    """docstring for set_password"""
+    g.user.password = hashlib.md5(password).hexdigest()
 
 def get_user_count():
     """docstring for get_user_count"""

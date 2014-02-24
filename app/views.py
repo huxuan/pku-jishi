@@ -46,6 +46,7 @@ MSG_SELL_INVALID = u'此售出商品无效'
 MSG_SELL_POST_SUCCESS = u'售出商品发布成功！'
 MSG_BUY_INVALID = u'此求购商品无效'
 MSG_BUY_POST_SUCCESS = u'求购商品发布成功！'
+MSG_CHANGE_PASSWD_SUCCESS = u'修改密码成功！'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -146,13 +147,19 @@ def user_reset_password():
     return render_template("user/reset_password.html",
         )
 
-@app.route('/user/change_password')
+@app.route('/user/change_password', methods=('GET', 'POST'))
 @login_required
 def user_change_password():
     """docstring for user_change_password"""
-    # TODO(huxuan): form of user_change_password
-    return render_template("user/change_password.html",
-        )
+    context = {
+        'form': forms.ChangePasswordForm(),
+    }
+    if context['form'].validate_on_submit():
+        lib.set_password(context['form'].new_password.data)
+        db.session.commit()
+        flash(MSG_CHANGE_PASSWD_SUCCESS, MSG_CATEGORY_SUCCESS)
+        return redirect(url_for('user_info'))
+    return render_template("user/change_password.html", **context)
 
 @app.route('/user/sell')
 @login_required

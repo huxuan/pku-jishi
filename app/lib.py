@@ -130,7 +130,7 @@ def get_buy_count():
 
 def get_buy_by_id(id):
     """docstring for get_buy_by_id"""
-    return models.Buy.query.get(id)
+    return db.session.query(models.Buy).get(id)
 
 def get_buys_by_category(category, status=0):
     """docstring for get_buys_by_category"""

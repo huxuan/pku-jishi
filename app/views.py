@@ -316,10 +316,10 @@ def buy_id(id):
     context = {
         'buy': lib.get_buy_by_id(id),
     }
-    if context['buy'].status != 0:
-        flash(MSG_BUY_INVALID, MSG_CATEGORY_DANGER)
-        return redirect(url_for('index'))
-    return render_template("buy/detail.html", **context)
+    if context['buy'] and context['buy'].status == 0:
+        return render_template("buy/detail.html", **context)
+    flash(MSG_BUY_INVALID, MSG_CATEGORY_DANGER)
+    return redirect(url_for('index'))
 
 @app.route('/buy/detail/edit/<int:id>')
 @login_required
@@ -353,7 +353,7 @@ def buy_post():
         )
         db.session.add(buy)
         db.session.commit()
-        return redirect(url_for('buy_id', id=buy.id))
+        return redirect(url_for('user_buy'))
     return render_template("buy/post.html", **context)
 
 @app.route('/search')

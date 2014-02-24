@@ -264,11 +264,6 @@ class BuyForm(Form):
         PriceValidation(),],
         description=DESC_PRICE_HIGH,
     )
-    deprecate = SelectField(LABEL_DEPRECATE, [
-        validators.InputRequired(MSG_DEPRECATE_REQUIRED),],
-        choices=CHOICE_DEPRECATED,
-        coerce=int,
-    )
     category = SelectField(LABEL_CATEGORY, [
         validators.InputRequired(MSG_CATEGORY_REQUIRED),],
         choices=[(x.id, x.name) for x in lib.get_categories()],

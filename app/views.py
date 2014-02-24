@@ -235,7 +235,6 @@ def sell_id(id):
     }
     context['images'] = ['uploads/sell/%s' % x
         for x in pickle.loads(str(context['sell'].images))]
-    print context['images']
     if context['sell'] and context['sell'].status <= 1:
         return render_template("sell/detail.html", **context)
     flash(MSG_SELL_INVALID, MSG_CATEGORY_DANGER)

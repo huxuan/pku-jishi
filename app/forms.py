@@ -246,12 +246,12 @@ class SellForm(Form):
         choices=CHOICE_DEPRECATED,
         coerce=int,
     )
-    category = SelectField(LABEL_CATEGORY, [
+    category_id = SelectField(LABEL_CATEGORY, [
         validators.InputRequired(MSG_CATEGORY_REQUIRED),],
         choices=[(x.id, x.name) for x in lib.get_categories()],
         coerce=int,
     )
-    location = SelectField(LABEL_LOCATION, [
+    location_id = SelectField(LABEL_LOCATION, [
         validators.InputRequired(MSG_LOCATION_REQUIRED),],
         choices=[(x.id, x.name) for x in lib.get_locations()],
         coerce=int,
@@ -289,12 +289,12 @@ class BuyForm(Form):
         PriceValidation(),],
         description=DESC_PRICE_HIGH,
     )
-    category = SelectField(LABEL_CATEGORY, [
+    category_id = SelectField(LABEL_CATEGORY, [
         validators.InputRequired(MSG_CATEGORY_REQUIRED),],
         choices=[(x.id, x.name) for x in lib.get_categories()],
         coerce=int,
     )
-    location = SelectField(LABEL_LOCATION, [
+    location_id = SelectField(LABEL_LOCATION, [
         validators.InputRequired(MSG_LOCATION_REQUIRED),],
         choices=[(x.id, x.name) for x in lib.get_locations()],
         coerce=int,

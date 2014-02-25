@@ -111,7 +111,7 @@ def fake_user():
 def fake_sell_status_price(category, location, status, price):
     """docstring for fake_sell_status_price"""
     user_name = USER[random.randint(0, len(USER) - 1)]
-    user = models.User.query.filter_by(name = user_name).first()
+    user = db.session.query(models.User).filter_by(name=user_name).first()
     create_time = datetime.datetime.now()
     valid_time = create_time + datetime.timedelta(random.randint(1, 10))
     title = '-'.join([
@@ -137,9 +137,9 @@ def fake_sell_status_price(category, location, status, price):
 def fake_sell():
     """docstring for fake_sell"""
     for category_name in CATEGORY:
-        category = models.Category.query.filter_by(name = category_name).first()
+        category = db.session.query(models.Category).filter_by(name=category_name).first()
         for location_name in LOCATION:
-            location = models.Location.query.filter_by(name = location_name).first()
+            location = db.session.query(models.Location).filter_by(name=location_name).first()
             fake_sell_status_price(category, location, 0, 0)
             fake_sell_status_price(category, location, 0, random.randint(1, 100))
             fake_sell_status_price(category, location, 1, 0)
@@ -151,7 +151,7 @@ def fake_sell():
 def fake_buy_status(category, location, status):
     """docstring for fake_buy_status"""
     user_name = USER[random.randint(0, len(USER) - 1)]
-    user = models.User.query.filter_by(name = user_name).first()
+    user = db.session.query(models.User).filter_by(name=user_name).first()
     create_time = datetime.datetime.now()
     valid_time = create_time + datetime.timedelta(random.randint(1, 10))
     price_low = random.randint(0, 100)
@@ -176,9 +176,9 @@ def fake_buy_status(category, location, status):
 def fake_buy():
     """docstring for fake_buy"""
     for category_name in CATEGORY:
-        category = models.Category.query.filter_by(name = category_name).first()
+        category = db.session.query(models.Category).filter_by(name=category_name).first()
         for location_name in LOCATION:
-            location = models.Location.query.filter_by(name = location_name).first()
+            location = db.session.query(models.Location).filter_by(name=location_name).first()
             fake_buy_status(category, location, 0)
             fake_buy_status(category, location, 1)
             fake_buy_status(category, location, 2)

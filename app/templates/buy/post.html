@@ -15,81 +15,84 @@
 <div class="row">
 <legend>求购商品</legend>
 <form role="form" class="form-horizontal" method="post" enctype='multipart/form-data' action="">
-  {{ form.hidden_tag() }}
-  <div class="form-group">
-    {{ form.title.label(class='col-sm-2 control-label') }}
-    <div class="col-sm-10">
-        {{ form.title(class='form-control') }}
-        {{ render_field_error(form.title) }}
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.title.label(class='col-sm-2 control-label') }}
+        <div class="col-sm-10">
+            {{ form.title(class='form-control') }}
+            {{ render_field_error(form.title) }}
+        </div>
     </div>
-  </div>
-  <div class="form-group">
-    {{ form.price_low.label(class='col-sm-2 control-label') }}
-    <div class="col-sm-5">
-	  <div class="input-group">
-		  <span class="input-group-addon">¥</span>
-          {{ form.price_low(class='form-control', placeholder='最低价格') }}
-		  <span class="input-group-addon">.00</span>
-	  </div>
-      {{ render_field_error(form.price_low) }}
+    <div class="form-group">
+        {{ form.price_low.label(class='col-sm-2 control-label') }}
+        <div class="col-sm-5">
+            <div class="input-group">
+                <span class="input-group-addon">¥</span>
+                {{ form.price_low(class='form-control', placeholder='最低价格') }}
+                <span class="input-group-addon">.00</span>
+            </div>
+            {{ render_field_error(form.price_low) }}
+        </div>
+        <div class="col-sm-5">
+            <div class="input-group">
+                <span class="input-group-addon">¥</span>
+                {{ form.price_high(class='form-control', placeholder='最高价格') }}
+                <span class="input-group-addon">.00</span>
+            </div>
+            {{ render_field_error(form.price_high) }}
+        </div>
     </div>
-	<div class="col-sm-5">
-	  <div class="input-group">
-		  <span class="input-group-addon">¥</span>
-          {{ form.price_high(class='form-control', placeholder='最高价格') }}
-		  <span class="input-group-addon">.00</span>
-	  </div>
-      {{ render_field_error(form.price_high) }}
+    <div class="form-group">
+        {{ form.category_id.label(class='col-sm-2 control-label') }}
+        <div class="col-sm-10">
+            {{ form.category_id(class='form-control') }}
+            {{ render_field_error(form.category_id) }}
+        </div>
     </div>
-  </div>
-  <div class="form-group">
-    {{ form.category_id.label(class='col-sm-2 control-label') }}
-    <div class="col-sm-10">
-      {{ form.category_id(class='form-control') }}
-      {{ render_field_error(form.category_id) }}
+    <div class="form-group">
+        {{ form.location_id.label(class='col-sm-2 control-label') }}
+        <div class="col-sm-10">
+            {{ form.location_id(class='form-control') }}
+            {{ render_field_error(form.location_id) }}
+        </div>
     </div>
-  </div>
-  <div class="form-group">
-    {{ form.location_id.label(class='col-sm-2 control-label') }}
-    <div class="col-sm-10">
-        {{ form.location_id(class='form-control') }}
-        {{ render_field_error(form.location_id) }}
+    <div class="form-group">
+        {{ form.description.label(class='col-sm-2 control-label') }}
+        <div class="col-sm-10">
+            {{ form.description(class='form-control', rows='5') }}
+            {{ render_field_error(form.description) }}
+        </div>
     </div>
-  </div>
-  <div class="form-group">
-    {{ form.description.label(class='col-sm-2 control-label') }}
-    <div class="col-sm-10">
-        {{ form.description(class='form-control', rows='5') }}
-        {{ render_field_error(form.description) }}
+    <div class="form-group">
+        {{ form.phone.label(class='col-sm-2 control-label') }}
+        <div class="col-sm-10">
+            {{ form.phone(class='form-control') }}
+            {{ render_field_error(form.phone) }}
+        </div>
     </div>
-  </div>
-  <div class="form-group">
-    {{ form.phone.label(class='col-sm-2 control-label') }}
-    <div class="col-sm-10">
-        {{ form.phone(class='form-control') }}
-        {{ render_field_error(form.phone) }}
+    <div class="form-group">
+        {{ form.qq.label(class='col-sm-2 control-label') }}
+        <div class="col-sm-10">
+            {{ form.qq(class='form-control') }}
+            {{ render_field_error(form.qq) }}
+        </div>
     </div>
-  </div>
-  <div class="form-group">
-    {{ form.qq.label(class='col-sm-2 control-label') }}
-    <div class="col-sm-10">
-        {{ form.qq(class='form-control') }}
-        {{ render_field_error(form.qq) }}
+    <div class="form-group">
+        {{ form.valid.label(class='col-sm-2 control-label') }}
+        <div class="col-sm-10">
+            <div class="input-group">
+                {{ form.valid(class='form-control') }}
+                <span class="input-group-addon">
+                    {{ form.valid.description }}
+                </span>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="form-group">
-    {{ form.valid.label(class='col-sm-2 control-label') }}
-    <div class="col-sm-10">
-        {{ form.valid(class='form-control') }}
-        {{ form.valid.description }}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">确认求购</button>
+        </div>
     </div>
-  </div>
-  
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary">确认求购</button>
-    </div>
-  </div>
 </form>
 </div>
 </div>

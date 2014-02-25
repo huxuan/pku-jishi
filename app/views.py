@@ -48,6 +48,7 @@ MSG_BUY_POST_SUCCESS = u'求购商品发布成功！'
 MSG_CHANGE_PASSWD_SUCCESS = u'修改密码成功！'
 MSG_FORGET_PASSWD_SUCCESS = u'忘记密码邮件发送成功！'
 MSG_SELL_EDIT_SUCCESS = u'售出商品修改成功！'
+MSG_BUY_EDIT_SUCCESS = u'求购商品修改成功！'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -341,14 +342,19 @@ def buy_id(id):
     flash(MSG_BUY_INVALID, MSG_CATEGORY_DANGER)
     return redirect(url_for('index'))
 
-@app.route('/buy/detail/edit/<int:id>')
+@app.route('/buy/detail/edit/<int:id>', methods=('GET', 'POST'))
 @login_required
 def buy_edit_id(id):
     """docstring for buy_edit_id"""
+    buy = lib.get_buy_by_id(id)
     context = {
-        'buy': lib.get_buy_by_id(id),
+        'form': forms.BuyForm(obj=buy),
     }
-    # TODO(huxuan): form of buy_edit_id
+    if context['form'].validate_on_submit():
+        buy = lib.update_buy_from_form(buy, context['form'])
+        db.session.commit()
+        flash(MSG_BUY_EDIT_SUCCESS, MSG_CATEGORY_SUCCESS)
+        return redirect(url_for('user_buy'))
     return render_template("buy/detail_edit.html", **context)
 
 @app.route('/buy/detail/post', methods=('GET', 'POST'))

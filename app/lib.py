@@ -84,6 +84,19 @@ def create_buy(user_id, title, price_low, price_high, category_id, location_id,
     )
     return buy
 
+def update_buy_from_form(buy, form):
+    """docstring for update_buy_from_form"""
+    buy.title = form.title.data
+    buy.price_low = form.price_low.data
+    buy.price_high = form.price_high.data
+    buy.location_id = form.location_id.data
+    buy.category_id = form.category_id.data
+    buy.description = form.description.data
+    buy.phone = form.phone.data
+    buy.qq = form.qq.data
+    buy.valid = buy.create_time + datetime.timedelta(days=form.valid.data)
+    return buy
+
 def set_password(password):
     """docstring for set_password"""
     g.user.password = hashlib.md5(password).hexdigest()

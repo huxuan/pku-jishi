@@ -51,6 +51,20 @@ def create_sell(user_id, title, price, deprecate, category_id, location_id,
     )
     return sell
 
+def update_sell_from_form(sell, form):
+    """docstring for update_sell_from_form"""
+    sell.title = form.title.data
+    sell.price = form.price.data
+    sell.deprecate = form.deprecate.data
+    sell.location_id = form.location_id.data
+    sell.category_id = form.category_id.data
+    sell.description = form.description.data
+    sell.phone = form.phone.data
+    sell.qq = form.qq.data
+    sell.valid = sell.create_time + \
+        datetime.timedelta(days=int(form.valid.data))
+    return sell
+
 def create_buy(user_id, title, price_low, price_high, category_id, location_id,
         description, phone, qq, valid):
     """docstring for create_buy"""

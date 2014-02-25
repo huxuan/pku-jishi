@@ -47,6 +47,7 @@ MSG_BUY_INVALID = u'此求购商品无效'
 MSG_BUY_POST_SUCCESS = u'求购商品发布成功！'
 MSG_CHANGE_PASSWD_SUCCESS = u'修改密码成功！'
 MSG_FORGET_PASSWD_SUCCESS = u'忘记密码邮件发送成功！'
+MSG_SELL_EDIT_SUCCESS = u'售出商品修改成功！'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -257,14 +258,22 @@ def sell_id(id):
     flash(MSG_SELL_INVALID, MSG_CATEGORY_DANGER)
     return redirect(url_for('index'))
 
-@app.route('/sell/detail/edit/<int:id>')
+@app.route('/sell/detail/edit/<int:id>', methods=('GET', 'POST'))
 @login_required
 def sell_edit_id(id):
     """docstring for sell_edit_id"""
+    sell = lib.get_sell_by_id(id)
     context = {
-        'sell': lib.get_sell_by_id(id),
+        'form': forms.SellForm(obj=sell),
+        'images': lib.images_decode(images_sell, sell.images),
     }
-    # TODO(huxuan): form of sell_edit_id
+    if context['form'].validate_on_submit():
+        sell = lib.update_sell_from_form(sell, context['form'])
+        images_files = request.files.getlist('images')
+        sell.images = lib.images_encode(images_sell, sell.id, images_files)
+        db.session.commit()
+        flash(MSG_SELL_EDIT_SUCCESS, MSG_CATEGORY_SUCCESS)
+        return redirect(url_for('sell_id', id=sell.id))
     return render_template("sell/detail_edit.html", **context)
 
 @app.route('/sell/detail/post', methods=('GET', 'POST'))

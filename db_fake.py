@@ -13,6 +13,8 @@ import random
 
 from app import db
 from app import models
+from app import lib
+from app import images_sell
 
 CATEGORY = [
     u'代步工具',
@@ -120,7 +122,6 @@ def fake_sell_status_price(category, location, status, price):
         location_id = location.id,
         title = title,
         price = price,
-        images = '',
         deprecate = random.randint(1, 10),
         description = title * 5,
         create_time = create_time,
@@ -130,6 +131,8 @@ def fake_sell_status_price(category, location, status, price):
         status = status,
     )
     db.session.add(s)
+    db.session.flush()
+    s.images = lib.images_encode(images_sell, s.id, [])
 
 def fake_sell():
     """docstring for fake_sell"""

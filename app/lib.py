@@ -10,6 +10,7 @@ Description: lib used in app
 import datetime
 import hashlib
 import random
+import cPickle as pickle
 
 from flask import g
 
@@ -72,6 +73,23 @@ def create_buy(user_id, title, price_low, price_high, category_id, location_id,
 def set_password(password):
     """docstring for set_password"""
     g.user.password = hashlib.md5(password).hexdigest()
+
+def images_encode(uploadset, id, images_files):
+    """docstring for images_encode"""
+    images = []
+    if images_files and images_files[0]:
+        for index in xrange(len(images_files)):
+            name = '%d_%d_%d%s' % (id, index,
+                random.randint(100000, 999999),
+                os.path.splitext(images_files[index].filename)[-1])
+            uploadset.save(images_files[index], name=name)
+            images.append(name)
+    return pickle.dumps(images)
+
+def images_decode(uploadset, images):
+    """docstring for images_decode"""
+    return ['uploads/%s/%s' % (uploadset.name, x)
+        for x in pickle.loads(str(images))]
 
 def get_user_count():
     """docstring for get_user_count"""

@@ -10,7 +10,6 @@ Description: views for app
 import datetime
 import random
 import os.path
-import cPickle as pickle
 
 from flask import g
 from flask import render_template
@@ -252,8 +251,7 @@ def sell_id(id):
     context = {
         'sell': lib.get_sell_by_id(id),
     }
-    context['images'] = ['uploads/sell/%s' % x
-        for x in pickle.loads(str(context['sell'].images))]
+    context['images'] = lib.images_decode(images_sell, context['sell'].images)
     if context['sell'] and context['sell'].status <= 1:
         return render_template("sell/detail.html", **context)
     flash(MSG_SELL_INVALID, MSG_CATEGORY_DANGER)
@@ -292,15 +290,7 @@ def sell_post():
         db.session.add(sell)
         db.session.flush()
         images_files = request.files.getlist('images')
-        if images_files[0]:
-            images = []
-            for index in xrange(len(images_files)):
-                name = '%d_%d_%d%s' % (sell.id, index,
-                    random.randint(100000, 999999),
-                    os.path.splitext(images_files[index].filename)[-1])
-                images_sell.save(images_files[index], name=name)
-                images.append(name)
-            sell.images = pickle.dumps(images)
+        sell.images = lib.images_encode(images_sell, sell.id, images_files)
         db.session.commit()
         flash(MSG_SELL_POST_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_sell'))

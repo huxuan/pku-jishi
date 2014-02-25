@@ -123,7 +123,7 @@ CHOICE_VALID = [
 class EmailValidation(object):
     """docstring for EmailValidation"""
     def __call__(self, form, field):
-        user = models.User.query.filter_by(email=field.data).first()
+        user = db.session.query(models.User).filter_by(email=field.data).first()
         if not user:
             raise validators.StopValidation(MSG_EMAIL_NONEXIST)
         if user.status > 1:
@@ -136,7 +136,7 @@ class CorrespondToEmailPassword(object):
 
     def __call__(self, form, field):
         email = form[self.email_fieldname].data
-        user = models.User.query.filter_by(email=email).first()
+        user = db.session.query(models.User).filter_by(email=email).first()
         password = hashlib.md5(field.data).hexdigest()
         if user and password != user.password:
             raise validators.StopValidation(MSG_PASSWD_INVALID)
@@ -147,14 +147,14 @@ class RegisterEmailValidation(object):
         email = field.data
         if not email.endswith('@pku.edu.cn'):
             raise validators.StopValidation(MSG_EMAIL_PKU)
-        user = models.User.query.filter_by(email=email).first()
+        user = db.session.query(models.User).filter_by(email=email).first()
         if user:
             raise validators.StopValidation(MSG_EMAIL_EXIST)
 
 class RegisterUsernameValidation(object):
     """docstring for RegisterUsernameValidation"""
     def __call__(self, form, field):
-        user = models.User.query.filter_by(name=field.data).first()
+        user = db.session.query(models.User).filter_by(name=field.data).first()
         if user:
             raise validators.StopValidation(MSG_USERNAME_EXIST)
 

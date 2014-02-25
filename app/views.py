@@ -48,7 +48,9 @@ MSG_BUY_POST_SUCCESS = u'求购商品发布成功！'
 MSG_CHANGE_PASSWD_SUCCESS = u'修改密码成功！'
 MSG_FORGET_PASSWD_SUCCESS = u'忘记密码邮件发送成功！'
 MSG_SELL_EDIT_SUCCESS = u'售出商品修改成功！'
+MSG_SELL_EDIT_NO_PERMISSION = u'您无权修改此售出商品'
 MSG_BUY_EDIT_SUCCESS = u'求购商品修改成功！'
+MSG_BUY_EDIT_NO_PERMISSION = u'您无权修改此求购商品'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -264,6 +266,9 @@ def sell_id(id):
 def sell_edit_id(id):
     """docstring for sell_edit_id"""
     sell = lib.get_sell_by_id(id)
+    if g.user.id != sell.user_id:
+        flash(MSG_SELL_EDIT_NO_PERMISSION, MSG_CATEGORY_DANGER)
+        return redirect(url_for('user_sell'))
     context = {
         'form': forms.SellForm(obj=sell),
         'images': lib.images_decode(images_sell, sell.images),
@@ -347,6 +352,9 @@ def buy_id(id):
 def buy_edit_id(id):
     """docstring for buy_edit_id"""
     buy = lib.get_buy_by_id(id)
+    if g.user.id != buy.user_id:
+        flash(MSG_BUY_EDIT_NO_PERMISSION, MSG_CATEGORY_DANGER)
+        return redirect(url_for('user_buy'))
     context = {
         'form': forms.BuyForm(obj=buy),
     }

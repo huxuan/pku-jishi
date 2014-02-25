@@ -23,6 +23,7 @@ from wtforms import TextAreaField
 from wtforms import validators
 
 from app import models
+from app import db
 from app import lib
 from app import images_avatar
 from app import images_sell
@@ -85,6 +86,7 @@ MSG_PRICE_HIGH_REQUIRED = u'最高价格不能为空'
 MSG_OLD_PASSWD_REQUIRED = u'旧密码不能为空'
 MSG_NEW_PASSWD_REQUIRED = u'新密码不能为空'
 MSG_NEW_PASSWD_LENGTH = u'新密码不得少于6个字符'
+MSG_EMAIL_NOT_FOUND = u'该邮箱尚未注册'
 
 DESC_EMAIL = u'*请使用北大邮箱@pku.edu.cn注册'
 DESC_USERNAME = u'*请填写用户名，不少于6个字符'
@@ -96,6 +98,7 @@ DESC_PRICE_LOW = u'最低价格'
 DESC_PRICE_HIGH = u'最高价格'
 DESC_OLD_PASSWD = u'*请输入旧密码'
 DESC_NEW_PASSWD = u'*请设置新密码，不少于6位'
+DESC_EMAIL_FORGET = u'*请输入注册邮箱'
 
 RE_PHONE = u'(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0-9])\d{8}'
 RE_QQ = u'[1-9][0-9]{4,}'
@@ -161,6 +164,13 @@ class OldPasswordValidation(object):
         password = hashlib.md5(field.data).hexdigest()
         if password != g.user.password:
             raise validators.StopValidation(MSG_PASSWD_INVALID)
+
+class ForgetPasswordEmailValidation(object):
+    """docstring for ForgetPasswordEmailValidation"""
+    def __call__(self, form, field):
+        user = db.session.query(models.User).filter_by(email=field.data).first()
+        if not user:
+            raise validators.StopValidation(MSG_EMAIL_NOT_FOUND)
 
 class LoginForm(Form):
     """docstring for LoginForm"""
@@ -322,6 +332,36 @@ class ChangePasswordForm(Form):
     new_password_confirm = PasswordField(LABEL_PASSWD_CONFIRM, [
         validators.InputRequired(MSG_PASSWD_CONFIRM_REQUIRED),],
         description = DESC_PASSWD_CONFIRM,
+    )
+    recaptcha = RecaptchaField(LABEL_CAPTCHA, [
+        ext_validators.Recaptcha(MSG_CAPTCHA),],
+        description = DESC_CAPTCHA,
+    )
+
+class ResetPasswordForm(Form):
+    """docstring for ResetPasswordForm"""
+    password = PasswordField(LABEL_PASSWD, [
+        validators.InputRequired(MSG_PASSWD_REQUIRED),
+        validators.Length(min=6, message=MSG_PASSWD_LENGTH),
+        validators.EqualTo('password_confirm', MSG_PASSWD_CONFIRM_EQUAL),],
+        description = DESC_PASSWD,
+    )
+    password_confirm = PasswordField(LABEL_PASSWD_CONFIRM, [
+        validators.InputRequired(MSG_PASSWD_CONFIRM_REQUIRED),],
+        description = DESC_PASSWD_CONFIRM,
+    )
+    recaptcha = RecaptchaField(LABEL_CAPTCHA, [
+        ext_validators.Recaptcha(MSG_CAPTCHA),],
+        description = DESC_CAPTCHA,
+    )
+
+class ForgetPasswordForm(Form):
+    """docstring for ForgetPasswordForm"""
+    email = StringField(LABEL_EMAIL_REGISTER, [
+        validators.Email(MSG_EMAIL_FORMAT_ERROR),
+        validators.InputRequired(MSG_EMAIL_REQUIRED),
+        ForgetPasswordEmailValidation(), ],
+        description = DESC_EMAIL_FORGET,
     )
     recaptcha = RecaptchaField(LABEL_CAPTCHA, [
         ext_validators.Recaptcha(MSG_CAPTCHA),],

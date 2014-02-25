@@ -47,6 +47,7 @@ MSG_SELL_POST_SUCCESS = u'售出商品发布成功！'
 MSG_BUY_INVALID = u'此求购商品无效'
 MSG_BUY_POST_SUCCESS = u'求购商品发布成功！'
 MSG_CHANGE_PASSWD_SUCCESS = u'修改密码成功！'
+MSG_FORGET_PASSWD_SUCCESS = u'忘记密码邮件发送成功！'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -132,20 +133,31 @@ def user_resend_confirm_mail():
     return render_template("user/resend_confirm_mail.html",
         )
 
-@app.route('/user/forget_password')
+@app.route('/user/forget_password', methods=('GET', 'POST'))
 def user_forget_password():
     """docstring for user_forget_password"""
-    # TODO(huxuan): form of user_forget_password
-    return render_template("user/forget_password.html",
-        )
+    context = {
+        'form': forms.ForgetPasswordForm(),
+    }
+    if context['form'].validate_on_submit():
+        # TODO(huxuan): Add actions of sending forget password mail
+        flash(MSG_FORGET_PASSWD_SUCCESS, MSG_CATEGORY_SUCCESS)
+        return redirect(url_for('index'))
+    return render_template("user/forget_password.html", **context)
 
-@app.route('/user/reset_password')
+@app.route('/user/reset_password', methods=('GET', 'POST'))
 def user_reset_password():
     """docstring for user_reset_password"""
-    # TODO(huxuan): form of user_reset_password
-    # TODO(qiangrw): entry of user_reset_password
-    return render_template("user/reset_password.html",
-        )
+    # TODO(huxuan): check token before allowing reset password
+    context = {
+        'form': forms.ResetPasswordForm(),
+    }
+    if context['form'].validate_on_submit():
+        lib.set_password(context['form'].password.data)
+        db.session.commit()
+        flash(MSG_CHANGE_PASSWD_SUCCESS, MSG_CATEGORY_SUCCESS)
+        return redirect(url_for('user_info'))
+    return render_template("user/reset_password.html", **context)
 
 @app.route('/user/change_password', methods=('GET', 'POST'))
 @login_required

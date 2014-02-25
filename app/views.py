@@ -61,7 +61,7 @@ def helloworld():
 @login_manager.user_loader
 def load_user(id):
     """docstring for load_user"""
-    return models.User.query.get(int(id))
+    return db.session.query(models.User).get(int(id))
 
 @app.before_request
 def before_request():
@@ -92,7 +92,7 @@ def user_login():
     }
     if context['form'].validate_on_submit():
         email = context['form'].email.data
-        user = models.User.query.filter_by(email=email).first()
+        user = db.session.query(models.User).filter_by(email=email).first()
         remember = context['form'].remember.data
         login_user(user, remember=remember)
         flash(MSG_LOGIN_SUCCESS, MSG_CATEGORY_SUCCESS)
@@ -202,7 +202,7 @@ def user_id(id):
     """docstring for user_id"""
     current_time = datetime.datetime.now()
     context = {}
-    context['user'] = models.User.query.get(id)
+    context['user'] = db.session.query(models.User).get(id)
     if not context['user'] or context['user'].status > 1:
         flash(MSG_USER_INVALID, MSG_CATEGORY_DANGER)
         return redirect(url_for('index'))

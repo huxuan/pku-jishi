@@ -12,10 +12,12 @@ from flask.ext.login import LoginManager
 from flask.ext.uploads import UploadSet
 from flask.ext.uploads import IMAGES
 from flask.ext.uploads import configure_uploads
+from flask.ext.mail import Mail
 
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
+mail = Mail(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

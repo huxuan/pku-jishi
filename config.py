@@ -23,3 +23,11 @@ WHOOSH_ANALYZER = ChineseAnalyzer()
 
 # flask-uploads
 UPLOADS_DEFAULT_DEST = 'app/static/uploads/'
+
+# flask-mail
+MAIL_SERVER = 'smtp.qq.com'
+MAIL_PORT = 465
+MAIL_USE_SSL = True
+MAIL_USERNAME = 'no-reply@pkujishi.com'
+MAIL_PASSWORD = 'pkujishi.com'
+MAIL_DEFAULT_SENDER = 'no-reply@pkujishi.com'

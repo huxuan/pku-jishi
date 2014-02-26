@@ -11,11 +11,38 @@ import datetime
 import hashlib
 import random
 import cPickle as pickle
+from threading import Thread
 
 from flask import g
+from flask.ext.mail import Message
 
+from app import app
 from app import models
+from app import mail
 from app import db
+
+def async(f):
+    def wrapper(*args, **kwargs):
+        thr = Thread(target=f, args=args, kwargs=kwargs)
+        thr.start()
+    return wrapper
+
+@async
+def send_async_mail(msg):
+    """docstring for send_async_mail"""
+    with app.app_context():
+        mail.send(msg)
+
+def send_mail(subject, recipients, body, html, sender=None):
+    """docstring for send_mail"""
+    msg = Message(
+        subject=subject,
+        recipients=recipients,
+        body=body,
+        html=html,
+        sender=sender,
+    )
+    send_async_mail(msg)
 
 def create_user(email, name, password):
     """docstring for create_user"""

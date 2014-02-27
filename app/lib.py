@@ -7,6 +7,7 @@ Email: i(at)huxuan.org
 Description: lib used in app
 """
 
+import os.path
 import datetime
 import hashlib
 import random

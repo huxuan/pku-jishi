@@ -7,10 +7,6 @@ Email: i(at)huxuan.org
 Description: views for app
 """
 
-import datetime
-import random
-import os.path
-
 from flask import g
 from flask import render_template
 from flask import request
@@ -203,7 +199,6 @@ def user_index():
 @app.route('/user/<int:id>')
 def user_id(id):
     """docstring for user_id"""
-    current_time = datetime.datetime.now()
     context = {}
     context['user'] = db.session.query(models.User).get(id)
     if not context['user'] or context['user'].status > 1:

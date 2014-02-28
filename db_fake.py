@@ -99,7 +99,7 @@ def fake_user_status(user, status):
     )
     db.session.add(u)
     db.session.flush()
-    t = lib.create_token(u.id)
+    t = lib.create_token(u)
     db.session.add(t)
 
 def fake_user():

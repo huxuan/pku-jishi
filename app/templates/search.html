@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <div class="col-md-10">
-                    <h3 class="goods-title">标题:{{ goods.title }}</h3>
+                    <h3 class="goods-title"><a href="{{ url_for('sell_id', id=goods.id) }}">标题:{{ goods.title }}</a></h3>
                     <p class="goods-location">{{ goods.location.name }}</p>
                     <p class="goods-price">{{ goods.price }}元</p>
                     <p class="description">{{goods.description}}</p>		
@@ -51,7 +51,7 @@
             {% for goods in buys %}
             <div class="row goods-row">
                 <div class="col-md-12">
-                    <h3 class="goods-title">标题:{{goods.title }}</h3>
+                    <h3 class="goods-title"><a href="{{ url_for('buy_id', id=goods.id) }}">标题:{{ goods.title }}</a></h3>
                     <p class="goods-status-1">状态：{{goods.status}}</p>
                     <p class="goods-price"> 要价范围{{ goods.low_price }} - {{ goods.high_price }}元</p>
 

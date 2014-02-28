@@ -34,7 +34,7 @@
       <div class="thumbnail">
         <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}"><img src="static/images/logo.png"></a>
         <div class="caption">
-        <h3>{{ goods.title }}</h3>
+        <h3><a href="{{ url_for('sell_id', id=goods.id) }}" >{{ goods.title }}</a></h3>
         <p>
           <span class="location">{{ goods.location.name }}</span>
           <span class="price">免费赠送</span>
@@ -64,7 +64,7 @@
       <div class="thumbnail">
         <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}"><img src="static/images/logo.png"></a>
         <div class="caption">
-        <h3>{{ goods.title }}</h3>
+        <h3><a href="{{ url_for('sell_id', id=goods.id) }}" >{{ goods.title }}</a></h3>
         <p>
           <span class="location">{{ goods.location.name }}</span>
           <span class="price">{{ goods.price }}</span>

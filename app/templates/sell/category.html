@@ -23,9 +23,11 @@
 	{% for goods in sells %}
 	<div class="col-md-3">
       <div class="thumbnail">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="商品图片">
+        <a href="{{ url_for('sell_detail_id', id=goods.id) }}">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="商品图片">
+        </a>
         <div class="caption">
-        <h3>{{ goods.title }}</h3>
+            <h3><a href="{{ url_for('sell_id', id=goods.id) }}">{{ goods.title }}</h3> </a>
         <p>
           <span class="location">{{ goods.location.name }}</span>
           <span class="price">{{goods.price}}</span>

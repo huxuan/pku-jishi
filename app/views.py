@@ -118,6 +118,9 @@ def user_register():
             password = context['form'].password.data,
         )
         db.session.add(user)
+        db.session.flush()
+        token = lib.create_token(user)
+        db.session.add(token)
         db.session.commit()
         flash(MSG_REGISTER_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_login'))

@@ -47,6 +47,11 @@ MSG_SELL_EDIT_SUCCESS = u'售出商品修改成功！'
 MSG_SELL_EDIT_NO_PERMISSION = u'您无权修改此售出商品'
 MSG_BUY_EDIT_SUCCESS = u'求购商品修改成功！'
 MSG_BUY_EDIT_NO_PERMISSION = u'您无权修改此求购商品'
+MSG_USER_ACTIVATION_SUCCESS = u'用户激活成功！'
+MSG_USER_ACTIVATION_FAIL = u'用户激活失败，您可以选择重新发送激活邮件'
+MSG_RESEND_CONFIRM_SUCCESS = u'验证邮件发送成功！'
+MSG_RESET_PASSWD_SUCCESS = u'重置密码成功！'
+MSG_RESET_PASSWD_FAIL = u'重置密码失败'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -122,18 +127,48 @@ def user_register():
         token = lib.create_token(user)
         db.session.add(token)
         db.session.commit()
+        token = lib.activation_token_encode(user.id, token.confirm)
+        url = url_for('user_activation', token=token, _external=True)
+        lib.send_activation_mail(user, url)
         flash(MSG_REGISTER_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_login'))
     return render_template("user/register.html", **context)
 
-@app.route('/user/resend_confirm_mail')
-@login_required
+@app.route('/user/resend_confirm_mail', methods=('GET', 'POST'))
 def user_resend_confirm_mail():
     """docstring for user_resend_confirm_mail"""
-    # TODO(huxuan): form of resend_confirm_mail
-    # TODO(qiangrw): entry of resend_confirm_mail
-    return render_template("user/resend_confirm_mail.html",
-        )
+    context = {
+        'form': forms.EmailCaptchaForm(),
+    }
+    if context['form'].validate_on_submit():
+        email = context['form'].email.data
+        user = db.session.query(models.User).filter_by(email=email).first()
+        token = lib.create_token(user)
+        db.session.add(token)
+        db.session.commit()
+        url = url_for('user_activation', token=token, _external=True)
+        token = lib.activation_token_encode(user.id, token.confirm)
+        lib.send_activation_mail(user, url)
+        flash(MSG_RESEND_CONFIRM_SUCCESS, MSG_CATEGORY_SUCCESS)
+        return redirect(url_for('user_index'))
+    return render_template("user/resend_confirm_mail.html", **context)
+
+@app.route('/user/activation/<token>')
+def user_activation(token):
+    """docstring for user_activation"""
+    user_id, confirm = lib.activation_token_decode(token)
+    if user_id:
+        user = db.session.query(models.User).get(user_id)
+        if user and user.token.confirm == confirm:
+            user.status = 0
+            flash(MSG_USER_ACTIVATION_SUCCESS, MSG_CATEGORY_SUCCESS)
+            if user == g.user:
+                return redirect(url_for('user_index'))
+            else:
+                logout_user()
+                return redirect(url_for('user_login'))
+    flash(MSG_USER_ACTIVATION_FAIL, MSG_CATEGORY_DANGER)
+    return redirect(url_for('user_resend_confirm_mail'))
 
 @app.route('/user/forget_password', methods=('GET', 'POST'))
 def user_forget_password():
@@ -142,22 +177,37 @@ def user_forget_password():
         'form': forms.EmailCaptchaForm(),
     }
     if context['form'].validate_on_submit():
-        # TODO(huxuan): Add actions of sending forget password mail
+        email = context['form'].email.data
+        user = db.session.query(models.User).filter_by(email=email).first()
+        token = lib.create_token(user)
+        db.session.add(token)
+        db.session.commit()
+        token = lib.password_token_encode(user.id, token.confirm)
+        url = url_for('user_reset_password', token=token, _external=True)
+        lib.send_password_mail(user, url)
         flash(MSG_FORGET_PASSWD_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('index'))
     return render_template("user/forget_password.html", **context)
 
-@app.route('/user/reset_password', methods=('GET', 'POST'))
-def user_reset_password():
+@app.route('/user/reset_password/<token>', methods=('GET', 'POST'))
+def user_reset_password(token):
     """docstring for user_reset_password"""
-    # TODO(huxuan): check token before allowing reset password
+    user_id, confirm = lib.password_token_decode(token)
+    flag = False
+    if user_id:
+        user = db.session.query(models.User).get(user_id)
+        if user and user.token.confirm == confirm:
+            flag = True
+    if not flag:
+        flash(MSG_RESET_PASSWD_FAIL, MSG_CATEGORY_DANGER)
+        return redirect(url_for('user_forget_password'))
     context = {
         'form': forms.ResetPasswordForm(),
     }
     if context['form'].validate_on_submit():
-        lib.set_password(context['form'].password.data)
+        lib.set_password(user, context['form'].password.data)
         db.session.commit()
-        flash(MSG_CHANGE_PASSWD_SUCCESS, MSG_CATEGORY_SUCCESS)
+        flash(MSG_RESET_PASSWD_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_info'))
     return render_template("user/reset_password.html", **context)
 
@@ -169,7 +219,7 @@ def user_change_password():
         'form': forms.ChangePasswordForm(),
     }
     if context['form'].validate_on_submit():
-        lib.set_password(context['form'].new_password.data)
+        lib.set_password(g.user, context['form'].new_password.data)
         db.session.commit()
         flash(MSG_CHANGE_PASSWD_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_info'))

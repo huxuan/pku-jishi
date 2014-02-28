@@ -11,10 +11,12 @@ import os.path
 import datetime
 import hashlib
 import random
+import base64
 import cPickle as pickle
 from threading import Thread
 
 from flask import g
+from flask import render_template
 from flask.ext.mail import Message
 
 from app import app
@@ -44,6 +46,62 @@ def send_mail(subject, recipients, body, html, sender=None):
         sender=sender,
     )
     send_async_mail(msg)
+
+def send_activation_mail(user, url):
+    """docstring for send_activation_mail"""
+    subject = u'欢迎注册北大集市网'
+    recipients = [user.email]
+    context = {
+        'user': user,
+        'url': url,
+    }
+    body = render_template('mail/activation.txt', **context)
+    html = render_template('mail/activation.html', **context)
+    send_mail(subject, recipients, body, html)
+
+def send_password_mail(user, url):
+    """docstring for send_password_mail"""
+    subject = u'重置北大集市网的密码'
+    recipients = [user.email]
+    context = {
+        'user': user,
+        'url': url,
+    }
+    body = render_template('mail/password.txt', **context)
+    html = render_template('mail/password.html', **context)
+    send_mail(subject, recipients, body, html)
+
+def activation_token_encode(user_id, confirm):
+    """docstring for activation_token_encode"""
+    # TODO(huxuan): encode datetime.datetime.now() in token
+    token = ['pkujishi', 'activation', str(user_id), str(confirm)]
+    return base64.b64encode('#'.join(token))
+
+def activation_token_decode(token):
+    """docstring for activation_token_decode"""
+    try:
+        token = base64.b64decode(token).split('#')
+        if len(token) == 4 and token[0] == 'pkujishi' and token[1] == 'activation':
+            return token[-2], int(token[-1])
+    except TypeError:
+        pass
+    return None, 0
+
+def password_token_encode(user_id, confirm):
+    """docstring for password_token_encode"""
+    # TODO(huxuan): encode datetime.datetime.now() in token
+    token = ['pkujishi', 'password', str(user_id), str(confirm)]
+    return base64.b64encode('#'.join(token))
+
+def password_token_decode(token):
+    """docstring for password_token_decode"""
+    try:
+        token = base64.b64decode(token).split('#')
+        if len(token) == 4 and token[0] == 'pkujishi' and token[1] == 'password':
+            return token[-2], int(token[-1])
+    except TypeError:
+        pass
+    return None, 0
 
 def create_user(email, name, password):
     """docstring for create_user"""
@@ -131,9 +189,9 @@ def update_buy_from_form(buy, form):
     buy.valid = buy.create_time + datetime.timedelta(days=form.valid.data)
     return buy
 
-def set_password(password):
+def set_password(user, password):
     """docstring for set_password"""
-    g.user.password = hashlib.md5(password).hexdigest()
+    user.password = hashlib.md5(password).hexdigest()
 
 def images_encode(uploadset, id, images_files):
     """docstring for images_encode"""

@@ -91,7 +91,6 @@ def fake_user_status(user, status):
         email = user + '@pku.edu.cn',
         name = user,
         password = hashlib.md5(user).hexdigest(),
-        confirm = random.randint(100000, 999999),
         avatar = '',
         phone = '13601156789',
         qq = '498877765',
@@ -99,6 +98,9 @@ def fake_user_status(user, status):
         status = status,
     )
     db.session.add(u)
+    db.session.flush()
+    t = lib.create_token(u.id)
+    db.session.add(t)
 
 def fake_user():
     """docstring for fake_user"""

@@ -21,7 +21,6 @@ class User(db.Model):
     email = db.Column(db.String(255), index=True, unique=True, nullable=False)
     name = db.Column(db.String(255), index=True, unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    confirm = db.Column(db.Integer, nullable=False)
     avatar = db.Column(db.String(255))
     phone = db.Column(db.String(40))
     qq = db.Column(db.String(40))
@@ -29,6 +28,7 @@ class User(db.Model):
     status = db.Column(db.SmallInteger)
     sells = db.relationship('Sell', backref='user', lazy='dynamic')
     buys = db.relationship('Buy', backref='user', lazy='dynamic')
+    token = db.relationship('Token', backref='user', uselist=False)
 
     def is_authenticated(self):
         return True
@@ -121,6 +121,18 @@ class Buy(db.Model):
         """docstring for __repr__"""
         return '<Buy id:%r user_id:%r title:%r>' % (self.id, self.user_id,
                 self.title)
+
+class Token(db.Model):
+    """docstring for Token"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    confirm = db.Column(db.Integer, nullable=False)
+    create_time = db.Column(db.DateTime, nullable=False)
+
+    def __repr__(self):
+        """docstring for __repr__"""
+        return '<Token user_id:%r confirm:%r create_time:%r>' % (self.user_id,
+            self.confirm, self.create_time)
 
 whooshalchemy.whoosh_index(app, Sell)
 whooshalchemy.whoosh_index(app, Buy)

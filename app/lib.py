@@ -51,7 +51,6 @@ def create_user(email, name, password):
         email = email,
         name = name,
         password = hashlib.md5(password).hexdigest(),
-        confirm = random.randint(100000, 999999),
         avatar = '',
         phone = '',
         qq = '',
@@ -59,6 +58,15 @@ def create_user(email, name, password):
         status = 1,
     )
     return user
+
+def create_token(user_id):
+    """docstring for create_token"""
+    token = models.Token(
+        user_id = user_id,
+        confirm = random.randint(100000, 999999),
+        create_time = datetime.datetime.now(),
+    )
+    return token
 
 def create_sell(user_id, title, price, deprecate, category_id, location_id,
         description, phone, qq, valid):

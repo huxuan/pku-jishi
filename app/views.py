@@ -136,7 +136,7 @@ def user_resend_confirm_mail():
 def user_forget_password():
     """docstring for user_forget_password"""
     context = {
-        'form': forms.ForgetPasswordForm(),
+        'form': forms.EmailCaptchaForm(),
     }
     if context['form'].validate_on_submit():
         # TODO(huxuan): Add actions of sending forget password mail

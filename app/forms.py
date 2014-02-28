@@ -165,8 +165,8 @@ class OldPasswordValidation(object):
         if password != g.user.password:
             raise validators.StopValidation(MSG_PASSWD_INVALID)
 
-class ForgetPasswordEmailValidation(object):
-    """docstring for ForgetPasswordEmailValidation"""
+class EmailExistValidation(object):
+    """docstring for EmailExistValidation"""
     def __call__(self, form, field):
         user = db.session.query(models.User).filter_by(email=field.data).first()
         if not user:
@@ -355,12 +355,12 @@ class ResetPasswordForm(Form):
         description = DESC_CAPTCHA,
     )
 
-class ForgetPasswordForm(Form):
-    """docstring for ForgetPasswordForm"""
+class EmailCaptchaForm(Form):
+    """docstring for EmailCaptchaForm"""
     email = StringField(LABEL_EMAIL_REGISTER, [
         validators.Email(MSG_EMAIL_FORMAT_ERROR),
         validators.InputRequired(MSG_EMAIL_REQUIRED),
-        ForgetPasswordEmailValidation(), ],
+        EmailExistValidation(), ],
         description = DESC_EMAIL_FORGET,
     )
     recaptcha = RecaptchaField(LABEL_CAPTCHA, [

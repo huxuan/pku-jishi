@@ -282,6 +282,24 @@ def user_info_edit():
     # TODO(huxuan): form of user_info_edit
     return render_template("user/info_edit.html", **context)
 
+ 
+@app.route('/sell/free')
+def sell_free():
+    """docstring for sell_free"""
+    page = int(request.args.get('page', 1))
+    context = {
+        'categories': lib.get_categories(status=0)
+    }
+    #TODO @xuan get total sells free here
+    context['sells'] = lib.get_sells_free(limit=1000, status=0)
+    context['pagination'] = Pagination(page=page,
+        total=len(context['sells']),
+        record_name='sells',
+    )
+    return render_template("sell/free.html", **context)
+         
+
+
 @app.route('/sell/category/<int:id>')
 def sell_category_id(id):
     """docstring for sell_category_id"""

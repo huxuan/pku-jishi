@@ -1,0 +1,50 @@
+{% extends "layout/default.html" %}
+
+{% block title %}免费专区{% endblock %}
+
+{% block custom_css %}
+<link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block custom_script %}
+{% endblock %}
+
+{% block content %}
+{% include 'inc/header.html' with context %}
+<div class="container">
+<div class="col-md-9">
+  {% include 'shared/category.html' with context %}
+  <div class="floor panel panel-default">
+    <div class="goods-type col-md-12 panel-heading">
+      <span class="pull-left">免费专区</span>
+      <br />
+    </div>
+  <div class="goods-div panel-body">
+	{% for goods in sells %}
+	<div class="col-md-3">
+      <div class="thumbnail">
+        <a href="{{ url_for('sell_id', id=goods.id) }}">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="商品图片">
+        </a>
+        <div class="caption">
+            <h3><a href="{{ url_for('sell_id', id=goods.id) }}">{{ goods.title }}</h3> </a>
+        <p>
+          <span class="location">{{ goods.location.name }}</span>
+          <span class="price">{{goods.price}}</span>
+        </p>
+        </div>
+      </div>
+    </div>
+	{% endfor %}
+  </div>
+  </div> <!-- ./floor-->
+
+</div><!-- ./col-md-9 -->
+<div class="col-md-3">
+  <a href="{{ url_for('sell_post') }}" class="btn btn-primary btn-lg">我要发布</a>
+  <br /><br />
+  {% include 'shared/board.html' with context %}
+</div><!-- ./col-md-3 -->
+</div>
+{% include 'inc/footer.html' with context %}
+{% endblock %}

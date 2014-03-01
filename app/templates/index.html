@@ -21,11 +21,11 @@
   {% include 'shared/carousel.html' with context %}
   {% include 'shared/category.html' with context %}
   <!-- Free Floor -->
-  <div class="floor panel panel-primary">
+  <div class="floor panel panel-default">
     <div class="goods-type col-md-12 panel-heading">
       <span class="pull-left">免费赠送专区</span>
       <span class="more-category"></span>
-      <!--<span class="pull-right"><a href="">查看更多</a></span>-->
+      <span class="pull-right"><a href="{{ url_for('sell_free') }}">查看更多</a></span>
     <br />
     </div>
   <div class="goods-div panel-body">

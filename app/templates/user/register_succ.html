@@ -1,0 +1,27 @@
+{% extends "layout/default.html" %}
+{% from "shared/_formhelpers.html" import render_field_error %}
+
+{% block title %}请验证您的邮箱{% endblock %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block custom_script %}
+{% endblock %}
+
+{% block content %}
+{% include 'inc/header.html' with context %}
+<div id="main" class="container">            
+<div class="row">
+    <div class="span12">
+        <h2>还差一步就注册成功啦</h2>
+        <p>同学，您好，还差一步就注册成功了，您只需要进入注册邮箱里面查收系统发送的验证邮件链接就可以完成验证登陆网站了。</p>
+        <p>北大集市，北大人自己的二手市场。感谢您的支持。 </p>
+        <p>
+        <a href="http://mail.pku.edu.cn" target="_blank" class="btn btn-primary">立即进入邮箱验证</a>
+        </p>
+    </div>
+</div>
+</div> <!-- ./container -->  
+{% include 'inc/footer.html' with context %}
+{% endblock %}

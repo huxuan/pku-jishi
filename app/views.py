@@ -134,6 +134,14 @@ def user_register():
         return redirect(url_for('user_login'))
     return render_template("user/register.html", **context)
 
+@app.route('/user/register_succ')
+def user_register_succ():
+    """docstring for user_register_succ"""
+    context = {
+            }
+    return render_template("user/register_succ.html", **context)
+
+
 @app.route('/user/resend_confirm_mail', methods=('GET', 'POST'))
 def user_resend_confirm_mail():
     """docstring for user_resend_confirm_mail"""

@@ -99,7 +99,7 @@ def user_login():
         user = db.session.query(models.User).filter_by(email=email).first()
         remember = context['form'].remember.data
         login_user(user, remember=remember)
-        flash(MSG_LOGIN_SUCCESS, MSG_CATEGORY_SUCCESS)
+        #flash(MSG_LOGIN_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(request.args.get('next') or url_for('index'))
     return render_template("user/login.html", **context)
 

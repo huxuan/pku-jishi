@@ -86,6 +86,13 @@ def index():
         context['categories'], limit=4, status=0)
     return render_template("index.html", **context)
 
+@app.route('/join')
+def join():
+    """docstring for join"""
+    context={
+            }
+    return render_template("join.html", **context)
+
 @app.route('/user/login', methods=('GET', 'POST'))
 def user_login():
     """docstring for user_login"""

@@ -83,6 +83,7 @@ MSG_QQ_INVALID = u'请输入正确的QQ号'
 MSG_VALID_REQUIRED = u'有效时间不能为空'
 MSG_PRICE_LOW_REQUIRED = u'最低价格不能为空'
 MSG_PRICE_HIGH_REQUIRED = u'最高价格不能为空'
+MSG_PRICE_LOW_HIGH = u'最高价格不能小于最低价格'
 MSG_OLD_PASSWD_REQUIRED = u'旧密码不能为空'
 MSG_NEW_PASSWD_REQUIRED = u'新密码不能为空'
 MSG_NEW_PASSWD_LENGTH = u'新密码不得少于6个字符'
@@ -171,6 +172,16 @@ class EmailExistValidation(object):
         user = db.session.query(models.User).filter_by(email=field.data).first()
         if not user:
             raise validators.StopValidation(MSG_EMAIL_NOT_FOUND)
+
+class PriceHighValidation(object):
+    """docstring for PriceHighValidation"""
+    def __init__(self, price_low_fieldname):
+        self.price_low_fieldname = price_low_fieldname
+
+    def __call__(self, form, field):
+        price_low = form[self.price_low_fieldname].data
+        if int(price_low) > int(field.data):
+            raise validators.StopValidation(MSG_PRICE_LOW_HIGH)
 
 class PriceValidation(object):
     """docstring for PriceValidation"""
@@ -286,7 +297,8 @@ class BuyForm(Form):
     )
     price_high = StringField(LABEL_PRICE_RANGE, [
         validators.InputRequired(MSG_PRICE_HIGH_REQUIRED),
-        PriceValidation(),],
+        PriceValidation(),
+        PriceHighValidation('price_low'),],
         description=DESC_PRICE_HIGH,
     )
     category_id = SelectField(LABEL_CATEGORY, [

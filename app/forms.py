@@ -172,6 +172,14 @@ class EmailExistValidation(object):
         if not user:
             raise validators.StopValidation(MSG_EMAIL_NOT_FOUND)
 
+class PriceValidation(object):
+    """docstring for PriceValidation"""
+    def __call__(self, form, field):
+        if not field.data.isdigit():
+            raise validators.StopValidation(MSG_PRICE_NOT_DIGIT)
+        if int(field.data) < 0:
+            raise validators.StopValidation(MSG_PRICE_INVALID)
+
 class LoginForm(Form):
     """docstring for LoginForm"""
     email = StringField(LABEL_EMAIL, [
@@ -219,14 +227,6 @@ class RegisterForm(Form):
         ext_validators.Recaptcha(MSG_CAPTCHA),],
         description = DESC_CAPTCHA,
     )
-
-class PriceValidation(object):
-    """docstring for PriceValidation"""
-    def __call__(self, form, field):
-        if not field.data.isdigit():
-            raise validators.StopValidation(MSG_PRICE_NOT_DIGIT)
-        if int(field.data) < 0:
-            raise validators.StopValidation(MSG_PRICE_INVALID)
 
 class SellForm(Form):
     """docstring for SellForm"""

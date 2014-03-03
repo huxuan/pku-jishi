@@ -60,7 +60,6 @@ MSG_EMAIL_EXIST = u'此邮箱已注册'
 MSG_EMAIL_PKU = u'请使用北大邮箱@pku.edu.cn注册'
 MSG_USERNAME_REQUIRED = u'用户名不能为空'
 MSG_USERNAME_EXIST = u'此用户名已存在'
-MSG_USERNAME_LENGTH = u'用户名不得少于6个字符'
 MSG_PASSWD_REQUIRED = u'密码不能为空'
 MSG_PASSWD_INVALID = u'密码错误'
 MSG_PASSWD_LENGTH = u'密码不得少于6个字符'
@@ -216,7 +215,6 @@ class RegisterForm(Form):
     )
     username = StringField(LABEL_USERNAME, [
         validators.InputRequired(MSG_USERNAME_REQUIRED),
-        validators.Length(min=6, message=MSG_USERNAME_LENGTH),
         RegisterUsernameValidation(), ],
         description = DESC_USERNAME,
     )

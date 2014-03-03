@@ -43,7 +43,9 @@
             {% for goods in sells %}
             <div class="row goods-row">
                 <div class="col-md-2">
-                    <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}"><img src="{{ url_for('static', filename='images/logo.png') }}"></a>
+                    <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}">
+                        <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.name}}.png">
+                    </a>
                 </div>
                 <div class="col-md-10">
                     <h3 class="goods-title">标题:{{ goods.title }}</h3>

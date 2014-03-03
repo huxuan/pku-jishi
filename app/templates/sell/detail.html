@@ -51,6 +51,7 @@
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <!-- FOREACH PICS -->
+            {% if images %}
             {% for image in images %}
             {% if loop.first %}
             <div class="item active">
@@ -61,6 +62,11 @@
             </div>
             {% endfor %}
             <!-- ENDFOREACH -->
+            {% else %}
+            <div class="item active">
+               <img src="{{url_for('static', filename='images/large')}}/{{ sell.category.name}}.png">
+            </div>
+            {% endif %}
         </div>
         <!-- Controls -->
         <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">

@@ -17,22 +17,27 @@
 <form role="form" class="form-horizontal" method="post" enctype='multipart/form-data' action="">
     {{ form.hidden_tag() }}
     <div class="form-group">
-        {{ form.title.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
+        {{ form.title.label(class='col-sm-2 control-label text-danger') }}
+        <div class="col-sm-6">
             {{ form.title(class='form-control') }}
             {{ render_field_error(form.title) }}
+        </div>
+        <div class="col-sm-4">
+            <p class="text-info text-danger">
+                * 请输入发布商品的名称
+            </p>
         </div>
     </div>
     <div class="form-group">
         {{ form.images.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
+        <div class="col-sm-6">
             {{ form.images(multiple='') }}
             {{ render_field_error(form.images) }}
         </div>
     </div>
     <div class="form-group">
-        {{ form.price.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
+        {{ form.price.label(class='col-sm-2 control-label text-danger') }}
+        <div class="col-sm-6">
             <div class="input-group">
                 <span class="input-group-addon">¥</span>
                 {{ form.price(class='form-control') }}
@@ -40,52 +45,87 @@
             </div>
             {{ render_field_error(form.price) }}
         </div>
+        <div class="col-sm-4">
+            <p class="text-info text-danger">
+                * 请输入发布商品的价格
+            </p>
+        </div>
     </div>
     <div class="form-group">
-        {{ form.deprecate.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
+        {{ form.deprecate.label(class='col-sm-2 control-label text-danger') }}
+        <div class="col-sm-6">
             {{ form.deprecate(class='form-control') }}
             {{ render_field_error(form.deprecate) }}
         </div>
+        <div class="col-sm-4">
+            <p class="text-info text-danger">
+                * 请选择商品的新旧程度
+            </p>
+        </div>
     </div>
     <div class="form-group">
-        {{ form.category_id.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
+        {{ form.category_id.label(class='col-sm-2 control-label text-danger') }}
+        <div class="col-sm-6">
             {{ form.category_id(class='form-control') }}
             {{ render_field_error(form.category_id) }}
         </div>
+        <div class="col-sm-4">
+            <p class="text-info text-danger">
+                * 请选择发布商品的分类
+            </p>
+        </div>
     </div>
     <div class="form-group">
-        {{ form.location_id.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
+        {{ form.location_id.label(class='col-sm-2 control-label text-danger') }}
+        <div class="col-sm-6">
             {{ form.location_id(class='form-control') }}
             {{ render_field_error(form.location_id) }}
         </div>
+        <div class="col-sm-4">
+            <p class="text-info text-danger">
+                * 请选择商品的交易地点
+            </p>
+        </div>
     </div>
     <div class="form-group">
-        {{ form.description.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
+        {{ form.description.label(class='col-sm-2 control-label text-danger') }}
+        <div class="col-sm-6">
             {{ form.description(class='form-control', rows='5') }}
             {{ render_field_error(form.description) }}
         </div>
+        <div class="col-sm-4">
+            <p class="text-info text-danger">
+                * 请简单描述下商品
+            </p>
+        </div>
     </div>
     <div class="form-group">
-        {{ form.phone.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
+        {{ form.phone.label(class='col-sm-2 control-label text-danger') }}
+        <div class="col-sm-6">
             {{ form.phone(class='form-control') }}
             {{ render_field_error(form.phone) }}
         </div>
-    </div>
-    <div class="form-group">
-        {{ form.qq.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
-            {{ form.qq(class='form-control') }}
-            {{ render_field_error(form.qq) }}
+        <div class="col-sm-4">
+            <p class="text-info text-danger">
+                * 请填写联系您的手机或电话
+            </p>
         </div>
     </div>
     <div class="form-group">
-        {{ form.valid.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
+        {{ form.qq.label(class='col-sm-2 control-label text-danger') }}
+        <div class="col-sm-6">
+            {{ form.qq(class='form-control') }}
+            {{ render_field_error(form.qq) }}
+        </div>
+        <div class="col-sm-4">
+            <p class="text-info text-danger">
+                * 请填写联系您的QQ
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form.valid.label(class='col-sm-2 control-label text-danger') }}
+        <div class="col-sm-6">
             <div class="input-group">
                 {{ form.valid(class='form-control') }}
                 <span class="input-group-addon">
@@ -93,9 +133,14 @@
                 </span>
             </div>
         </div>
+        <div class="col-sm-4">
+            <p class="text-info text-danger">
+                * 请选择商品有效时间（到期下架）
+            </p>
+        </div>
     </div>
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-sm-offset-2 col-sm-6">
             <button type="submit" class="btn btn-primary">确认发布</button>
         </div>
     </div>

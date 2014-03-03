@@ -13,6 +13,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import flash
+from flask import Markup
 from flask.ext.login import login_user
 from flask.ext.login import logout_user
 from flask.ext.login import login_required
@@ -35,7 +36,6 @@ MSG_CATEGORY_DANGER = 'danger'
 
 MSG_LOGIN_REQUIRED = u'请登录后查看此页面'
 MSG_LOGIN_SUCCESS = u'登录成功！'
-MSG_REGISTER_SUCCESS = u'注册成功！'
 MSG_USER_INVALID = u'此用户无效'
 MSG_SELL_INVALID = u'此售出商品无效'
 MSG_SELL_POST_SUCCESS = u'售出商品发布成功！'
@@ -137,6 +137,9 @@ def user_register():
         token = lib.activation_token_encode(user.id, token.confirm)
         url = url_for('user_activation', token=token, _external=True)
         lib.send_activation_mail(user, url)
+        MSG_REGISTER_SUCCESS = Markup(u'还差一步就注册成功啦，请查收邮箱进行验证。'
+            u'如您未收到验证信，请点击<a href="%s" >重发确认信</a>。' %
+            url_for('user_resend_confirm_mail') )
         flash(MSG_REGISTER_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_login'))
     return render_template("user/register.html", **context)

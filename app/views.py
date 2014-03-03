@@ -137,20 +137,13 @@ def user_register():
         token = lib.activation_token_encode(user.id, token.confirm)
         url = url_for('user_activation', token=token, _external=True)
         lib.send_activation_mail(user, url)
-        MSG_REGISTER_SUCCESS = Markup(u'还差一步就注册成功啦，请查收邮箱进行验证。'
-            u'如您未收到验证信，请点击<a href="%s" >重发确认信</a>。' %
-            url_for('user_resend_confirm_mail') )
-        flash(MSG_REGISTER_SUCCESS, MSG_CATEGORY_SUCCESS)
-        return redirect(url_for('user_login'))
+        return redirect(url_for('user_register_succ'))
     return render_template("user/register.html", **context)
 
 @app.route('/user/register_succ')
 def user_register_succ():
     """docstring for user_register_succ"""
-    context = {
-            }
-    return render_template("user/register_succ.html", **context)
-
+    return render_template("user/register_succ.html")
 
 @app.route('/user/resend_confirm_mail', methods=('GET', 'POST'))
 def user_resend_confirm_mail():

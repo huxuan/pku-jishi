@@ -236,11 +236,15 @@ def get_sell_by_id(id):
 
 def get_sells_by_category(category, status=0):
     """docstring for get_sells_by_category"""
-    return db.session.query(models.Sell).filter_by(category=category, status=status).all()
+    return db.session.query(models.Sell).\
+        filter_by(category=category, status=status).\
+        order_by(models.Sell.create_time.desc()).all()
 
 def get_sells_by_user(user, status=0):
     """docstring for get_sells_by_user"""
-    return db.session.query(models.Sell).filter_by(user=user, status=status).all()
+    return db.session.query(models.Sell).\
+        filter_by(user=user, status=status).\
+        order_by(models.Sell.create_time.desc()).all()
 
 def get_sells_free(limit=4, status=0):
     """docstring for get_sells_free"""
@@ -264,6 +268,7 @@ def get_sells_q_cid_lid(q, category_id=0, location_id=0):
         res = res.filter_by(category_id=category_id)
     if location_id != 0:
         res = res.filter_by(location_id=location_id)
+    res = res.order_by(models.Sell.create_time.desc())
     return res.all()
 
 def get_buy_count():
@@ -276,11 +281,15 @@ def get_buy_by_id(id):
 
 def get_buys_by_category(category, status=0):
     """docstring for get_buys_by_category"""
-    return db.session.query(models.Buy).filter_by(category=category, status=status).all()
+    return db.session.query(models.Buy).\
+        filter_by(category=category, status=status).\
+        order_by(models.Buy.create_time.desc()).all()
 
 def get_buys_by_user(user, status=0):
     """docstring for get_buys_by_user"""
-    return db.session.query(models.Buy).filter_by(user=user, status=status).all()
+    return db.session.query(models.Buy).\
+        filter_by(user=user, status=status).\
+        order_by(models.Buy.create_time.desc()).all()
 
 def get_buys_floors(categories, limit=4, status=0):
     """docstring for get_buys_floors"""
@@ -299,4 +308,5 @@ def get_buys_q_cid_lid(q, category_id=0, location_id=0):
         res = res.filter_by(category_id=category_id)
     if location_id != 0:
         res = res.filter_by(location_id=location_id)
+    res = res.order_by(models.Buy.create_time.desc())
     return res.all()

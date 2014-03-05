@@ -86,6 +86,7 @@ class Sell(db.Model):
     title = db.Column(db.String(30), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     images = db.Column(db.String(255))
+    thumbnails = db.Column(db.String(255))
     deprecate = db.Column(db.SmallInteger)
     description = db.Column(db.Text)
     create_time = db.Column(db.DateTime)

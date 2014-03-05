@@ -378,7 +378,8 @@ def sell_post():
         db.session.add(sell)
         db.session.flush()
         images_files = request.files.getlist('images')
-        sell.images = lib.images_encode(images_sell, sell.id, images_files)
+        sell.images, sell.thumbnails = lib.images_encode(
+            images_sell, sell.id, images_files)
         db.session.commit()
         flash(MSG_SELL_POST_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_sell'))

@@ -196,6 +196,7 @@ def set_password(user, password):
 def images_encode(uploadset, id, images_files):
     """docstring for images_encode"""
     images = []
+    thumbnails = ''
     if images_files and images_files[0]:
         for index in xrange(len(images_files)):
             name = '%d_%d_%d%s' % (id, index,
@@ -203,7 +204,8 @@ def images_encode(uploadset, id, images_files):
                 os.path.splitext(images_files[index].filename)[-1])
             uploadset.save(images_files[index], name=name)
             images.append(name)
-    return pickle.dumps(images)
+        thumbnails = images[0]
+    return pickle.dumps(images), thumbnails
 
 def images_decode(uploadset, images):
     """docstring for images_decode"""

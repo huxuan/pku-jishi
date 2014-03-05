@@ -134,7 +134,7 @@ def fake_sell_status_price(category, location, status, price):
     )
     db.session.add(s)
     db.session.flush()
-    s.images = lib.images_encode(images_sell, s.id, [])
+    s.images, s.thumbnails = lib.images_encode(images_sell, s.id, [])
 
 def fake_sell():
     """docstring for fake_sell"""

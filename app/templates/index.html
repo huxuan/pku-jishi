@@ -39,7 +39,8 @@
         <h3><a href="{{ url_for('sell_id', id=goods.id) }}" >{{ goods.title }}</a></h3>
         <p>
           <span class="location">{{ goods.location.name }}</span>
-          <span class="price pull-right">免费赠送</span>
+          <br />
+          <span class="price">免费赠送</span>
         </p>
         </div>
       </div>
@@ -74,8 +75,9 @@
         <div class="caption">
         <h3><a href="{{ url_for('sell_id', id=goods.id) }}" >{{ goods.title }}</a></h3>
         <p>
-          <span class="location">{{ goods.location.name }}</span>
-          <span class="price pull-right">{{ goods.price }} 元</span>
+        <span class="location">{{ goods.location.name }}</span>
+        <br />
+        <span class="price">{{ goods.price }} 元</span>
         </p>
         </div>
       </div>

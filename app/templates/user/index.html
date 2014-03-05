@@ -3,11 +3,12 @@
 {% block title %}{{ user.name }} 的个人主页{% endblock %}
 
 {% block custom_css %}
+<link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
 <style type="text/css">
 .goods-status-1 { color: green; font-weight: bold;}
 .goods-status-2 { color: grey; font-weight: bold;}
-.goods-title {font-size: 1.2em; font-weight: bold; line-height: 1; margin-top: 10px;}
-.goods-time { color: grey; font-size: 0.8em;}
+.title {font-size: 1.2em; font-weight: bold; line-height: 1; margin-top: 10px;}
+.time { color: grey; font-size: 0.8em;}
 .goods-img {border: 1px solid transparent; margin-top: 10px; padding-left: 10px;}
 </style>
 {% endblock %}
@@ -44,14 +45,14 @@
             <div class="row goods-row">
                 <div class="col-md-2">
                     <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}">
-                        <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.name}}.png">
+                        <img class="goods-img" src="{{url_for('static', filename='images/small')}}/{{ goods.category.name}}.png">
                     </a>
                 </div>
                 <div class="col-md-10">
-                    <h3 class="goods-title">标题:{{ goods.title }}</h3>
-                    <p class="goods-location">{{ goods.location.name }}</p>
-                    <p class="goods-price">{{ goods.price }}元</p>
-                    <p class="goods-time">发布时间: {{ goods.create_time }}</p>
+                    <h3 class="title">标题:{{ goods.title }}</h3>
+                    <p class="location">{{ goods.location.name }}</p>
+                    <p class="price price">{{ goods.price }}元</p>
+                    <p class="time">发布时间: {{ goods.create_time }}</p>
                 </div>
             </div>
             <hr />

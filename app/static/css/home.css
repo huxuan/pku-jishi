@@ -15,13 +15,19 @@
 	margin-top: 10px;
 }
 .floor .goods-div .caption > h3 {
-	font-size: 1em;
+	font-size: 1.2em;
 	font-weight: bold;
 }
 .floor .goods-div .caption > p {
-	font-size: 0.6em;
+	font-size: 1em;
 }
-.price { color: red;}
+.location { font-size: 1em; }
+.price { 
+    color: red;
+    font-size: 1.1em;
+    padding-right: 2px;
+    font-weight: bold;
+}
 .thumbnail {
     border:none!important;
 }

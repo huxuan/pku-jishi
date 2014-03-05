@@ -7,5 +7,5 @@ flask-paginate
 flask-whooshalchemy
 flask-uploads
 flask-mail
+flask-images
 jieba
-pil

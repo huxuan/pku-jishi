@@ -293,6 +293,21 @@ def user_info_edit():
     # TODO(huxuan): form of user_info_edit
     return render_template("user/info_edit.html", **context)
 
+@app.route('/sell/')
+@app.route('/sell/index')
+def sell_index():
+    """docstring for sell_index"""
+    page = int(request.args.get('page', 1))
+    context = {
+        'sells': lib.get_sells()
+    }
+    context['pagination'] = Pagination(page=page,
+        total=len(context['sells']),
+        record_name='sells',
+        css_framework='foundation',
+    )
+    return render_template("sell/index.html", **context)
+
 @app.route('/sell/free')
 def sell_free():
     """docstring for sell_free"""

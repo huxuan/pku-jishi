@@ -236,6 +236,13 @@ def get_sell_by_id(id):
     """docstring for get_sell_by_id"""
     return db.session.query(models.Sell).get(id)
 
+def get_sells(limit=1000, status=0):
+    """docstring for get_sells"""
+    sells = db.session.query(models.Sell)
+    sells = sells.filter_by(status=status)
+    sells = sells.order_by(models.Sell.create_time.desc()).limit(limit)
+    return sells.all()
+
 def get_sells_by_category(category, status=0):
     """docstring for get_sells_by_category"""
     return db.session.query(models.Sell).\

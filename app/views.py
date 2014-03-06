@@ -74,16 +74,17 @@ def before_request():
     g.user_count = lib.get_user_count()
     g.sell_count = lib.get_sell_count()
     g.buy_count = lib.get_buy_count()
+    g.categories = lib.get_categories(status=0)
+    g.locations = lib.get_locations(status=0)
 
 @app.route('/')
 def index():
     """docstring for index"""
     context={
-        'categories': lib.get_categories(status=0),
         'sells_free': lib.get_sells_free(limit=4, status=0),
     }
     context['sells_floors'] = lib.get_sells_floors(
-        context['categories'], limit=4, status=0)
+        g.categories, limit=4, status=0)
     return render_template("index.html", **context)
 
 @app.route('/join')
@@ -313,9 +314,8 @@ def sell_free():
     """docstring for sell_free"""
     page = int(request.args.get('page', 1))
     context = {
-        'categories': lib.get_categories(status=0)
+        'sells': lib.get_sells_free(limit=1000, status=0)
     }
-    context['sells'] = lib.get_sells_free(limit=1000, status=0)
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
         record_name='sells',
@@ -328,7 +328,6 @@ def sell_category_id(id):
     """docstring for sell_category_id"""
     page = int(request.args.get('page', 1))
     context = {
-        'categories': lib.get_categories(status=0),
         'category': lib.get_category(id)
     }
     context['sells'] = lib.get_sells_by_category(context['category'])
@@ -406,10 +405,9 @@ def sell_post():
 def buy():
     """docstring for buy"""
     context = {
-        'categories': lib.get_categories(status=0),
+        'buys_floors': lib.get_buys_floors(
+            g.categories, limit=4, status=0)
     }
-    context['buys_floors'] = lib.get_buys_floors(
-        context['categories'], limit=4, status=0)
     return render_template("buy/index.html", **context)
 
 @app.route('/buy/category/<int:id>')
@@ -417,7 +415,6 @@ def buy_category_id(id):
     """docstring for buy_category_id"""
     page = int(request.args.get('page', 1))
     context = {
-        'categories': lib.get_categories(status=0),
         'category': lib.get_category(id)
     }
     context['buys'] = lib.get_buys_by_category(context['category'])

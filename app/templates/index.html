@@ -55,14 +55,14 @@
   <!-- Floor -->
   <div class="floor panel panel-info">
   <div class="panel-heading">
-      <span class="pull-left">{{ loop.index }}F {{categories[loop.index-1].name}}</span>
+      <span class="pull-left">{{ loop.index }}F {{g.categories[loop.index-1].name}}</span>
       <span class="more-category">
-          {% for sub_category in categories[loop.index-1].sub_categories %}
+          {% for sub_category in g.categories[loop.index-1].sub_categories %}
           <a href="{{ url_for('sell_category_id', id=sub_category.id) }}">{{ sub_category.name }}</a> &nbsp;
           {% endfor %}
       </span>
       <span class="pull-right">
-          <a href="{{ url_for('sell_category_id', id=categories[loop.index-1].id) }}">查看更多</a>
+          <a href="{{ url_for('sell_category_id', id=g.categories[loop.index-1].id) }}">查看更多</a>
       </span>
       <br />
   </div>

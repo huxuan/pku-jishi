@@ -228,6 +228,14 @@ def get_category(id, status=0):
     """docstring for get_category"""
     return db.session.query(models.Category).get(id)
 
+def get_locations(status=0):
+    """docstring for get_locations"""
+    return db.session.query(models.Location).filter_by(status=status).all()
+
+def get_location(id, status=0):
+    """docstring for get_location"""
+    return db.session.query(models.Category).get(id)
+
 def get_sell_count():
     """docstring for get_sell_count"""
     return db.session.query(models.Sell).count()

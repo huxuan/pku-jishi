@@ -55,6 +55,7 @@
             {% endfor %}
         </div>
     </div>
+    {{ sells_pagination.links|safe }}
 
     <div class="panel panel-success">
         <div class="panel-heading">搜索 {{q}} 相关的求购 </div>
@@ -76,6 +77,7 @@
             {% endfor %}
         </div>
     </div>
+    {{ buys_pagination.links|safe }}
 
 </div>
 {% include 'inc/footer.html' with context %}

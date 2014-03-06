@@ -304,6 +304,7 @@ def sell_free():
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
         record_name='sells',
+        css_framework='foundation'
     )
     return render_template("sell/free.html", **context)
 
@@ -319,6 +320,7 @@ def sell_category_id(id):
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
         record_name='sells',
+        css_framework='foundation'
     )
     return render_template("sell/category.html", **context)
 
@@ -407,6 +409,7 @@ def buy_category_id(id):
     context['pagination'] = Pagination(page=page,
         total=len(context['buys']),
         record_name='buys',
+        css_framework='foundation'
     )
     return render_template("buy/category.html", **context)
 
@@ -474,12 +477,14 @@ def search():
     location_id = int(request.args.get('location_id', 0))
     type_id = int(request.args.get('type_id', 0))
     context = {}
+    context['q'] = q
     if type_id != 2: # not only buy
         context['sells'] = lib.get_sells_q_cid_lid(
             q, category_id, location_id)
         context['sells_pagination'] = Pagination(page=page,
             total=len(context['sells']),
             record_name='sells',
+            css_framework='foundation'
         )
     if type_id != 1: # not only sell
         context['buys'] = lib.get_buys_q_cid_lid(
@@ -487,5 +492,6 @@ def search():
         context['buys_pagination'] = Pagination(page=page,
             total=len(context['buys']),
             record_name='buys',
+            css_framework='foundation'
         )
     return render_template("search.html", **context)

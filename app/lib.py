@@ -244,38 +244,22 @@ def get_sell_by_id(id):
     """docstring for get_sell_by_id"""
     return db.session.query(models.Sell).get(id)
 
-def get_sells(limit=1000, status=0):
+def get_sells(status=0, price=-1, user_id=0, category_id=0, location_id=0,
+        limit=1000):
     """docstring for get_sells"""
     sells = db.session.query(models.Sell)
-    sells = sells.filter_by(status=status)
+    sells = status and sells.filter_by(status=status) or sells
+    sells = price >= 0 and sells.filter_by(price=price) or sells
+    sells = category_id and sells.filter_by(category_id=category_id) or sells
+    sells = location_id and sells.filter_by(location_id=location_id) or sells
     sells = sells.order_by(models.Sell.create_time.desc()).limit(limit)
     return sells.all()
-
-def get_sells_by_category(category, status=0):
-    """docstring for get_sells_by_category"""
-    return db.session.query(models.Sell).\
-        filter_by(category=category, status=status).\
-        order_by(models.Sell.create_time.desc()).all()
-
-def get_sells_by_user(user, status=0):
-    """docstring for get_sells_by_user"""
-    return db.session.query(models.Sell).\
-        filter_by(user=user, status=status).\
-        order_by(models.Sell.create_time.desc()).all()
-
-def get_sells_free(limit=4, status=0):
-    """docstring for get_sells_free"""
-    return db.session.query(models.Sell).filter_by(price=0, status=status).\
-        order_by(models.Sell.create_time.desc()).limit(limit).all()
 
 def get_sells_floors(categories, limit=4, status=0):
     """docstring for get_sells_floors"""
     floors = []
     for category in categories:
-        floor = db.session.query(models.Sell).\
-            filter_by(category=category, status=0).\
-            order_by(models.Sell.create_time.desc())[:limit]
-        floors.append(floor)
+        floors.append(get_sells(category_id=category.id, limit=limit))
     return floors
 
 def get_sells_q_cid_lid(q, category_id=0, location_id=0):

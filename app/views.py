@@ -81,7 +81,7 @@ def before_request():
 def index():
     """docstring for index"""
     context={
-        'sells_free': lib.get_sells_free(limit=4, status=0),
+        'sells_free': lib.get_sells(price=0, limit=4, status=0),
     }
     context['sells_floors'] = lib.get_sells_floors(
         g.categories, limit=4, status=0)
@@ -242,7 +242,7 @@ def user_change_password():
 def user_sell():
     """docstring for user_sell"""
     context = {
-        'sells': lib.get_sells_by_user(g.user, status=0)
+        'sells': lib.get_sells(user_id=g.user.id, status=0)
     }
     return render_template("user/sell.html", **context)
 
@@ -269,7 +269,7 @@ def user_id(id):
     if not context['user'] or context['user'].status > 1:
         flash(MSG_USER_INVALID, MSG_CATEGORY_DANGER)
         return redirect(url_for('index'))
-    context['sells'] = lib.get_sells_by_user(context['user'])
+    context['sells'] = lib.get_sells(user_id=id)
     return render_template("user/index.html", **context)
 
 @app.route('/user/message')
@@ -299,8 +299,12 @@ def user_info_edit():
 def sell_index():
     """docstring for sell_index"""
     page = int(request.args.get('page', 1))
+    status = int(request.args.get('status', 0))
+    location_id = int(request.args.get('location_id', 0))
+    category_id = int(request.args.get('category_id', 0))
     context = {
-        'sells': lib.get_sells()
+        'sells': lib.get_sells(status=status, location_id=location_id,
+            category_id=category_id)
     }
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
@@ -314,7 +318,7 @@ def sell_free():
     """docstring for sell_free"""
     page = int(request.args.get('page', 1))
     context = {
-        'sells': lib.get_sells_free(limit=1000, status=0)
+        'sells': lib.get_sells(price=0, limit=1000, status=0)
     }
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
@@ -330,7 +334,7 @@ def sell_category_id(id):
     context = {
         'category': lib.get_category(id)
     }
-    context['sells'] = lib.get_sells_by_category(context['category'])
+    context['sells'] = lib.get_sells(category_id=id)
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
         record_name='sells',

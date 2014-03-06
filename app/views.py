@@ -251,7 +251,7 @@ def user_sell():
 def user_buy():
     """docstring for user_buy"""
     context = {
-        'buys': lib.get_buys_by_user(g.user),
+        'buys': lib.get_buys(user_id=g.user.id, status=0),
     }
     return render_template("user/buy.html", **context)
 
@@ -421,7 +421,7 @@ def buy_category_id(id):
     context = {
         'category': lib.get_category(id)
     }
-    context['buys'] = lib.get_buys_by_category(context['category'])
+    context['buys'] = lib.get_buys(category_id=id)
     context['pagination'] = Pagination(page=page,
         total=len(context['buys']),
         record_name='buys',

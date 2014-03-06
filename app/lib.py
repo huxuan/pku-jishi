@@ -280,26 +280,20 @@ def get_buy_by_id(id):
     """docstring for get_buy_by_id"""
     return db.session.query(models.Buy).get(id)
 
-def get_buys_by_category(category, status=0):
-    """docstring for get_buys_by_category"""
-    return db.session.query(models.Buy).\
-        filter_by(category=category, status=status).\
-        order_by(models.Buy.create_time.desc()).all()
-
-def get_buys_by_user(user, status=0):
-    """docstring for get_buys_by_user"""
-    return db.session.query(models.Buy).\
-        filter_by(user=user, status=status).\
-        order_by(models.Buy.create_time.desc()).all()
+def get_buys(status=0, user_id=0, category_id=0, location_id=0, limit=1000):
+    """docstring for get_buys"""
+    buys = db.session.query(models.Buy)
+    buys = status and buys.filter_by(status=status) or buys
+    buys = category_id and buys.filter_by(category_id=category_id) or buys
+    buys = location_id and buys.filter_by(location_id=location_id) or buys
+    buys = buys.order_by(models.Buy.create_time.desc()).limit(limit)
+    return buys.all()
 
 def get_buys_floors(categories, limit=4, status=0):
     """docstring for get_buys_floors"""
     floors = []
     for category in categories:
-        floor = db.session.query(models.Buy).\
-            filter_by(category=category, status=0).\
-            order_by(models.Buy.create_time.desc())[:limit]
-        floors.append(floor)
+        floors.append(get_buys(category_id=category_id, limit=limit))
     return floors
 
 def get_buys_q_cid_lid(q, category_id=0, location_id=0):

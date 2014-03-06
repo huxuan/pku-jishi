@@ -54,8 +54,11 @@ MSG_RESEND_CONFIRM_SUCCESS = u'验证邮件发送成功！'
 MSG_RESET_PASSWD_SUCCESS = u'重置密码成功！'
 MSG_RESET_PASSWD_FAIL = u'重置密码失败'
 MSG_SELL_PERMISSION_INVALID = u'您无权修改此售出商品'
-MSG_SELL_ID_INVALID = u'改售出商品无效'
-MSG_SELL_STATUS_INVALID = u'售出商品状态类型无效'
+MSG_SELL_ID_INVALID = u'此售出商品无效'
+MSG_SELL_STATUS_INVALID = u'售出商品状态无效'
+MSG_BUY_PERMISSION_INVALID = u'您无权修改此求购商品'
+MSG_BUY_ID_INVALID = u'此求购商品无效'
+MSG_BUY_STATUS_INVALID = u'求购商品状态无效'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -433,6 +436,22 @@ def buy():
             g.categories, limit=4, status=0)
     }
     return render_template("buy/index.html", **context)
+
+@app.route('/buy/update')
+def buy_update():
+    """docstring for buy_update"""
+    res = {}
+    id = int(request.args.get('id', 0))
+    status = int(request.args.get('status', 0))
+    buy = lib.get_buy_by_id(id)
+    if buy.id != g.user.id:
+        res['error'] = MSG_BUY_PERMISSION_INVALID
+    if not id or not buy:
+        res['error'] = MSG_BUY_ID_INVALID
+    if not status:
+        res['error'] = MSG_BUY_STATUS_INVALID
+    sell.status = status
+    return jsonify(**res)
 
 @app.route('/buy/category/<int:id>')
 def buy_category_id(id):

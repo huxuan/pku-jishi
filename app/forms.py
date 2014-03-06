@@ -89,7 +89,7 @@ MSG_NEW_PASSWD_LENGTH = u'新密码不得少于6个字符'
 MSG_EMAIL_NOT_FOUND = u'该邮箱尚未注册'
 
 DESC_EMAIL = u'*请使用北大邮箱@pku.edu.cn注册'
-DESC_USERNAME = u'*请填写用户名，不少于6个字符'
+DESC_USERNAME = u'*请填写用户名'
 DESC_PASSWD = u'*请设置密码，不少于6位'
 DESC_PASSWD_CONFIRM = u'*请重复上面设置的密码'
 DESC_CAPTCHA = u'*请输入图中显示的单词'

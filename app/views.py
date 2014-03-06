@@ -14,6 +14,7 @@ from flask import redirect
 from flask import url_for
 from flask import flash
 from flask import Markup
+from flask import jsonify
 from flask.ext.login import login_user
 from flask.ext.login import logout_user
 from flask.ext.login import login_required
@@ -52,6 +53,9 @@ MSG_USER_ACTIVATION_FAIL = u'用户激活失败，您可以选择重新发送激
 MSG_RESEND_CONFIRM_SUCCESS = u'验证邮件发送成功！'
 MSG_RESET_PASSWD_SUCCESS = u'重置密码成功！'
 MSG_RESET_PASSWD_FAIL = u'重置密码失败'
+MSG_SELL_PERMISSION_INVALID = u'您无权修改此售出商品'
+MSG_SELL_ID_INVALID = u'改售出商品无效'
+MSG_SELL_STATUS_INVALID = u'售出商品状态类型无效'
 
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
@@ -312,6 +316,22 @@ def sell_index():
         css_framework='foundation',
     )
     return render_template("sell/index.html", **context)
+
+@app.route('/sell/update')
+def sell_update():
+    """docstring for sell_update"""
+    res = {}
+    id = int(request.args.get('id', 0))
+    status = int(request.args.get('status', 0))
+    sell = lib.get_sell_by_id(id)
+    if sell.id != g.user.id:
+        res['error'] = MSG_SELL_PERMISSION_INVALID
+    if not id or not sell:
+        res['error'] = MSG_SELL_ID_INVALID
+    if not status:
+        res['error'] = MSG_SELL_STATUS_INVALID
+    sell.status = status
+    return jsonify(**res)
 
 @app.route('/sell/free')
 def sell_free():

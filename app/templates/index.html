@@ -49,6 +49,8 @@
   </div>
   </div> <!-- ./floor-->
 
+  <a>分类浏览</a> | 
+  <a href="{{ url_for('sell_category_id', id=0) }}">查看所有</a>
   {% for sells_floor in sells_floors %}
   <!-- Floor -->
   <div class="floor panel panel-info">

@@ -34,7 +34,7 @@ class User(db.Model):
         return True
 
     def is_active(self):
-        return self.status <= 1
+        return self.status < 2
 
     def is_anonymous(self):
         return False

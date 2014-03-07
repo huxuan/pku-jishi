@@ -102,7 +102,9 @@
         </tr>
         <tr>
         	<th>发布者</th>
-            <td><a href="{{url_for('user_id', id=sell.user.id) }}">{{ sell.user.name }}</a></td>
+            <td><a href="{{url_for('user_id', id=sell.user.id) }}">{{ sell.user.name }}</a> 
+                <br />
+                点击查看该用户正在卖的所有商品</td>
         </tr>
         <tr>
         	<th>手机号</th>

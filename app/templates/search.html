@@ -24,9 +24,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="btn-group pull-right">
-                <a class="btn btn-default">全部</a>
-                <a class="btn btn-default">北大本校</a>
-                <a class="btn btn-default">深圳研究院</a>
+                {% for g.location in locations: %}
+                <a class="btn btn-default">{{ location.name }}</a>
+                {% endfor %}
             </div>
         </div>
     </div>

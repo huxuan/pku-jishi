@@ -83,25 +83,7 @@ def before_request():
     g.buy_count = lib.get_buy_count()
     g.categories = lib.get_categories(status=0)
     g.locations = lib.get_locations(status=0)
-    g.status = {
-        'user': {
-            '1': u'已认证',
-            '2': u'未认证',
-        },
-        'sell': {
-            '1': u'出售中',
-            '2': u'已下架',
-            '3': u'已预订',
-            '4': u'已售出',
-            '5': u'不出售',
-        },
-        'buy': {
-            '1': u'求购中',
-            '2': u'已下架',
-            '3': u'已购得',
-            '4': u'不求购',
-        },
-    }
+    g.status = lib.STATUS
 
 @app.route('/')
 def index():

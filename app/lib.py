@@ -24,6 +24,35 @@ from app import models
 from app import mail
 from app import db
 
+STATUS = {
+    'user': {
+        '0': u'已认证',
+        '1': u'未认证',
+        '2': u'已封禁',
+    },
+    'sell': {
+        '0': u'出售中',
+        '1': u'已下架',
+        '2': u'已预订',
+        '3': u'已售出',
+        '4': u'不出售',
+    },
+    'buy': {
+        '0': u'求购中',
+        '1': u'已下架',
+        '2': u'已购得',
+        '3': u'不求购',
+    },
+    'category': {
+        '0': u'有效',
+        '1': u'无效',
+    },
+    'location': {
+        '0': u'有效',
+        '1': u'无效',
+    },
+}
+
 def async(f):
     def wrapper(*args, **kwargs):
         thr = Thread(target=f, args=args, kwargs=kwargs)

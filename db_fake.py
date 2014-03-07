@@ -75,8 +75,8 @@ def fake_location_category(order, status):
 def fake_location():
     """docstring for fake_location"""
     for order in xrange(len(LOCATION)):
-        fake_location_category(order, 0)
-        fake_location_category(order, 1)
+        for status in xrange(2):
+            fake_location_category(order, status)
     db.session.commit()
 
 def fake_user_status(user, status):
@@ -100,19 +100,17 @@ def fake_user_status(user, status):
 def fake_user():
     """docstring for fake_user"""
     for user in USER:
-        fake_user_status(user, 0)
-        fake_user_status(user, 1)
-        fake_user_status(user, 2)
+        for status in xrange(3):
+            fake_user_status(user, status)
     db.session.commit()
 
-def fake_sell_status_price(category, location, status, price):
+def fake_sell_status_price(user, category, location, status, price):
     """docstring for fake_sell_status_price"""
-    user_name = USER[random.randint(0, len(USER) - 1)]
-    user = db.session.query(models.User).filter_by(name=user_name).first()
     create_time = datetime.datetime.now()
     valid_time = create_time + datetime.timedelta(random.randint(1, 10))
     title = '-'.join([
-        category.name, location.name, user_name, str(status), str(price)])
+        category.name, location.name, user.name, str(status), str(price)])
+    print 'sell:', title
     s = models.Sell(
         user_id = user.id,
         category_id = category.id,
@@ -133,27 +131,22 @@ def fake_sell_status_price(category, location, status, price):
 
 def fake_sell():
     """docstring for fake_sell"""
-    for category_name in CATEGORY:
-        category = db.session.query(models.Category).filter_by(name=category_name).first()
-        for location_name in LOCATION:
-            location = db.session.query(models.Location).filter_by(name=location_name).first()
-            fake_sell_status_price(category, location, 0, 0)
-            fake_sell_status_price(category, location, 0, random.randint(1, 100))
-            fake_sell_status_price(category, location, 1, 0)
-            fake_sell_status_price(category, location, 1, random.randint(1, 100))
-            fake_sell_status_price(category, location, 2, 0)
-            fake_sell_status_price(category, location, 2, random.randint(1, 100))
+    for category in lib.get_categories(statuses=[0, 1]):
+        for location in lib.get_locations(statuses=[0, 1]):
+            for user in lib.get_users(statuses=[0, 1, 2]):
+                for status in xrange(6):
+                    fake_sell_status_price(user, category, location, status, 0)
+                    fake_sell_status_price(user, category, location, status, random.randint(1, 100))
     db.session.commit()
 
-def fake_buy_status(category, location, status):
+def fake_buy_status(user, category, location, status):
     """docstring for fake_buy_status"""
-    user_name = USER[random.randint(0, len(USER) - 1)]
-    user = db.session.query(models.User).filter_by(name=user_name).first()
     create_time = datetime.datetime.now()
     valid_time = create_time + datetime.timedelta(random.randint(1, 10))
     price_low = random.randint(0, 100)
     price_high = random.randint(price_low, 200)
-    title = '-'.join([category.name, location.name, user_name, str(status)])
+    title = '-'.join([category.name, location.name, user.name, str(status)])
+    print 'buy:', title
     s = models.Buy(
         user_id = user.id,
         category_id = category.id,
@@ -172,13 +165,11 @@ def fake_buy_status(category, location, status):
 
 def fake_buy():
     """docstring for fake_buy"""
-    for category_name in CATEGORY:
-        category = db.session.query(models.Category).filter_by(name=category_name).first()
-        for location_name in LOCATION:
-            location = db.session.query(models.Location).filter_by(name=location_name).first()
-            fake_buy_status(category, location, 0)
-            fake_buy_status(category, location, 1)
-            fake_buy_status(category, location, 2)
+    for category in lib.get_categories(statuses=[0, 1]):
+        for location in lib.get_locations(statuses=[0, 1]):
+            for user in lib.get_users(statuses=[0, 1, 2]):
+                for status in xrange(5):
+                    fake_buy_status(user, category, location, status)
     db.session.commit()
 
 def main():

@@ -46,8 +46,10 @@ MSG_CHANGE_PASSWD_SUCCESS = u'修改密码成功！'
 MSG_FORGET_PASSWD_SUCCESS = u'忘记密码邮件发送成功！'
 MSG_SELL_EDIT_SUCCESS = u'售出商品修改成功！'
 MSG_SELL_EDIT_NO_PERMISSION = u'您无权修改此售出商品'
+MSG_SELL_EDIT_INVALID = u'此售出商品无效'
 MSG_BUY_EDIT_SUCCESS = u'求购商品修改成功！'
 MSG_BUY_EDIT_NO_PERMISSION = u'您无权修改此求购商品'
+MSG_BUY_EDIT_INVALID = u'此求购商品无效'
 MSG_USER_ACTIVATION_SUCCESS = u'用户激活成功！'
 MSG_USER_ACTIVATION_FAIL = u'用户激活失败，您可以选择重新发送激活邮件'
 MSG_RESEND_CONFIRM_SUCCESS = u'验证邮件发送成功！'
@@ -72,7 +74,7 @@ def helloworld():
 @login_manager.user_loader
 def load_user(id):
     """docstring for load_user"""
-    return db.session.query(models.User).get(int(id))
+    return lib.get_user_by_id(int(id))
 
 @app.before_request
 def before_request():
@@ -81,18 +83,19 @@ def before_request():
     g.user_count = lib.get_user_count()
     g.sell_count = lib.get_sell_count()
     g.buy_count = lib.get_buy_count()
-    g.categories = lib.get_categories(status=0)
-    g.locations = lib.get_locations(status=0)
+    g.categories = lib.get_categories()
+    g.locations = lib.get_locations()
     g.status = lib.STATUS
 
 @app.route('/')
 def index():
     """docstring for index"""
+    statuses = request.args.getlist('status') or [0]
     context={
-        'sells_free': lib.get_sells(price=0, limit=4, status=[1]),
+        'sells_free': lib.get_sells(price=0, limit=4, statuses=statuses),
     }
-    context['sells_floors'] = lib.get_sells_floors(
-        g.categories, limit=4, status=[1])
+    context['sells_floors'] = lib.get_sells_floors(g.categories,
+        statuses=statuses)
     return render_template("index.html", **context)
 
 @app.route('/join')
@@ -112,7 +115,7 @@ def user_login():
     }
     if context['form'].validate_on_submit():
         email = context['form'].email.data
-        user = db.session.query(models.User).filter_by(email=email).first()
+        user = lib.get_user_by_email(email)
         remember = context['form'].remember.data
         login_user(user, remember=remember)
         #flash(MSG_LOGIN_SUCCESS, MSG_CATEGORY_SUCCESS)
@@ -162,7 +165,7 @@ def user_resend_confirm_mail():
     }
     if context['form'].validate_on_submit():
         email = context['form'].email.data
-        user = db.session.query(models.User).filter_by(email=email).first()
+        user = lib.get_user_by_email(email)
         token = lib.create_token(user)
         db.session.add(token)
         db.session.commit()
@@ -178,9 +181,9 @@ def user_activation(token):
     """docstring for user_activation"""
     user_id, confirm = lib.activation_token_decode(token)
     if user_id:
-        user = db.session.query(models.User).get(user_id)
+        user = lib.get_user_by_id(user_id)
         if user and user.token.confirm == confirm:
-            user.status = 1
+            user.status = 0
             flash(MSG_USER_ACTIVATION_SUCCESS, MSG_CATEGORY_SUCCESS)
             if user == g.user:
                 return redirect(url_for('user_index'))
@@ -198,7 +201,7 @@ def user_forget_password():
     }
     if context['form'].validate_on_submit():
         email = context['form'].email.data
-        user = db.session.query(models.User).filter_by(email=email).first()
+        user = lib.get_user_by_email(email)
         token = lib.create_token(user)
         db.session.add(token)
         db.session.commit()
@@ -215,7 +218,7 @@ def user_reset_password(token):
     user_id, confirm = lib.password_token_decode(token)
     flag = False
     if user_id:
-        user = db.session.query(models.User).get(user_id)
+        user = lib.get_user_by_id(user_id)
         if user and user.token.confirm == confirm:
             flag = True
     if not flag:
@@ -249,8 +252,9 @@ def user_change_password():
 @login_required
 def user_sell():
     """docstring for user_sell"""
+    statuses = request.args.getlist('status') or [0]
     context = {
-        'sells': lib.get_sells(user_id=g.user.id, status=0)
+        'sells': lib.get_sells(user_id=g.user.id, statuses=statuses)
     }
     return render_template("user/sell.html", **context)
 
@@ -258,8 +262,9 @@ def user_sell():
 @login_required
 def user_buy():
     """docstring for user_buy"""
+    statuses = request.args.getlist('status') or [0]
     context = {
-        'buys': lib.get_buys(user_id=g.user.id, status=0),
+        'buys': lib.get_buys(user_id=g.user.id, statuses=statuses),
     }
     return render_template("user/buy.html", **context)
 
@@ -273,11 +278,12 @@ def user_index():
 def user_id(id):
     """docstring for user_id"""
     context = {}
-    context['user'] = db.session.query(models.User).get(id)
-    if not context['user'] or context['user'].status > 1:
+    context['user'] = lib.get_user_by_id(id)
+    if not context['user'] or context['user'].status < 2:
         flash(MSG_USER_INVALID, MSG_CATEGORY_DANGER)
         return redirect(url_for('index'))
-    context['sells'] = lib.get_sells(user_id=id)
+    statuses = request.args.getlist('status') or [0]
+    context['sells'] = lib.get_sells(user_id=id, statuses=statuses)
     return render_template("user/index.html", **context)
 
 @app.route('/user/message')
@@ -307,12 +313,11 @@ def user_info_edit():
 def sell_index():
     """docstring for sell_index"""
     page = int(request.args.get('page', 1))
-    status = request.args.getlist('status') or []
-    return str(status)
+    statuses = request.args.getlist('status') or [0]
     location_id = int(request.args.get('location_id', 0))
     category_id = int(request.args.get('category_id', 0))
     context = {
-        'sells': lib.get_sells(status=status, location_id=location_id,
+        'sells': lib.get_sells(statuses=statuses, location_id=location_id,
             category_id=category_id)
     }
     context['pagination'] = Pagination(page=page,
@@ -336,14 +341,16 @@ def sell_update():
     if not status:
         res['error'] = MSG_SELL_STATUS_INVALID
     sell.status = status
+    db.session.commit()
     return jsonify(**res)
 
 @app.route('/sell/free')
 def sell_free():
     """docstring for sell_free"""
     page = int(request.args.get('page', 1))
+    statuses = request.args.getlist('status') or [0]
     context = {
-        'sells': lib.get_sells(price=0, limit=1000, status=0)
+        'sells': lib.get_sells(price=0, statuses=statuses)
     }
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
@@ -374,7 +381,7 @@ def sell_id(id):
         'sell': lib.get_sell_by_id(id),
     }
     context['images'] = lib.images_decode(images_sell, context['sell'].images)
-    if context['sell'] and context['sell'].status <= 1:
+    if context['sell'] and context['sell'].status < 5:
         return render_template("sell/detail.html", **context)
     flash(MSG_SELL_INVALID, MSG_CATEGORY_DANGER)
     return redirect(url_for('index'))
@@ -386,6 +393,9 @@ def sell_edit_id(id):
     sell = lib.get_sell_by_id(id)
     if g.user.id != sell.user_id:
         flash(MSG_SELL_EDIT_NO_PERMISSION, MSG_CATEGORY_DANGER)
+        return redirect(url_for('user_sell'))
+    if sell.status > 4:
+        flash(MSG_SELL_EDIT_INVALID, MSG_CATEGORY_DANGER)
         return redirect(url_for('user_sell'))
     context = {
         'form': forms.SellForm(obj=sell),
@@ -433,9 +443,9 @@ def sell_post():
 @app.route('/buy/')
 def buy():
     """docstring for buy"""
+    statuses = request.args.getlist('status') or [0]
     context = {
-        'buys_floors': lib.get_buys_floors(
-            g.categories, limit=4, status=0)
+        'buys_floors': lib.get_buys_floors(g.categories, statuses=statuses)
     }
     return render_template("buy/index.html", **context)
 
@@ -453,6 +463,7 @@ def buy_update():
     if not status:
         res['error'] = MSG_BUY_STATUS_INVALID
     sell.status = status
+    db.session.commit()
     return jsonify(**res)
 
 @app.route('/buy/category/<int:id>')
@@ -476,7 +487,7 @@ def buy_id(id):
     context = {
         'buy': lib.get_buy_by_id(id),
     }
-    if context['buy'] and context['buy'].status == 0:
+    if context['buy'] and context['buy'].status < 4:
         return render_template("buy/detail.html", **context)
     flash(MSG_BUY_INVALID, MSG_CATEGORY_DANGER)
     return redirect(url_for('index'))
@@ -488,6 +499,9 @@ def buy_edit_id(id):
     buy = lib.get_buy_by_id(id)
     if g.user.id != buy.user_id:
         flash(MSG_BUY_EDIT_NO_PERMISSION, MSG_CATEGORY_DANGER)
+        return redirect(url_for('user_buy'))
+    if buy.status > 3:
+        flash(MSG_BUY_EDIT_INVALID, MSG_CATEGORY_DANGER)
         return redirect(url_for('user_buy'))
     context = {
         'form': forms.BuyForm(obj=buy),
@@ -530,22 +544,23 @@ def search():
     """docstring for search"""
     q = request.args.get('q')
     page = int(request.args.get('page', 1))
+    statuses = request.args.getlist('status') or [0]
     category_id = int(request.args.get('category_id', 0))
     location_id = int(request.args.get('location_id', 0))
-    type_id = int(request.args.get('type_id', 0))
+    types = request.args.getlist('type') or ['sell']
     context = {}
     context['q'] = q
-    if type_id != 2: # not only buy
+    if 'sell' in types:
         context['sells'] = lib.get_sells_q_cid_lid(
-            q, category_id, location_id)
+            q, category_id, location_id, statuses=status)
         context['sells_pagination'] = Pagination(page=page,
             total=len(context['sells']),
             record_name='sells',
             css_framework='foundation'
         )
-    if type_id != 1: # not only sell
+    if 'buy' in types:
         context['buys'] = lib.get_buys_q_cid_lid(
-            q, category_id, location_id)
+            q, category_id, location_id, statuses=statuses)
         context['buys_pagination'] = Pagination(page=page,
             total=len(context['buys']),
             record_name='buys',

@@ -58,7 +58,8 @@
             {% else %}
             <div class="item">
             {% endif %}
-                <img src="{{ url_for('static', filename=image) }}" alt="pic">
+            <img src="{{ url_for('static', filename=image) }}" alt="pic">
+            <img src="{{resized_img_src(url_for('static', filename=image), width=400, height=300, mode='crop', quality=95)}}" />
             </div>
             {% endfor %}
             <!-- ENDFOREACH -->

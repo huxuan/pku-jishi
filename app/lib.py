@@ -26,30 +26,30 @@ from app import db
 
 STATUS = {
     'user': {
-        '0': u'已认证',
-        '1': u'未认证',
-        '2': u'已封禁',
+        0: u'已认证',
+        1: u'未认证',
+        2: u'已封禁',
     },
     'sell': {
-        '0': u'出售中',
-        '1': u'已下架',
-        '2': u'已预订',
-        '3': u'已售出',
-        '4': u'不出售',
+        0: u'出售中',
+        1: u'已下架',
+        2: u'已预订',
+        3: u'已售出',
+        4: u'不出售',
     },
     'buy': {
-        '0': u'求购中',
-        '1': u'已下架',
-        '2': u'已购得',
-        '3': u'不求购',
+        0: u'求购中',
+        1: u'已下架',
+        2: u'已购得',
+        3: u'不求购',
     },
     'category': {
-        '0': u'有效',
-        '1': u'无效',
+        0: u'有效',
+        1: u'无效',
     },
     'location': {
-        '0': u'有效',
-        '1': u'无效',
+        0: u'有效',
+        1: u'无效',
     },
 }
 
@@ -166,7 +166,7 @@ def create_sell(user_id, title, price, deprecate, category_id, location_id,
         description = description,
         create_time = datetime.datetime.now(),
         valid_time = datetime.datetime.now() + datetime.timedelta(days=valid),
-        status = 0,
+        status = 1,
         phone = phone,
         qq = qq,
     )
@@ -199,7 +199,7 @@ def create_buy(user_id, title, price_low, price_high, category_id, location_id,
         description = description,
         create_time = datetime.datetime.now(),
         valid_time = datetime.datetime.now() + datetime.timedelta(days=valid),
-        status = 0,
+        status = 1,
         phone = phone,
         qq = qq,
     )
@@ -245,23 +245,19 @@ def get_user_count():
     """docstring for get_user_count"""
     return db.session.query(models.User).count()
 
-def get_locations(status=0):
-    """docstring for get_locations"""
-    return db.session.query(models.Location).filter_by(status=status).all()
-
-def get_categories(status=0):
+def get_categories(status=1):
     """docstring for get_categories"""
     return db.session.query(models.Category).filter_by(status=status).all()
 
-def get_category(id, status=0):
+def get_category(id):
     """docstring for get_category"""
     return db.session.query(models.Category).get(id)
 
-def get_locations(status=0):
+def get_locations(status=1):
     """docstring for get_locations"""
     return db.session.query(models.Location).filter_by(status=status).all()
 
-def get_location(id, status=0):
+def get_location(id):
     """docstring for get_location"""
     return db.session.query(models.Category).get(id)
 
@@ -273,31 +269,31 @@ def get_sell_by_id(id):
     """docstring for get_sell_by_id"""
     return db.session.query(models.Sell).get(id)
 
-def get_sells(status=0, price=-1, user_id=0, category_id=0, location_id=0,
+def get_sells(status=[1], price=-1, user_id=0, category_id=0, location_id=0,
         limit=1000):
     """docstring for get_sells"""
     sells = db.session.query(models.Sell)
-    sells = status and sells.filter_by(status=status) or sells
+    sells = status and sells.filter(models.Sell.status in status) or sells
     sells = price >= 0 and sells.filter_by(price=price) or sells
     sells = category_id and sells.filter_by(category_id=category_id) or sells
     sells = location_id and sells.filter_by(location_id=location_id) or sells
     sells = sells.order_by(models.Sell.create_time.desc()).limit(limit)
     return sells.all()
 
-def get_sells_floors(categories, limit=4, status=0):
+def get_sells_floors(categories, limit=4, status=[1]):
     """docstring for get_sells_floors"""
     floors = []
     for category in categories:
-        floors.append(get_sells(category_id=category.id, limit=limit))
+        floors.append(get_sells(category_id=category.id, limit=limit,
+            status=sttus))
     return floors
 
-def get_sells_q_cid_lid(q, category_id=0, location_id=0):
+def get_sells_q_cid_lid(q, category_id=0, location_id=0, status=[1]):
     """docstring for get_sells_q_cid_lid"""
-    res = models.Sell.query.whoosh_search(q).filter_by(status=0)
-    if category_id != 0:
-        res = res.filter_by(category_id=category_id)
-    if location_id != 0:
-        res = res.filter_by(location_id=location_id)
+    res = models.Sell.query.whoosh_search(q)
+    res = status and res.filter(models.Sell.status in status) or res
+    res = category_id and res.filter_by(category_id=category_id) or res
+    res = location_id and res.filter_by(location_id=location_id) or res
     res = res.order_by(models.Sell.create_time.desc())
     return res.all()
 
@@ -309,28 +305,28 @@ def get_buy_by_id(id):
     """docstring for get_buy_by_id"""
     return db.session.query(models.Buy).get(id)
 
-def get_buys(status=0, user_id=0, category_id=0, location_id=0, limit=1000):
+def get_buys(status=[1], user_id=0, category_id=0, location_id=0, limit=1000):
     """docstring for get_buys"""
     buys = db.session.query(models.Buy)
-    buys = status and buys.filter_by(status=status) or buys
+    buys = status and buys.filter(models.Sell.status in status) or buys
     buys = category_id and buys.filter_by(category_id=category_id) or buys
     buys = location_id and buys.filter_by(location_id=location_id) or buys
     buys = buys.order_by(models.Buy.create_time.desc()).limit(limit)
     return buys.all()
 
-def get_buys_floors(categories, limit=4, status=0):
+def get_buys_floors(categories, limit=4, status=[1]):
     """docstring for get_buys_floors"""
     floors = []
     for category in categories:
-        floors.append(get_buys(category_id=category_id, limit=limit))
+        floors.append(get_buys(category_id=category_id, limit=limit,
+            status=status))
     return floors
 
-def get_buys_q_cid_lid(q, category_id=0, location_id=0):
+def get_buys_q_cid_lid(q, category_id=0, location_id=0, status=[1]):
     """docstring for get_buys_q_cid_lid"""
     res = models.Buy.query.whoosh_search(q).filter_by(status=0)
-    if category_id != 0:
-        res = res.filter_by(category_id=category_id)
-    if location_id != 0:
-        res = res.filter_by(location_id=location_id)
+    res = status  and res.filter(models.Buy.status in status) or res
+    res = category_id and res.filter_by(category_id=category_id) or res
+    res = location_id and res.filter_by(location_id=location_id) or res
     res = res.order_by(models.Buy.create_time.desc())
     return res.all()

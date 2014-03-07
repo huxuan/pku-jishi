@@ -89,10 +89,10 @@ def before_request():
 def index():
     """docstring for index"""
     context={
-        'sells_free': lib.get_sells(price=0, limit=4, status=0),
+        'sells_free': lib.get_sells(price=0, limit=4, status=[1]),
     }
     context['sells_floors'] = lib.get_sells_floors(
-        g.categories, limit=4, status=0)
+        g.categories, limit=4, status=[1])
     return render_template("index.html", **context)
 
 @app.route('/join')
@@ -180,7 +180,7 @@ def user_activation(token):
     if user_id:
         user = db.session.query(models.User).get(user_id)
         if user and user.token.confirm == confirm:
-            user.status = 0
+            user.status = 1
             flash(MSG_USER_ACTIVATION_SUCCESS, MSG_CATEGORY_SUCCESS)
             if user == g.user:
                 return redirect(url_for('user_index'))
@@ -307,7 +307,8 @@ def user_info_edit():
 def sell_index():
     """docstring for sell_index"""
     page = int(request.args.get('page', 1))
-    status = int(request.args.get('status', 0))
+    status = request.args.getlist('status') or []
+    return str(status)
     location_id = int(request.args.get('location_id', 0))
     category_id = int(request.args.get('category_id', 0))
     context = {

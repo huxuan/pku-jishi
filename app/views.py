@@ -20,7 +20,6 @@ from flask.ext.login import logout_user
 from flask.ext.login import login_required
 from flask.ext.login import current_user
 from flask.ext.paginate import Pagination
-from flask.ext.images import Images
 
 from app import app
 from app import db
@@ -30,16 +29,6 @@ from app import models
 from app import login_manager
 from app import images_avatar
 from app import images_sell
-
-
-# For Flask-Image
-#app = Flask(__name__)
-app.secret_key = 'monkey'
-app.debug = True
-app.config['TESTING'] = True
-app.config['SECRET_KEY'] = 'secret secret'
-app.config['IMAGES_PATH'] = ['static']
-images = Images(app)
 
 MSG_CATEGORY_SUCCESS = 'success'
 MSG_CATEGORY_INFO = 'info'

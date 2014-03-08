@@ -13,6 +13,7 @@ from flask.ext.uploads import UploadSet
 from flask.ext.uploads import IMAGES
 from flask.ext.uploads import configure_uploads
 from flask.ext.mail import Mail
+from flask.ext.images import Images
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -25,6 +26,9 @@ login_manager.init_app(app)
 images_avatar = UploadSet('avatar', IMAGES)
 images_sell = UploadSet('sell', IMAGES)
 configure_uploads(app, (images_avatar, images_sell))
+
+app.secret_key = 'monkey'
+images = Images(app)
 
 from app import views
 from app import models

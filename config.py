@@ -31,3 +31,7 @@ MAIL_USE_SSL = True
 MAIL_USERNAME = 'no-reply@pkujishi.com'
 MAIL_PASSWORD = 'pkujishi.com'
 MAIL_DEFAULT_SENDER = 'no-reply@pkujishi.com'
+
+# flask-images
+SECRET_KEY = 'monkey'
+IMAGES_PATH = ['static']

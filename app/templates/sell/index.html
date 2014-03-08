@@ -18,9 +18,10 @@
         <br />
         <div class="col-md-12">
         <div class="btn-group">
-            <a class="btn btn-default">全部</a>
-            <a class="btn btn-default">北大本校</a>
-            <a class="btn btn-default">深圳研究院</a>
+            <a href="{{ url_for('sell_index') }}" class="btn btn-default">全部</a>
+            {% for location in g.locations %}
+            <a href="{{ url_for('sell_index', location=location.id) }}" class="btn btn-default">{{ location.name }}</a>
+            {% endfor %}
         </div>
         </div>
     </div>
@@ -34,8 +35,11 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <a href="{{ url_for('sell_id', id=goods.id) }}">
-                        {% if(goods.thumbnail
-                        <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.name}}.png">
+              {% if(goods.thumbnails != "") : %}
+              <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=128, height=128)}}">
+              {% else: %}
+              <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.name}}.png">
+              {% endif %}
                     </a>
                     <div class="caption">
                         <h3><a href="{{ url_for('sell_id', id=goods.id) }}">{{ goods.title }}</h3> </a>

@@ -15,17 +15,17 @@
 <div class="col-md-9">
     {% include 'shared/category.html' with context %}
 
-    <div class="row">
+     <div class="row">
         <br />
         <div class="col-md-12">
         <div class="btn-group">
-            <a class="btn btn-default">全部</a>
-            <a class="btn btn-default">北大本校</a>
-            <a class="btn btn-default">深圳研究院</a>
+            <a href="{{ url_for('sell_index', category=category.id) }}" class="btn btn-default">全部</a>
+            {% for location in g.locations %}
+            <a href="{{ url_for('sell_index', location=location.id, category=category.id) }}" class="btn btn-default">{{ location.name }}</a>
+            {% endfor %}
         </div>
         </div>
-    </div>
-
+    </div>     
 
     <div class="floor panel panel-info">
         <div class="goods-type col-md-12 panel-heading">

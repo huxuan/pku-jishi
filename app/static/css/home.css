@@ -31,3 +31,6 @@
 .thumbnail {
     border:none!important;
 }
+.goods-div .thumbnail {
+    min-height: 300px;
+}

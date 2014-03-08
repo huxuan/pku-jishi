@@ -392,6 +392,8 @@ def sell_id(id):
         'sell': lib.get_sell_by_id(id),
     }
     context['images'] = lib.images_decode(images_sell, context['sell'].images)
+    context['sell'].phone = lib.number_encode(context['sell'].phone)
+    context['sell'].qq = lib.number_encode(context['sell'].qq)
     if context['sell'] and context['sell'].status < 5:
         return render_template("sell/detail.html", **context)
     flash(MSG_SELL_INVALID, MSG_CATEGORY_DANGER)

@@ -20,18 +20,22 @@
     $(function() {
         $(".btn-op").click(function(){
             var target = $(this).attr("name");
-            $.ajax({
-                type: "GET",
-                url: target,
-                success: function(data) {
-                    if(data.error) {
-                       alert(data.error);
-                    } else {
-                       alert('修改状态成功，请刷新查看');
-                    }
-                },
-                dataType: 'json'
-            });
+            var desc = $(this).attr("desc");
+            //if(confirm(desc)) {
+                $.ajax({
+                    type: "GET",
+                    url: target,
+                    success: function(data) {
+                        if(data.error) {
+                            alert(data.error);
+                            } else {
+                            alert('修改状态成功.');
+                            location.reload(); 
+                        }
+                    },
+                    dataType: 'json'
+                });
+            //}
         });
     })
 </script>
@@ -75,7 +79,7 @@
                 {% if goods.status == 0: %}
                 <!-- 正在出售  --!>
                 <a name="{{url_for('sell_update', id=goods.id, status=2)}}" class="btn btn-primary btn-op">已经预订</a>
-                <a name="{{url_for('sell_update', id=goods.id, status=1)}}" class="btn btn-primary btn-op">确认售出</a>
+                <a name="{{url_for('sell_update', id=goods.id, status=1)}}" class="btn btn-primary btn-op" data-toggle="tooltip" data-placement="top" title="商品状态改为确认售出后，该商品将被删除">确认售出</a>
                 <a name="{{url_for('sell_update', id=goods.id, status=4)}}" class="btn btn-default btn-op">放弃出售</a>			
                 {% elif goods.status == 1: %}
                 <!-- 已经下架 --!>

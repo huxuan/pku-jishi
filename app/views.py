@@ -469,13 +469,13 @@ def buy_update():
     id = int(request.args.get('id', 0))
     status = int(request.args.get('status', 0))
     buy = lib.get_buy_by_id(id)
-    if buy.id != g.user.id:
+    if buy.user.id != g.user.id:
         res['error'] = MSG_BUY_PERMISSION_INVALID
     if not id or not buy:
         res['error'] = MSG_BUY_ID_INVALID
     if not status:
         res['error'] = MSG_BUY_STATUS_INVALID
-    sell.status = status
+    buy.status = status
     db.session.commit()
     return jsonify(**res)
 

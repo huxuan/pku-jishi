@@ -345,7 +345,7 @@ def sell_update():
     id = int(request.args.get('id', 0))
     status = int(request.args.get('status', 0))
     sell = lib.get_sell_by_id(id)
-    if sell.id != g.user.id:
+    if sell.user.id != g.user.id:
         res['error'] = MSG_SELL_PERMISSION_INVALID
     if not id or not sell:
         res['error'] = MSG_SELL_ID_INVALID

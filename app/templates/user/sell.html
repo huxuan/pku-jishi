@@ -16,56 +16,80 @@
 {% endblock %}
 
 {% block custom_script %}
+<script>
+    $(function() {
+        $(".btn-op").click(function(){
+            var target = $(this).attr("name");
+            $.ajax({
+                type: "GET",
+                url: target,
+                success: function(data) {
+                    if(data.error) {
+                       alert(data.error);
+                    } else {
+                       alert('修改状态成功，请刷新查看');
+                    }
+                },
+                dataType: 'json'
+            });
+        });
+    })
+</script>
 {% endblock %}
 
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
-<div class="row">
-<div class="col-md-12">
-<ul class="nav nav-pills">
-  <li class="active"><a href="{{ url_for('user_sell') }}">我发布的商品</a></li>
-  <li><a href="{{ url_for('user_buy') }}">我求购的商品</a></li>
-  <!--<li><a href="{{ url_for('user_message') }}">我的消息</a></li>-->
-  <li><a href="{{ url_for('user_info') }}">我的资料</a></li>
-</ul>
-</div>
-</div>
-<div id="goods-div">
-    {% for goods in sells %}
-	<!-- FOREACH GOODS -->
-	<div class="row goods-row">
-		<div class="col-md-2">
-            <a href="{{url_for('sell_id', id=goods.id)}}">
-              {% if(goods.thumbnails != "") : %}
-              <img class="goods-img" src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=120, height=120)}}">
-              {% else: %}
-            <img class="goods-img" src="{{url_for('static', filename='images/small')}}/{{goods.category.name}}.png" width=120 height=120>
-              {% endif %}
-            </a>
-		</div>
-		<div class="col-md-10">
-            <h3 class="goods-title">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-pills">
+                <li class="active"><a href="{{ url_for('user_sell') }}">我发布的商品</a></li>
+                <li><a href="{{ url_for('user_buy') }}">我求购的商品</a></li>
+                <!--<li><a href="{{ url_for('user_message') }}">我的消息</a></li>-->
+                <li><a href="{{ url_for('user_info') }}">我的资料</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="goods-div">
+        {% for goods in sells %}
+        <!-- FOREACH GOODS -->
+        <div class="row goods-row">
+            <div class="col-md-2">
                 <a href="{{url_for('sell_id', id=goods.id)}}">
-                    {{goods.title}}
+                    {% if(goods.thumbnails != "") : %}
+                    <img class="goods-img" src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=120, height=120)}}">
+                    {% else: %}
+                    <img class="goods-img" src="{{url_for('static', filename='images/small')}}/{{goods.category.name}}.png" width=120 height=120>
+                    {% endif %}
                 </a>
-            </h3>
-            <p class="goods-status-{{goods.status}}">状态：{{ g.status['sell'][goods.status] }}</p>
-            <p class="goods-time">发布时间: {{goods.create_time}}</p>
-            <a href="{{url_for('sell_edit_id', id=goods.id)}}" class="btn btn-info">修改信息</a>
-            {% if goods.status == 0: %}
-				<a href="" class="btn btn-primary">已经预订</a>
-				<a href="" class="btn btn-primary">确认售出</a>
-				<a href="" class="btn btn-default">放弃出售</a>			
-            {% elif goods.status == 1: %}
-				<a href="" class="btn btn-primary">重新求购</a>
-            {% endif %}
-		</div>
-	</div>
-	<hr />
-	<!-- ENDFOREACH -->
-    {% endfor %}
-</div>
+            </div>
+            <div class="col-md-10">
+                <h3 class="goods-title">
+                    <a href="{{url_for('sell_id', id=goods.id)}}">
+                        {{goods.title}}
+                    </a>
+                </h3>
+                <p class="goods-status-{{goods.status}}">状态：{{ g.status['sell'][goods.status] }}</p>
+                <p class="goods-time">发布时间: {{goods.create_time}}</p>
+                <a href="{{url_for('sell_edit_id', id=goods.id)}}" class="btn btn-info">修改信息</a>
+                {% if goods.status == 0: %}
+                <!-- 正在出售  --!>
+                <a name="{{url_for('sell_update', id=goods.id, status=2)}}" class="btn btn-primary btn-op">已经预订</a>
+                <a name="{{url_for('sell_update', id=goods.id, status=1)}}" class="btn btn-primary btn-op">确认售出</a>
+                <a name="{{url_for('sell_update', id=goods.id, status=4)}}" class="btn btn-default btn-op">放弃出售</a>			
+                {% elif goods.status == 1: %}
+                <!-- 已经下架 --!>
+                <a name="{{url_for('sell_update', id=goods.id, status=0, day=7)}}" class="btn btn-primary btn-op">重新出售</a>
+                {% elif goods.status == 2: %}
+                <!-- 已经预订 --!>
+                <a name="{{url_for('sell_update', id=goods.id, status=0)}}" class="btn btn-primary btn-op">解除预订</a>
+                {% endif %}
+            </div>
+        </div>
+        <hr />
+        <!-- ENDFOREACH -->
+        {% endfor %}
+    </div>
 </div>
 {% include 'inc/footer.html' with context %}
 {% endblock %}

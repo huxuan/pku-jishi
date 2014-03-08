@@ -4,153 +4,195 @@
 {% block title %}发布商品{% endblock %}
 
 {% block custom_css %}
+<style>
+    .thumb {
+        height: 75px;
+        border: 1px solid #000;
+        margin: 10px 5px 0 0;
+    }
+</style>
 {% endblock %}
 
 {% block custom_script %}
+<script>
+    $(function() {
+        function handleFileSelect(evt) {
+            var files = evt.target.files; // FileList object
+            // Loop through the FileList and render image files as thumbnails.
+            for (var i = 0, f; f = files[i]; i++) {
+                // Only process image files.
+                if (!f.type.match('image.*')) {
+                    continue;
+                }
+                var reader = new FileReader();
+                // Closure to capture the file information.
+                reader.onload =
+                (function(theFile) {
+                    return function(e) {
+                        // Render thumbnail.
+                        var span = document.createElement('span'); 
+                            span.innerHTML = ['<img class="thumb" src="', e.target.result, '" title="', 
+                            escape(theFile.name), '"/>'].join(''); 
+                        document.getElementById('list').insertBefore(span, null); 
+                    };
+                })(f);
+
+                // Read in the image file as a data URL.
+                reader.readAsDataURL(f);
+            }
+        }
+        document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    })
+</script>
 {% endblock %}
 
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
-<div class="row">
-<legend>发布商品</legend>
-<form role="form" class="form-horizontal" method="post" enctype='multipart/form-data' action="">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-        {{ form.title.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            {{ form.title(class='form-control') }}
-            {{ render_field_error(form.title) }}
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 请输入发布商品的名称
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        {{ form.images.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            {{ form.images(multiple='') }}
-            {{ render_field_error(form.images) }}
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 可选图片（推荐图片比例4:3)
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        {{ form.price.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            <div class="input-group">
-                <span class="input-group-addon">¥</span>
-                {{ form.price(class='form-control') }}
-                <span class="input-group-addon">.00</span>
+    <div class="row">
+        <legend>发布商品</legend>
+        <form role="form" class="form-horizontal" method="post" enctype='multipart/form-data' action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.title.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    {{ form.title(class='form-control') }}
+                    {{ render_field_error(form.title) }}
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 请输入发布商品的名称
+                    </p>
+                </div>
             </div>
-            {{ render_field_error(form.price) }}
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 请输入发布商品的价格
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        {{ form.deprecate.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            {{ form.deprecate(class='form-control') }}
-            {{ render_field_error(form.deprecate) }}
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 请选择商品的新旧程度
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        {{ form.category_id.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            {{ form.category_id(class='form-control') }}
-            {{ render_field_error(form.category_id) }}
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 请选择发布商品的分类
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        {{ form.location_id.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            {{ form.location_id(class='form-control') }}
-            {{ render_field_error(form.location_id) }}
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 请选择商品的交易地点
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        {{ form.description.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            {{ form.description(class='form-control', rows='5') }}
-            {{ render_field_error(form.description) }}
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 请简单描述下商品
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        {{ form.phone.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            {{ form.phone(class='form-control') }}
-            {{ render_field_error(form.phone) }}
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 请填写联系您的手机或电话
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        {{ form.qq.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            {{ form.qq(class='form-control') }}
-            {{ render_field_error(form.qq) }}
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 请填写联系您的QQ
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        {{ form.valid.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-6">
-            <div class="input-group">
-                {{ form.valid(class='form-control') }}
-                <span class="input-group-addon">
-                    {{ form.valid.description }}
-                </span>
+            <div class="form-group">
+                {{ form.images.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    {{ form.images(multiple='', id='files') }}
+                    {{ render_field_error(form.images) }}
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 可选多张图片（推荐图片比例4:3)
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-4">
-            <p class="text-info">
-                * 请选择商品有效时间（到期下架）
-            </p>
-        </div>
+            <div class="row form-group">
+                <div class="col-md-2"></div>
+                <div id="list" class="col-md-10">
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.price.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">¥</span>
+                        {{ form.price(class='form-control') }}
+                        <span class="input-group-addon">.00</span>
+                    </div>
+                    {{ render_field_error(form.price) }}
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 请输入发布商品的价格
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.deprecate.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    {{ form.deprecate(class='form-control') }}
+                    {{ render_field_error(form.deprecate) }}
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 请选择商品的新旧程度
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.category_id.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    {{ form.category_id(class='form-control') }}
+                    {{ render_field_error(form.category_id) }}
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 请选择发布商品的分类
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.location_id.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    {{ form.location_id(class='form-control') }}
+                    {{ render_field_error(form.location_id) }}
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 请选择商品的交易地点
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.description.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    {{ form.description(class='form-control', rows='5') }}
+                    {{ render_field_error(form.description) }}
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 请简单描述下商品
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.phone.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    {{ form.phone(class='form-control') }}
+                    {{ render_field_error(form.phone) }}
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 请填写联系您的手机或电话
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.qq.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    {{ form.qq(class='form-control') }}
+                    {{ render_field_error(form.qq) }}
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 请填写联系您的QQ
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.valid.label(class='col-sm-2 control-label') }}
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        {{ form.valid(class='form-control') }}
+                        <span class="input-group-addon">
+                            {{ form.valid.description }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <p class="text-info">
+                    * 请选择商品有效时间（到期下架）
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <button type="submit" class="btn btn-primary">确认发布</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-6">
-            <button type="submit" class="btn btn-primary">确认发布</button>
-        </div>
-    </div>
-</form>
-</div>
 </div>
 </div> <!-- ./container -->
 {% include 'inc/footer.html' with context %}

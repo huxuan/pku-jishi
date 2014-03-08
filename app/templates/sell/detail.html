@@ -90,28 +90,37 @@
     <table class="table table-bordered">
         <tr>
         	<th class="col-md-3">价格</th>
-            <td>{{ sell.price }}</td>
+            <td><strong>{{ sell.price }} 元</strong></td>
         </tr>
         <tr>
-        	<th>交易地点</th>
+        	<th>状态</th>
+            <td>
+                <strong>{{ g.status['sell'][sell.status] }}</strong>
+                {% if sell.status == 2: %}
+                <red>(该产品已经被预定，请暂时不要联系卖家)<red>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>交易地点</th>
             <td>{{ sell.location.name }}</td>
         </tr>
         <tr>
-        	<th>发布时间</th>
+            <th>发布时间</th>
             <td>{{ sell.create_time }}</td>
         </tr>
         <tr>
-        	<th>发布者</th>
+            <th>发布者</th>
             <td><a href="{{url_for('user_id', id=sell.user.id) }}">{{ sell.user.name }}</a> 
                 <br />
                 点击查看该用户正在卖的所有商品</td>
         </tr>
         <tr>
-        	<th>手机号</th>
+            <th>手机号</th>
             <td>{{ sell.phone }}</td>
         </tr>
         <tr>
-        	<th>QQ</th>
+            <th>QQ</th>
             <td>{{ sell.qq }}</td>
         </tr>
         <tr>
@@ -119,15 +128,21 @@
             <td>{{ sell.description }}</td>
         </tr>
     </table>
-  </div>
+</div>
   </div>
   </div> <!-- ./floor-->
 
+  <div class="row">
+      <div class="col-md-12">
+          {% include 'shared/comment.html' with context %}
+      </div>
+  </div>
+
 </div><!-- ./col-md-9 -->
 <div class="col-md-3">
-  <a href="{{ url_for('sell_post') }}" class="btn btn-primary btn-lg">我要发布</a>
-  <br /><br />
-  {% include 'shared/board.html' with context %}
+    <a href="{{ url_for('sell_post') }}" class="btn btn-primary btn-lg">我要发布</a>
+    <br /><br />
+    {% include 'shared/board.html' with context %}
 </div><!-- ./col-md-3 -->
 </div>
 {% include 'inc/footer.html' with context %}

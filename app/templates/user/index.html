@@ -45,7 +45,11 @@
             <div class="row goods-row">
                 <div class="col-md-2">
                     <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}">
-                        <img class="goods-img" src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
+              {% if(goods.thumbnails != "") : %}
+              <img class="goods-img" src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=128, height=128)}}">
+              {% else: %}
+              <img class="goods-img" src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
+              {% endif %}
                     </a>
                 </div>
                 <div class="col-md-10">

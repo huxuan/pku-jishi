@@ -279,7 +279,7 @@ def user_id(id):
     """docstring for user_id"""
     context = {}
     context['user'] = lib.get_user_by_id(id)
-    if not context['user'] or context['user'].status < 2:
+    if not context['user'] or context['user'].status > 1:
         flash(MSG_USER_INVALID, MSG_CATEGORY_DANGER)
         return redirect(url_for('index'))
     statuses = request.args.getlist('status') or [0]

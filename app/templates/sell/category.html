@@ -40,7 +40,7 @@
               {% if(goods.thumbnails != "") : %}
               <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=128, height=128)}}">
               {% else: %}
-              <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.name}}.png">
+              <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
               {% endif %}
                     </a>
                     <div class="caption">

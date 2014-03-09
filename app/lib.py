@@ -345,7 +345,7 @@ def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000):
 def get_buys_floors(categories, limit=4, **kwargs):
     """docstring for get_buys_floors"""
     floors = [
-        get_buys(categroy_id=category.id, limit=limit, **kwargs)
+        get_buys(category_id=category.id, limit=limit, **kwargs)
         for category in categories
     ]
     return floors

@@ -18,6 +18,7 @@ from threading import Thread
 from flask import g
 from flask import render_template
 from flask.ext.mail import Message
+from sqlalchemy import or_
 
 from app import app
 from app import models
@@ -301,9 +302,13 @@ def get_sells(statuses=[0], price=-1, user_id=0, category_id=0, location_id=0,
     sells = db.session.query(models.Sell)
     sells = statuses and sells.filter(models.Sell.status.in_(statuses)) or sells
     sells = price >= 0 and sells.filter_by(price=price) or sells
-    sells = user_id and sells.filter_by(user_id=user_id) or sells
-    sells = category_id and sells.filter_by(category_id=category_id) or sells
-    sells = location_id and sells.filter_by(location_id=location_id) or sells
+    sells = user_id and sells.filter_by(user_id=user_id) or \
+        sells.filter(or_(models.Sell.user.has(status=0),
+            models.Sell.user.has(status=1)))
+    sells = category_id and sells.filter_by(category_id=category_id) or \
+        sells.filter(models.Sell.category.has(status=0))
+    sells = location_id and sells.filter_by(location_id=location_id) or \
+        sells.filter(models.Sell.location.has(status=0))
     sells = sells.order_by(models.Sell.create_time.desc()).limit(limit)
     return sells.all()
 
@@ -318,9 +323,13 @@ def get_sells_floors(categories, limit=4, **kwargs):
 def get_sells_q_cid_lid(q, category_id=0, location_id=0, statuses=[0]):
     """docstring for get_sells_q_cid_lid"""
     res = models.Sell.query.whoosh_search(q)
+    res = res.filter(or_(models.Sell.user.has(status=0),
+        models.Sell.user.has(status=1)))
     res = statuses and res.filter(models.Sell.status.in_(statuses)) or res
-    res = category_id and res.filter_by(category_id=category_id) or res
-    res = location_id and res.filter_by(location_id=location_id) or res
+    res = category_id and res.filter_by(category_id=category_id) or \
+            res.filter(models.Sell.category.has(status=0))
+    res = location_id and res.filter_by(location_id=location_id) or \
+            res.filter(models.Sell.location.has(status=0))
     res = res.order_by(models.Sell.create_time.desc())
     return res.all()
 
@@ -336,9 +345,13 @@ def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000):
     """docstring for get_buys"""
     buys = db.session.query(models.Buy)
     buys = statuses and buys.filter(models.Sell.status.in_(statuses)) or buys
-    buys = user_id and buys.filter_by(user_id=user_id) or buys
-    buys = category_id and buys.filter_by(category_id=category_id) or buys
-    buys = location_id and buys.filter_by(location_id=location_id) or buys
+    buys = user_id and buys.filter_by(user_id=user_id) or \
+        buys.filter(or_(models.Buy.user.has(status=0),
+            models.Buy.user.has(status=1)))
+    buys = category_id and buys.filter_by(category_id=category_id) or \
+        buys.filter(models.Buy.cateogry.has(status=0))
+    buys = location_id and buys.filter_by(location_id=location_id) or \
+        buys.filter(models.Buy.location.has(status=0))
     buys = buys.order_by(models.Buy.create_time.desc()).limit(limit)
     return buys.all()
 
@@ -353,8 +366,12 @@ def get_buys_floors(categories, limit=4, **kwargs):
 def get_buys_q_cid_lid(q, category_id=0, location_id=0, statuses=[0]):
     """docstring for get_buys_q_cid_lid"""
     res = models.Buy.query.whoosh_search(q)
-    res = statuses  and res.filter(models.Buy.status.in_(statuses)) or res
-    res = category_id and res.filter_by(category_id=category_id) or res
-    res = location_id and res.filter_by(location_id=location_id) or res
+    res = res.filter(or_(models.Buy.user.has(status=0),
+        models.Buy.user.has(status=1)))
+    res = statuses and res.filter(models.Buy.status.in_(statuses)) or res
+    res = category_id and res.filter_by(category_id=category_id) or \
+        res.filter(models.Buy.category.has(status=0))
+    res = location_id and res.filter_by(location_id=location_id) or \
+        res.filter(models.Buy.location.has(status=0))
     res = res.order_by(models.Buy.create_time.desc())
     return res.all()

@@ -359,21 +359,6 @@ def sell_free():
     )
     return render_template("sell/free.html", **context)
 
-@app.route('/sell/category/<int:id>')
-def sell_category_id(id):
-    """docstring for sell_category_id"""
-    page = int(request.args.get('page', 1))
-    context = {
-        'category': lib.get_category(id)
-    }
-    context['sells'] = lib.get_sells(category_id=id)
-    context['pagination'] = Pagination(page=page,
-        total=len(context['sells']),
-        record_name='sells',
-        css_framework='foundation'
-    )
-    return render_template("sell/category.html", **context)
-
 @app.route('/sell/detail/<int:id>')
 def sell_id(id):
     """docstring for sell_id"""

@@ -553,12 +553,12 @@ def search():
     statuses = request.args.getlist('status') or [0]
     category_id = int(request.args.get('category_id', 0))
     location_id = int(request.args.get('location_id', 0))
-    types = request.args.getlist('type') or ['sell']
+    types = request.args.getlist('type') or ['sell', 'buy']
     context = {}
     context['q'] = q
     if 'sell' in types:
         context['sells'] = lib.get_sells_q_cid_lid(
-            q, category_id, location_id, statuses=status)
+            q, category_id, location_id, statuses=statuses)
         context['sells_pagination'] = Pagination(page=page,
             total=len(context['sells']),
             record_name='sells',

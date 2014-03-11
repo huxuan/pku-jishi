@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="btn-group pull-right">
-                {% for g.location in locations: %}
+                {% for location in g.locations %}
                 <a class="btn btn-default">{{ location.name }}</a>
                 {% endfor %}
             </div>

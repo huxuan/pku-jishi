@@ -344,7 +344,7 @@ def get_buy_by_id(id):
 def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000):
     """docstring for get_buys"""
     buys = db.session.query(models.Buy)
-    buys = statuses and buys.filter(models.Sell.status.in_(statuses)) or buys
+    buys = statuses and buys.filter(models.Buy.status.in_(statuses)) or buys
     buys = user_id and buys.filter_by(user_id=user_id) or \
         buys.filter(or_(models.Buy.user.has(status=0),
             models.Buy.user.has(status=1)))

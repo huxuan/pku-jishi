@@ -391,7 +391,8 @@ def sell_edit_id(id):
     if context['form'].validate_on_submit():
         sell = lib.update_sell_from_form(sell, context['form'])
         images_files = request.files.getlist('images')
-        sell.images = lib.images_encode(images_sell, sell.id, images_files)
+        sell.images, sell.thumbnails = lib.images_encode(
+            images_sell, sell.id, images_files)
         db.session.commit()
         flash(MSG_SELL_EDIT_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('sell_id', id=sell.id))

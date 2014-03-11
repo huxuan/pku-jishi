@@ -349,7 +349,7 @@ def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000):
         buys.filter(or_(models.Buy.user.has(status=0),
             models.Buy.user.has(status=1)))
     buys = category_id and buys.filter_by(category_id=category_id) or \
-        buys.filter(models.Buy.cateogry.has(status=0))
+        buys.filter(models.Buy.category.has(status=0))
     buys = location_id and buys.filter_by(location_id=location_id) or \
         buys.filter(models.Buy.location.has(status=0))
     buys = buys.order_by(models.Buy.create_time.desc()).limit(limit)

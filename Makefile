@@ -7,3 +7,4 @@ clean:
 	find . -name '*.swp' -print0 | xargs -0 rm -f
 depclean: clean
 	-@rm -rf whoosh
+	-@rm -rf app/static/uploads

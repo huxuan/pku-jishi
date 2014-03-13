@@ -18,7 +18,7 @@
         <br />
         <div class="col-md-12">
         <div class="btn-group">
-            <a href="{{ url_for('buy_index', location_id=0, category_id=category_id) }}" class="btn btn-default">全部</a>
+            <a href="{{ url_for('buy_index', category_id=category_id) }}" class="btn btn-default">全部</a>
             {% for location in g.locations %}
             <a href="{{ url_for('buy_index', location_id=location.id, category_id=category_id) }}" class="btn btn-default">{{ location.name }}</a>
             {% endfor %}

@@ -433,29 +433,19 @@ def sell_post():
         return redirect(url_for('user_sell'))
     return render_template("sell/post.html", **context)
 
-# @app.route('/buy/')
-# def buy():
-#     """docstring for buy"""
-#     statuses = request.args.getlist('status') or [0]
-#     context = {
-#         'buys_floors': lib.get_buys_floors(g.categories, statuses=statuses)
-#     }
-#     return render_template("buy/index.html", **context)
-
 @app.route('/buy/')
 @app.route('/buy/index')
 def buy_index():
     """docstring for buy_index"""
     page = int(request.args.get('page', 1))
     statuses = request.args.getlist('status') or [0]
-    location_id = int(request.args.get('location_id', 0))
-    category_id = int(request.args.get('category_id', 0))
     context = {
-        'buys': lib.get_buys(statuses=statuses, location_id=location_id,
-            category_id=category_id),
-        'location_id': location_id,
-        'category_id': category_id
+        'location_id': int(request.args.get('location_id', 0)),
+        'category_id': int(request.args.get('category_id', 0)),
     }
+    context['buys'] = lib.get_buys(statuses=statuses,
+            location_id=context['location_id'],
+            category_id=context['category_id'])
     context['pagination'] = Pagination(page=page,
         total=len(context['buys']),
         record_name='buys',

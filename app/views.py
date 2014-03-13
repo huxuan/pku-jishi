@@ -352,8 +352,12 @@ def sell_free():
     page = int(request.args.get('page', 1))
     statuses = request.args.getlist('status') or [0]
     context = {
-        'sells': lib.get_sells(price=0, statuses=statuses)
+        'location_id': int(request.args.get('location_id', 0)),
+        'category_id': int(request.args.get('category_id', 0)),
     }
+    context['sells'] = lib.get_sells(price=0, statuses=statuses,
+        location_id=context['location_id'],
+        category_id=context['category_id'])
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
         record_name='sells',

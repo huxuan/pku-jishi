@@ -470,21 +470,6 @@ def buy_update():
     db.session.commit()
     return jsonify(**res)
 
-@app.route('/buy/category/<int:id>')
-def buy_category_id(id):
-    """docstring for buy_category_id"""
-    page = int(request.args.get('page', 1))
-    context = {
-        'category': lib.get_category(id)
-    }
-    context['buys'] = lib.get_buys(category_id=id)
-    context['pagination'] = Pagination(page=page,
-        total=len(context['buys']),
-        record_name='buys',
-        css_framework='foundation'
-    )
-    return render_template("buy/category.html", **context)
-
 @app.route('/buy/detail/<int:id>')
 def buy_id(id):
     """docstring for buy_id"""

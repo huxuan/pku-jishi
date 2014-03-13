@@ -318,7 +318,9 @@ def sell_index():
     category_id = int(request.args.get('category_id', 0))
     context = {
         'sells': lib.get_sells(statuses=statuses, location_id=location_id,
-            category_id=category_id)
+            category_id=category_id),
+        'category_id': category_id,
+        'location_id': location_id
     }
     context['pagination'] = Pagination(page=page,
         total=len(context['sells']),
@@ -447,7 +449,9 @@ def buy_index():
     category_id = int(request.args.get('category_id', 0))
     context = {
         'buys': lib.get_buys(statuses=statuses, location_id=location_id,
-            category_id=category_id)
+            category_id=category_id),
+        'location_id': location_id,
+        'category_id': category_id
     }
     context['pagination'] = Pagination(page=page,
         total=len(context['buys']),

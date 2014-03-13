@@ -1,16 +1,9 @@
 {% extends "layout/default.html" %}
 
-{% block title %}求购{% endblock %}
+{% block title %}求购列表{% endblock %}
 
 {% block custom_css %}
 <link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
-<style type="text/css">
-.goods-status-1 { color: green; font-weight: bold;}
-.goods-status-2 { color: grey; font-weight: bold;}
-.goods-title {font-size: 1.2em; font-weight: bold; line-height: 1; }
-.goods-time { color: grey; font-size: 0.8em;}
-.caption p, .caption span {font-size: 1.2em; }
-</style>
 {% endblock %}
 
 {% block custom_script %}
@@ -20,54 +13,61 @@
 {% include 'inc/header.html' with context %}
 <div class="container">
 <div class="col-md-9">
-  {% include 'shared/bcategory.html' with context %}
-  {% for buys_floor in buys_floors %}
-  <div class="floor panel panel-success">
-    <div class="goods-type col-md-12 panel-heading">
-      <span class="pull-left">{{ loop.index }}F {{g.categories[loop.index-1].name}}</span>
-      <span class="more-category"></span>
-      <span class="pull-right"><a href="{{ url_for('buy_category_id', id=g.categories[loop.index-1].id) }}">查看更多</a></span>
-      <br />
+    {% include 'shared/bcategory.html' with context %}
+    <div class="row">
+        <br />
+        <div class="col-md-12">
+        <div class="btn-group">
+            <a href="{{ url_for('buy_index', location_id=0, category_id=0) }}" class="btn btn-default">全部</a>
+            {% for location in g.locations %}
+            <a href="{{ url_for('buy_index', location_id=location.id, category_id=category_id) }}" class="btn btn-default">{{ location.name }}</a>
+            {% endfor %}
+        </div>
+        </div>
     </div>
-  <div class="goods-div panel-body">
-	{% for goods in buys_floor %}
-	<div class="col-md-12">
-      <div>
-        <div class="caption">
-        <h3><a href="{{ url_for('buy_id', id=goods.id) }}" >{{ goods.title }}</a></h3>
-        <p>
-          <span class="location">{{ goods.location.name }}</span>
-          <span class="price">
-              出价范围: {{goods.price_low}} - 
-              {{goods.price_high}}
-          </span>
-          </p>
-          <p class="description">
-          {{goods.description}}
-          </p>
-          <p class="contact">
-          <span>
-              QQ: {{goods.qq}}
-          </span> | 
-          <span>
-              手机: {{goods.phone}}
-          </span>
-          </p>
-          <p class="time">
-              创建时间: {{goods.create_time }}
-          </p>
-      </div>
-  </div>
-  <hr />
-  </div>
-  {% endfor %}
-  </div>
-  </div> <!-- ./floor-->
-  {% endfor %}
-
+    <div class="floor panel panel-info">
+        <div class="goods-type col-md-12 panel-heading">
+            <span class="pull-left">全部商品</span>
+            <br />
+        </div>
+        <div class="goods-div panel-body">
+            {% for goods in buys %}
+            <div class="col-md-12">
+                <div>
+                    <div class="caption">
+                        <h3><a href="{{ url_for('buy_id', id=goods.id) }}" >{{ goods.title }}</a></h3>
+                        <p>
+                        <span class="location">{{ goods.location.name }}</span>
+                        <span class="price">
+                            出价范围: {{goods.price_low}} - 
+                            {{goods.price_high}}
+                        </span>
+                        </p>
+                        <p class="description">
+                        {{goods.description}}
+                        </p>    
+                        <p class="contact">
+                        <span>
+                            QQ: {{goods.qq}}
+                        </span> | 
+                        <span>
+                            手机: {{goods.phone}}
+                        </span>
+                        </p>
+                        <p class="time">
+                        创建时间: {{goods.create_time }}
+                        </p>
+                    </div>
+                    <hr />
+                </div>
+            </div>         
+            {% endfor %}
+        </div>
+    </div> <!-- ./floor-->
+    {{ pagination.links|safe }}
 </div><!-- ./col-md-9 -->
 <div class="col-md-3">
-    <a href="{{ url_for('buy_post') }}" class="btn btn-primary btn-lg">我要求购</a>
+    <a href="{{ url_for('buy_post') }}" class="btn btn-primary btn-lg">我要发布</a>
     <br /><br />
     {% include 'shared/board.html' with context %}
 </div><!-- ./col-md-3 -->

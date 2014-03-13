@@ -1,6 +1,6 @@
 {% extends "layout/default.html" %}
 
-{% block title %}全部商品{% endblock %}
+{% block title %}商品列表{% endblock %}
 
 {% block custom_css %}
 <link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
@@ -18,7 +18,7 @@
         <br />
         <div class="col-md-12">
         <div class="btn-group">
-            <a href="{{ url_for('sell_index') }}" class="btn btn-default">全部</a>
+            <a href="{{ url_for('sell_index', location_id=0, category_id=0) }}" class="btn btn-default">全部</a>
             {% for location in g.locations %}
             <a href="{{ url_for('sell_index', location_id=location.id, category_id=category_id) }}" class="btn btn-default">{{ location.name }}</a>
             {% endfor %}

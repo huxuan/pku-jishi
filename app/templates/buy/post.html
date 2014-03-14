@@ -12,7 +12,8 @@
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
-<div class="row">
+    <div class="row">
+        <div class="col-md-12">
 <legend>求购商品</legend>
 <form role="form" class="form-horizontal" method="post" enctype='multipart/form-data' action="">
     {{ form.hidden_tag() }}
@@ -91,6 +92,7 @@
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-primary">确认求购</button>
+        </div>
         </div>
     </div>
 </form>

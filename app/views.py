@@ -252,7 +252,7 @@ def user_change_password():
 @login_required
 def user_sell():
     """docstring for user_sell"""
-    statuses = request.args.getlist('status') or [0]
+    statuses = request.args.getlist('status') or [0,1,2,3]
     context = {
         'sells': lib.get_sells(user_id=g.user.id, statuses=statuses)
     }
@@ -262,7 +262,7 @@ def user_sell():
 @login_required
 def user_buy():
     """docstring for user_buy"""
-    statuses = request.args.getlist('status') or [0]
+    statuses = request.args.getlist('status') or [0,1,2]
     context = {
         'buys': lib.get_buys(user_id=g.user.id, statuses=statuses),
     }

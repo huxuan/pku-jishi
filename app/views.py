@@ -91,26 +91,26 @@ def before_request():
 def index():
     """docstring for index"""
     statuses = request.args.getlist('status') or [0]
-    context={
+    context = {
         'sells_free': lib.get_sells(price=0, limit=4, statuses=statuses),
     }
     context['sells_floors'] = lib.get_sells_floors(g.categories,
         statuses=statuses)
     # TODO @xuan, check system, if mobile, redirect to /m
     return render_template("index.html", **context)
- 
+
 @app.route('/m')
 def m():
     """docstring for m"""
-    context={
-            }
+    context = {
+    }
     return render_template("mobile/index.html", **context)
 
 @app.route('/join')
 def join():
     """docstring for join"""
-    context={
-            }
+    context = {
+    }
     return render_template("join.html", **context)
 
 @app.route('/user/login', methods=('GET', 'POST'))

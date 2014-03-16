@@ -90,13 +90,14 @@ def before_request():
 @app.route('/')
 def index():
     """docstring for index"""
+    if request.MOBILE:
+        return redirect(url_for('m'))
     statuses = request.args.getlist('status') or [0]
     context = {
         'sells_free': lib.get_sells(price=0, limit=4, statuses=statuses),
     }
     context['sells_floors'] = lib.get_sells_floors(g.categories,
         statuses=statuses)
-    # TODO @xuan, check system, if mobile, redirect to /m
     return render_template("index.html", **context)
 
 @app.route('/m')

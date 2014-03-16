@@ -1,0 +1,24 @@
+{% extends "layout/default.html" %}
+
+{% block title %}手机主页{% endblock %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block custom_script %}
+{% endblock %}
+
+{% block content %}
+<div class="container" style="min-height: 300px">
+    <div class="row">
+        <div class="col-md-12">
+            <center><h2>北大集市</h2></center>
+            <hr />
+            <a href="{{ url_for('sell_post') }}" class="btn btn-primary btn-lg btn-block">发布商品</a>
+            <a href="{{ url_for('index') }}" class="btn btn-default btn-lg btn-block">浏览商品</a>
+        </div>
+    </div>
+</div>
+
+{% include 'inc/footer.html' with context %}
+{% endblock %}

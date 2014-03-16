@@ -96,7 +96,15 @@ def index():
     }
     context['sells_floors'] = lib.get_sells_floors(g.categories,
         statuses=statuses)
+    # TODO @xuan, check system, if mobile, redirect to /m
     return render_template("index.html", **context)
+ 
+@app.route('/m')
+def m():
+    """docstring for m"""
+    context={
+            }
+    return render_template("mobile/index.html", **context)
 
 @app.route('/join')
 def join():

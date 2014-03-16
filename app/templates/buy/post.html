@@ -67,14 +67,14 @@
     <div class="form-group">
         {{ form.phone.label(class='col-sm-2 control-label') }}
         <div class="col-sm-10">
-            {{ form.phone(class='form-control') }}
+            {{ form.phone(class='form-control', placeholder='请输入阿拉伯数字，系统会自动为您加密变换') }}
             {{ render_field_error(form.phone) }}
         </div>
     </div>
     <div class="form-group">
         {{ form.qq.label(class='col-sm-2 control-label') }}
         <div class="col-sm-10">
-            {{ form.qq(class='form-control') }}
+            {{ form.qq(class='form-control', placeholder='请输入阿拉伯数字，系统会自动为您加密变换') }}
             {{ render_field_error(form.qq) }}
         </div>
     </div>

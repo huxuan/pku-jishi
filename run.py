@@ -7,6 +7,15 @@ Email: i(at)huxuan.org
 Description: run script for app
 """
 
+import sys
+
 from app import app
-app.debug = True
-app.run(host="0.0.0.0")
+
+def main():
+    """docstring for main"""
+    if sys.argv[0] != 'uwsgi':
+        app.debug = True
+    app.run(host="0.0.0.0")
+
+if __name__ == '__main__':
+    main()

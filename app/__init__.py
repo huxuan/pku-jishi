@@ -14,11 +14,13 @@ from flask.ext.uploads import IMAGES
 from flask.ext.uploads import configure_uploads
 from flask.ext.mail import Mail
 from flask.ext.images import Images
+from flask.ext.mobility import Mobility
 
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
 mail = Mail(app)
+Mobility(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

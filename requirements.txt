@@ -8,4 +8,5 @@ flask-whooshalchemy
 flask-uploads
 flask-mail
 flask-images
+flask-mobility
 jieba

@@ -446,6 +446,9 @@ def buy_index():
     context['buys'] = lib.get_buys(statuses=statuses,
             location_id=context['location_id'],
             category_id=context['category_id'])
+    for buy in context['buys']:
+        buy.phone = lib.number_encode(buy.phone)
+        buy.qq = lib.number_encode(buy.qq)
     context['pagination'] = Pagination(page=page,
         total=len(context['buys']),
         record_name='buys',

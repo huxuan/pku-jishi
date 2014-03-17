@@ -100,6 +100,12 @@ def index():
         statuses=statuses)
     return render_template("index.html", **context)
 
+@app.route('/intro')
+def intro():
+    context = {
+    }
+    return render_template("intro.html", **context)
+
 @app.route('/m')
 def m():
     """docstring for m"""

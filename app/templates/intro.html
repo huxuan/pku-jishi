@@ -1,22 +1,67 @@
-{% extends "layout/default.html" %}
-
-{% block title %}北大集市介绍{% endblock %}
-
-{% block custom_css %}
-{% endblock %}
-
-{% block custom_script %}
-{% endblock %}
-
-{% block content %}
-{% include 'inc/header.html' with context %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h2>北大集市介绍</h2>
-        </div>
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>北大集市，咱北大人自己的二手市场</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/intro.css') }}"/>
+</head>
+<body id="js-doc">
+<div class="g-doc">
+    <div class="g-hd">
+    	<div class="m-wrap f-alpha">
+    		<div class="m-hd">
+                <a href="{{ url_for('index') }}"  hidefocus="true" class="u-btn2">进入北大集市</a>
+    		</div>
+    	</div>
+    </div>
+    <div class="g-bd">
+    	<div class="m-bd1">
+    		<div class="m-wrap">
+    			<div class="m-desc">
+    				<h3>无须数据线，无须安装App<br />手机访问北大集市，拍照、发布一步到位</h3>
+    				<p class="desc">再也无须把图片先上传到电脑里面，也无须安装App<br />仅仅通过手机浏览器访问北大集市即可随手拍，随手发布，没错，就是这么简单。</p>
+    				<!--<div class="tips"><b class="u-tips">Tips</b>手机登陆后，便可方便的发布商品</div>-->
+    			</div>
+    			<div class="imgwrap"></div>
+    		</div>
+    	</div>
+    	<div class="m-bd2">
+    		<div class="m-wrap">
+    			<div class="m-desc">
+    				<h3>商品详细分类<br />有图片有分类，二手产品随意淘</h3>
+    				<p class="desc">商品精细化分类，可便捷的搜索<br />图片橱窗展示，让您的二手产品显得尊贵</p>
+    				
+    			</div>
+                <div class="imgwrap"><img src="{{ url_for('static', filename='images/bd2.jpg') }}" /></div>
+    		</div>
+    	</div>
+    	<div class="m-bd3">
+    		<div class="m-wrap">
+    			<div class="m-desc">
+    				<h3>方便的个人中心设置<br />随时随地处理商品动态</h3>
+    				<p class="desc">被预定、已经售出、放弃出售，针对商品的状态，为您提供全方位的操作，一键即可修改。</p>
+    			</div>
+    			<div class="imgwrap"></div>
+    		</div>
+    	</div>
+    	<div class="m-bd4">
+    		<div class="m-wrap">
+    			<div class="m-desc">
+    				<h3>北大信科出品<br />我们信仰科学，所以必属精品</h3>
+    				<p class="desc">我们来自北大信科，老师说让我们要做对大家有意义的事情，我们就做了北大集市，对不起，我们来晚了！</p>
+    				
+    			</div>
+    			<div class="imgwrap"></div>
+    		</div>
+    	</div>
+    	
+    	
+    </div>
+ 
     </div>
 </div>
-
-{% include 'inc/footer.html' with context %}
-{% endblock %}
+</body>
+</html>

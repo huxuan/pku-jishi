@@ -286,7 +286,7 @@ def get_locations(statuses=[0]):
 
 def get_location(id):
     """docstring for get_location"""
-    return db.session.query(models.Category).get(id)
+    return db.session.query(models.Location).get(id)
 
 def get_sell_count():
     """docstring for get_sell_count"""

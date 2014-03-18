@@ -297,9 +297,9 @@ def get_sell_by_id(id):
     return db.session.query(models.Sell).get(id)
 
 def get_sells(statuses=[0], price=-1, user_id=0, category_id=0, location_id=0,
-        limit=1000):
+        page=1, per_page=20):
     """docstring for get_sells"""
-    sells = db.session.query(models.Sell)
+    sells = models.Sell.query
     sells = statuses and sells.filter(models.Sell.status.in_(statuses)) or sells
     sells = price >= 0 and sells.filter_by(price=price) or sells
     sells = user_id and sells.filter_by(user_id=user_id) or \
@@ -309,18 +309,20 @@ def get_sells(statuses=[0], price=-1, user_id=0, category_id=0, location_id=0,
         sells.filter(models.Sell.category.has(status=0))
     sells = location_id and sells.filter_by(location_id=location_id) or \
         sells.filter(models.Sell.location.has(status=0))
-    sells = sells.order_by(models.Sell.create_time.desc()).limit(limit)
-    return sells.all()
+    sells = sells.order_by(models.Sell.create_time.desc())
+    sells = sells.paginate(page, per_page, False)
+    return sells
 
-def get_sells_floors(categories, limit=4, **kwargs):
+def get_sells_floors(categories, page=1, per_page=4, **kwargs):
     """docstring for get_sells_floors"""
     floors = [
-        get_sells(category_id=category.id, limit=limit, **kwargs)
+        get_sells(category_id=category.id, page=page, per_page=per_page, **kwargs)
         for category in categories
     ]
     return floors
 
-def get_sells_q_cid_lid(q, category_id=0, location_id=0, statuses=[0]):
+def get_sells_q_cid_lid(q, category_id=0, location_id=0, statuses=[0], page=1,
+        per_page=20):
     """docstring for get_sells_q_cid_lid"""
     res = models.Sell.query.whoosh_search(q)
     res = res.filter(or_(models.Sell.user.has(status=0),
@@ -331,7 +333,8 @@ def get_sells_q_cid_lid(q, category_id=0, location_id=0, statuses=[0]):
     res = location_id and res.filter_by(location_id=location_id) or \
             res.filter(models.Sell.location.has(status=0))
     res = res.order_by(models.Sell.create_time.desc())
-    return res.all()
+    res = res.paginate(page, per_page, False)
+    return res
 
 def get_buy_count():
     """docstring for get_buy_count"""
@@ -341,9 +344,10 @@ def get_buy_by_id(id):
     """docstring for get_buy_by_id"""
     return db.session.query(models.Buy).get(id)
 
-def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000):
+def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000,
+        page=1, per_page=20):
     """docstring for get_buys"""
-    buys = db.session.query(models.Buy)
+    buys = models.Buy.query
     buys = statuses and buys.filter(models.Buy.status.in_(statuses)) or buys
     buys = user_id and buys.filter_by(user_id=user_id) or \
         buys.filter(or_(models.Buy.user.has(status=0),
@@ -352,18 +356,20 @@ def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000):
         buys.filter(models.Buy.category.has(status=0))
     buys = location_id and buys.filter_by(location_id=location_id) or \
         buys.filter(models.Buy.location.has(status=0))
-    buys = buys.order_by(models.Buy.create_time.desc()).limit(limit)
-    return buys.all()
+    buys = buys.order_by(models.Buy.create_time.desc())
+    buys = buys.paginate(page, per_page, False)
+    return buys
 
-def get_buys_floors(categories, limit=4, **kwargs):
+def get_buys_floors(categories, page=1, per_page=4, **kwargs):
     """docstring for get_buys_floors"""
     floors = [
-        get_buys(category_id=category.id, limit=limit, **kwargs)
+        get_buys(category_id=category.id, page=page, per_page=per_page, **kwargs)
         for category in categories
     ]
     return floors
 
-def get_buys_q_cid_lid(q, category_id=0, location_id=0, statuses=[0]):
+def get_buys_q_cid_lid(q, category_id=0, location_id=0, statuses=[0], page=1,
+        per_page=20):
     """docstring for get_buys_q_cid_lid"""
     res = models.Buy.query.whoosh_search(q)
     res = res.filter(or_(models.Buy.user.has(status=0),
@@ -374,4 +380,5 @@ def get_buys_q_cid_lid(q, category_id=0, location_id=0, statuses=[0]):
     res = location_id and res.filter_by(location_id=location_id) or \
         res.filter(models.Buy.location.has(status=0))
     res = res.order_by(models.Buy.create_time.desc())
-    return res.all()
+    res = res.paginate(page, per_page, False)
+    return res

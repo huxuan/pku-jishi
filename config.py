@@ -35,3 +35,6 @@ MAIL_DEFAULT_SENDER = 'no-reply@pkujishi.com'
 # flask-images
 SECRET_KEY = 'monkey'
 IMAGES_PATH = ['static']
+
+# flask-paginate
+PER_PAGE = 20

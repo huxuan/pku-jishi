@@ -30,6 +30,8 @@ from app import login_manager
 from app import images_avatar
 from app import images_sell
 
+from config import PER_PAGE
+
 MSG_CATEGORY_SUCCESS = 'success'
 MSG_CATEGORY_INFO = 'info'
 MSG_CATEGORY_WARNING = 'warning'
@@ -94,10 +96,10 @@ def index():
         return redirect(url_for('m'))
     statuses = request.args.getlist('status') or [0]
     context = {
-        'sells_free': lib.get_sells(price=0, limit=4, statuses=statuses),
+        'sells_free': lib.get_sells(price=0, page=1, per_page=4, statuses=statuses),
     }
     context['sells_floors'] = lib.get_sells_floors(g.categories,
-        statuses=statuses)
+        statuses=statuses, page=1, per_page=4)
     return render_template("index.html", **context)
 
 @app.route('/intro')
@@ -267,9 +269,11 @@ def user_change_password():
 @login_required
 def user_sell():
     """docstring for user_sell"""
+    page = int(request.args.get('page', 1))
     statuses = request.args.getlist('status') or [0,1,2,3]
     context = {
-        'sells': lib.get_sells(user_id=g.user.id, statuses=statuses)
+        'sells': lib.get_sells(user_id=g.user.id, statuses=statuses, page=page,
+            per_page=PER_PAGE),
     }
     return render_template("user/sell.html", **context)
 
@@ -277,9 +281,11 @@ def user_sell():
 @login_required
 def user_buy():
     """docstring for user_buy"""
+    page = int(request.args.get('page', 1))
     statuses = request.args.getlist('status') or [0,1,2]
     context = {
-        'buys': lib.get_buys(user_id=g.user.id, statuses=statuses),
+        'buys': lib.get_buys(user_id=g.user.id, statuses=statuses, page=page,
+            per_page=PER_PAGE),
     }
     return render_template("user/buy.html", **context)
 
@@ -292,13 +298,15 @@ def user_index():
 @app.route('/user/<int:id>')
 def user_id(id):
     """docstring for user_id"""
+    page = int(request.args.get('page', 1))
+    statuses = request.args.getlist('status') or [0]
     context = {}
     context['user'] = lib.get_user_by_id(id)
     if not context['user'] or context['user'].status > 1:
         flash(MSG_USER_INVALID, MSG_CATEGORY_DANGER)
         return redirect(url_for('index'))
-    statuses = request.args.getlist('status') or [0]
-    context['sells'] = lib.get_sells(user_id=id, statuses=statuses)
+    context['sells'] = lib.get_sells(user_id=id, statuses=statuses, page=page,
+        per_page=PER_PAGE)
     return render_template("user/index.html", **context)
 
 @app.route('/user/message')
@@ -335,10 +343,12 @@ def sell_index():
     }
     context['sells'] = lib.get_sells(statuses=statuses,
         location_id=context['location_id'],
-        category_id=context['category_id'])
+        category_id=context['category_id'],
+        page=page, per_page=PER_PAGE)
     context['pagination'] = Pagination(page=page,
-        total=len(context['sells']),
+        total=context['sells'].total,
         record_name='sells',
+        per_page=PER_PAGE,
         css_framework='foundation',
     )
     return render_template("sell/index.html", **context)
@@ -371,10 +381,12 @@ def sell_free():
     }
     context['sells'] = lib.get_sells(price=0, statuses=statuses,
         location_id=context['location_id'],
-        category_id=context['category_id'])
+        category_id=context['category_id'],
+        page=page, per_page=PER_PAGE)
     context['pagination'] = Pagination(page=page,
-        total=len(context['sells']),
+        total=context['sells'].total,
         record_name='sells',
+        per_page=PER_PAGE,
         css_framework='foundation'
     )
     return render_template("sell/free.html", **context)
@@ -460,13 +472,15 @@ def buy_index():
     }
     context['buys'] = lib.get_buys(statuses=statuses,
             location_id=context['location_id'],
-            category_id=context['category_id'])
+            category_id=context['category_id'],
+            page=page, per_page=PER_PAGE)
     for buy in context['buys']:
         buy.phone = lib.number_encode(buy.phone)
         buy.qq = lib.number_encode(buy.qq)
     context['pagination'] = Pagination(page=page,
-        total=len(context['buys']),
+        total=context['buys'].total,
         record_name='buys',
+        per_page=PER_PAGE,
         css_framework='foundation',
     )
     return render_template("buy/index.html", **context)
@@ -559,18 +573,22 @@ def search():
     context['q'] = q
     if 'sell' in types:
         context['sells'] = lib.get_sells_q_cid_lid(
-            q, category_id, location_id, statuses=statuses)
+            q, category_id, location_id, statuses=statuses,
+            page=page, per_page=PER_PAGE)
         context['sells_pagination'] = Pagination(page=page,
-            total=len(context['sells']),
+            total=context['sells'].total,
             record_name='sells',
-            css_framework='foundation'
+            per_page=PER_PAGE,
+            css_framework='foundation',
         )
     if 'buy' in types:
         context['buys'] = lib.get_buys_q_cid_lid(
-            q, category_id, location_id, statuses=statuses)
+            q, category_id, location_id, statuses=statuses,
+            page=page, per_page=PER_PAGE)
         context['buys_pagination'] = Pagination(page=page,
-            total=len(context['buys']),
+            total=context['buys'].total,
             record_name='buys',
+            per_page=PER_PAGE,
             css_framework='foundation'
         )
     return render_template("search.html", **context)

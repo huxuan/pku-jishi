@@ -53,6 +53,18 @@ STATUS = {
         1: u'无效',
     },
 }
+NUM = {
+    0: u'〇',
+    1: u'一',
+    2: u'二',
+    3: u'③',
+    4: u'四',
+    5: u'⑤',
+    6: u'六',
+    7: u'七',
+    8: u'八',
+    9: u'⑨'
+}
 
 def async(f):
     def wrapper(*args, **kwargs):
@@ -225,11 +237,10 @@ def set_password(user, password):
 
 def number_encode(number):
     """encode phone number to chinese"""
-    dict = {0:u'〇',1:u'一',2:u'二',3:u'③',4:u'四',5:u'⑤',6:u'六',7:u'七',8:u'八',9:u'⑨'}
     result = ""
     for i,c in enumerate(number):
-        if dict[int(c)]:
-            result += dict[int(c)]
+        if NUM[int(c)]:
+            result += NUM[int(c)]
         else:
             result += c
     return result

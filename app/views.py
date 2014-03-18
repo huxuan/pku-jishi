@@ -7,6 +7,8 @@ Email: i(at)huxuan.org
 Description: views for app
 """
 
+from functools import wraps
+
 from flask import g
 from flask import render_template
 from flask import request
@@ -39,6 +41,7 @@ MSG_CATEGORY_DANGER = 'danger'
 
 MSG_LOGIN_REQUIRED = u'请登录后查看此页面'
 MSG_LOGIN_SUCCESS = u'登录成功！'
+MSG_ACTIVATION_REQUIRED = u'请激活后使用该功能'
 MSG_USER_INVALID = u'此用户无效'
 MSG_SELL_INVALID = u'此售出商品无效'
 MSG_SELL_POST_SUCCESS = u'售出商品发布成功！'
@@ -67,6 +70,15 @@ MSG_BUY_STATUS_INVALID = u'求购商品状态无效'
 login_manager.login_view = 'user_login'
 login_manager.login_message = MSG_LOGIN_REQUIRED
 login_manager.login_message_category = MSG_CATEGORY_DANGER
+
+def activation_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if not g.user.is_anonymous and g.user.status == 0:
+            return f(*args, **kwargs)
+        flash(MSG_ACTIVATION_REQUIRED, MSG_CATEGORY_DANGER)
+        return redirect(url_for('user_resend_confirm_mail'))
+    return wrapper
 
 @app.route('/helloworld')
 def helloworld():
@@ -175,6 +187,7 @@ def user_register_succ():
     return render_template("user/register_succ.html")
 
 @app.route('/user/resend_confirm_mail', methods=('GET', 'POST'))
+@login_required
 def user_resend_confirm_mail():
     """docstring for user_resend_confirm_mail"""
     context = {
@@ -267,6 +280,7 @@ def user_change_password():
 
 @app.route('/user/sell')
 @login_required
+@activation_required
 def user_sell():
     """docstring for user_sell"""
     page = int(request.args.get('page', 1))
@@ -279,6 +293,7 @@ def user_sell():
 
 @app.route('/user/buy')
 @login_required
+@activation_required
 def user_buy():
     """docstring for user_buy"""
     page = int(request.args.get('page', 1))
@@ -291,6 +306,7 @@ def user_buy():
 
 @app.route('/user/index')
 @login_required
+@activation_required
 def user_index():
     """docstring for user_index"""
     return redirect(url_for('user_id',id=g.user.id))
@@ -354,6 +370,8 @@ def sell_index():
     return render_template("sell/index.html", **context)
 
 @app.route('/sell/update')
+@login_required
+@activation_required
 def sell_update():
     """docstring for sell_update"""
     res = {}
@@ -407,6 +425,7 @@ def sell_id(id):
 
 @app.route('/sell/detail/edit/<int:id>', methods=('GET', 'POST'))
 @login_required
+@activation_required
 def sell_edit_id(id):
     """docstring for sell_edit_id"""
     sell = lib.get_sell_by_id(id)
@@ -432,6 +451,7 @@ def sell_edit_id(id):
 
 @app.route('/sell/detail/post', methods=('GET', 'POST'))
 @login_required
+@activation_required
 def sell_post():
     """docstring for sell_post"""
     context = {
@@ -486,6 +506,8 @@ def buy_index():
     return render_template("buy/index.html", **context)
 
 @app.route('/buy/update')
+@login_required
+@activation_required
 def buy_update():
     """docstring for buy_update"""
     res = {}
@@ -503,6 +525,8 @@ def buy_update():
     return jsonify(**res)
 
 @app.route('/buy/detail/<int:id>')
+@login_required
+@activation_required
 def buy_id(id):
     """docstring for buy_id"""
     context = {
@@ -515,6 +539,7 @@ def buy_id(id):
 
 @app.route('/buy/detail/edit/<int:id>', methods=('GET', 'POST'))
 @login_required
+@activation_required
 def buy_edit_id(id):
     """docstring for buy_edit_id"""
     buy = lib.get_buy_by_id(id)
@@ -536,6 +561,7 @@ def buy_edit_id(id):
 
 @app.route('/buy/detail/post', methods=('GET', 'POST'))
 @login_required
+@activation_required
 def buy_post():
     """docstring for buy_post"""
     context = {
@@ -561,6 +587,7 @@ def buy_post():
     return render_template("buy/post.html", **context)
 
 @app.route('/search')
+@activation_required
 def search():
     """docstring for search"""
     q = request.args.get('q')

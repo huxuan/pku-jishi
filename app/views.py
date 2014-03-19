@@ -74,7 +74,7 @@ login_manager.login_message_category = MSG_CATEGORY_DANGER
 def activation_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
-        if not g.user.is_anonymous and g.user.status == 0:
+        if not g.user.is_anonymous() and g.user.status == 0:
             return f(*args, **kwargs)
         flash(MSG_ACTIVATION_REQUIRED, MSG_CATEGORY_DANGER)
         return redirect(url_for('user_resend_confirm_mail'))
@@ -214,6 +214,7 @@ def user_activation(token):
         user = lib.get_user_by_id(user_id)
         if user and user.token.confirm == confirm:
             user.status = 0
+            db.session.commit()
             flash(MSG_USER_ACTIVATION_SUCCESS, MSG_CATEGORY_SUCCESS)
             if user == g.user:
                 return redirect(url_for('user_index'))

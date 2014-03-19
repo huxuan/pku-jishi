@@ -28,7 +28,7 @@
                 type: "GET",
                 url: target,
                 success: function(data) {
-                    if(data.error) {
+                    if(data.status != 'OK') {
                         btn.button('reset');
                         alert(data.error);
                         } else {

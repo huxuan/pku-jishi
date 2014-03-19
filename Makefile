@@ -1,3 +1,5 @@
+deploy:
+	sudo service pkujishi reload
 run:
 	python run.py
 dep:

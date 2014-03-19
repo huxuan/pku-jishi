@@ -394,7 +394,7 @@ def sell_update():
         res['error'] = MSG_SELL_PERMISSION_INVALID
     if not id or not sell:
         res['error'] = MSG_SELL_ID_INVALID
-    if not status:
+    if status > 4:
         res['error'] = MSG_SELL_STATUS_INVALID
     sell.status = status
     db.session.commit()
@@ -530,7 +530,7 @@ def buy_update():
         res['error'] = MSG_BUY_PERMISSION_INVALID
     if not id or not buy:
         res['error'] = MSG_BUY_ID_INVALID
-    if not status:
+    if status > 3:
         res['error'] = MSG_BUY_STATUS_INVALID
     buy.status = status
     db.session.commit()

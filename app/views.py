@@ -396,6 +396,7 @@ def sell_update():
         res['error'] = MSG_SELL_ID_INVALID
     if status > 4:
         res['error'] = MSG_SELL_STATUS_INVALID
+    res['status'] = res.get('error') and 'ERROR' or 'OK'
     sell.status = status
     db.session.commit()
     return jsonify(**res)
@@ -532,6 +533,7 @@ def buy_update():
         res['error'] = MSG_BUY_ID_INVALID
     if status > 3:
         res['error'] = MSG_BUY_STATUS_INVALID
+    res['status'] = res.get('error') and 'ERROR' or 'OK'
     buy.status = status
     db.session.commit()
     return jsonify(**res)

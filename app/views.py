@@ -588,7 +588,6 @@ def buy_post():
     return render_template("buy/post.html", **context)
 
 @app.route('/search')
-@activation_required
 def search():
     """docstring for search"""
     q = request.args.get('q')

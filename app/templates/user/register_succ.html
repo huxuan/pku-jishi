@@ -21,6 +21,11 @@
         <a href="http://mail.pku.edu.cn" target="_blank" class="btn btn-primary">立即进入邮箱验证</a>
         </p>
     </div>
+    <div class="span12">
+        <p>
+        如您长时间没有收到验证邮件，请<a href="{{ url_for('user_resend_confirm_mail') }}">点击本链接</a>再次发送验证信。
+        </p>
+    </div>
 </div>
 </div> <!-- ./container -->  
 {% include 'inc/footer.html' with context %}

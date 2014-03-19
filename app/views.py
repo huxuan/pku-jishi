@@ -187,7 +187,6 @@ def user_register_succ():
     return render_template("user/register_succ.html")
 
 @app.route('/user/resend_confirm_mail', methods=('GET', 'POST'))
-@login_required
 def user_resend_confirm_mail():
     """docstring for user_resend_confirm_mail"""
     context = {

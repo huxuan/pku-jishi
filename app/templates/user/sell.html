@@ -99,6 +99,7 @@
         <hr />
         <!-- ENDFOREACH -->
         {% endfor %}
+        {{ pagination.links|safe }}
     </div>
 </div>
 {% include 'inc/footer.html' with context %}

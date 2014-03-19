@@ -86,6 +86,7 @@
         <!-- ENDFOREACH -->
         {% endfor %}
     </div>
+    {{ pagination.links|safe }}
 </div>
 {% include 'inc/footer.html' with context %}
 {% endblock %}

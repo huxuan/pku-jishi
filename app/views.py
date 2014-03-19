@@ -289,6 +289,12 @@ def user_sell():
         'sells': lib.get_sells(user_id=g.user.id, statuses=statuses, page=page,
             per_page=PER_PAGE),
     }
+    context['pagination'] = Pagination(page=page,
+        total=context['sells'].total,
+        record_name='sells',
+        per_page=PER_PAGE,
+        css_framework='foundation',
+    )
     return render_template("user/sell.html", **context)
 
 @app.route('/user/buy')
@@ -302,6 +308,12 @@ def user_buy():
         'buys': lib.get_buys(user_id=g.user.id, statuses=statuses, page=page,
             per_page=PER_PAGE),
     }
+    context['pagination'] = Pagination(page=page,
+        total=context['buys'].total,
+        record_name='buys',
+        per_page=PER_PAGE,
+        css_framework='foundation',
+    )
     return render_template("user/buy.html", **context)
 
 @app.route('/user/index')

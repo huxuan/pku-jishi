@@ -41,7 +41,7 @@
     <div class="panel panel-info">
         <div class="panel-heading">{{user.name}}正在出售的所有商品</div>
         <div id="goods-div" class="panel-body">
-            {% for goods in sells.items %}
+            {% for goods in sells %}
             <div class="row goods-row">
                 <div class="col-md-2">
                     <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}">

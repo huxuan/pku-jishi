@@ -312,7 +312,7 @@ def get_sell_by_id(id):
 def get_sells(statuses=[0], price=-1, user_id=0, category_id=0, location_id=0,
         page=1, per_page=20):
     """docstring for get_sells"""
-    sells = models.Sell.query
+    sells = db.session.query(models.Sell)
     sells = statuses and sells.filter(models.Sell.status.in_(statuses)) or sells
     sells = price >= 0 and sells.filter_by(price=price) or sells
     sells = user_id and sells.filter_by(user_id=user_id) or \
@@ -323,13 +323,15 @@ def get_sells(statuses=[0], price=-1, user_id=0, category_id=0, location_id=0,
     sells = location_id and sells.filter_by(location_id=location_id) or \
         sells.filter(models.Sell.location.has(status=0))
     sells = sells.order_by(models.Sell.create_time.desc())
-    sells = sells.paginate(page, per_page, False)
-    return sells
+    total = sells.count()
+    sells = sells.limit(per_page).offset((page - 1) * per_page)
+    return total, sells.all()
 
 def get_sells_floors(categories, page=1, per_page=4, **kwargs):
     """docstring for get_sells_floors"""
     floors = [
-        get_sells(category_id=category.id, page=page, per_page=per_page, **kwargs)
+        get_sells(category_id=category.id, page=page, per_page=per_page,
+            **kwargs)[1]
         for category in categories
     ]
     return floors
@@ -360,7 +362,7 @@ def get_buy_by_id(id):
 def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000,
         page=1, per_page=20):
     """docstring for get_buys"""
-    buys = models.Buy.query
+    buys = db.session.query(models.Buy)
     buys = statuses and buys.filter(models.Buy.status.in_(statuses)) or buys
     buys = user_id and buys.filter_by(user_id=user_id) or \
         buys.filter(or_(models.Buy.user.has(status=0),
@@ -370,13 +372,15 @@ def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000,
     buys = location_id and buys.filter_by(location_id=location_id) or \
         buys.filter(models.Buy.location.has(status=0))
     buys = buys.order_by(models.Buy.create_time.desc())
-    buys = buys.paginate(page, per_page, False)
-    return buys
+    total = buys.count()
+    buys = buys.limit(per_page).offset((page - 1) * per_page)
+    return total, buys.all()
 
 def get_buys_floors(categories, page=1, per_page=4, **kwargs):
     """docstring for get_buys_floors"""
     floors = [
-        get_buys(category_id=category.id, page=page, per_page=per_page, **kwargs)
+        get_buys(category_id=category.id, page=page, per_page=per_page,
+            **kwargs)[1]
         for category in categories
     ]
     return floors

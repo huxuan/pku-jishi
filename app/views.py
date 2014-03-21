@@ -617,21 +617,21 @@ def search():
     context = {}
     context['q'] = q
     if 'sell' in types:
-        context['sells'] = lib.get_sells_q_cid_lid(
+        total, context['sells'] = lib.get_sells_q_cid_lid(
             q, category_id, location_id, statuses=statuses,
             page=page, per_page=PER_PAGE)
         context['sells_pagination'] = Pagination(page=page,
-            total=context['sells'].total,
+            total=total,
             record_name='sells',
             per_page=PER_PAGE,
             css_framework='foundation',
         )
     if 'buy' in types:
-        context['buys'] = lib.get_buys_q_cid_lid(
+        total, context['buys'] = lib.get_buys_q_cid_lid(
             q, category_id, location_id, statuses=statuses,
             page=page, per_page=PER_PAGE)
         context['buys_pagination'] = Pagination(page=page,
-            total=context['buys'].total,
+            total=total,
             record_name='buys',
             per_page=PER_PAGE,
             css_framework='foundation'

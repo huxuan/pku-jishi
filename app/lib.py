@@ -337,9 +337,9 @@ def get_sells_floors(categories, page=1, per_page=4, **kwargs):
     return floors
 
 def get_sells_q_cid_lid(q, category_id=0, location_id=0, statuses=[0], page=1,
-        per_page=20):
+        per_page=20, limit=200):
     """docstring for get_sells_q_cid_lid"""
-    res = models.Sell.query.whoosh_search(q)
+    res = models.Sell.query
     res = res.filter(or_(models.Sell.user.has(status=0),
         models.Sell.user.has(status=1)))
     res = statuses and res.filter(models.Sell.status.in_(statuses)) or res
@@ -347,9 +347,11 @@ def get_sells_q_cid_lid(q, category_id=0, location_id=0, statuses=[0], page=1,
             res.filter(models.Sell.category.has(status=0))
     res = location_id and res.filter_by(location_id=location_id) or \
             res.filter(models.Sell.location.has(status=0))
-    res = res.order_by(models.Sell.create_time.desc())
-    res = res.paginate(page, per_page, False)
-    return res
+    res = res.whoosh_search(q)
+    res = res.all()[:limit]
+    total = len(res)
+    res = res[(page - 1) * per_page: page * per_page]
+    return total, res
 
 def get_buy_count():
     """docstring for get_buy_count"""
@@ -386,9 +388,9 @@ def get_buys_floors(categories, page=1, per_page=4, **kwargs):
     return floors
 
 def get_buys_q_cid_lid(q, category_id=0, location_id=0, statuses=[0], page=1,
-        per_page=20):
+        per_page=20, limit=200):
     """docstring for get_buys_q_cid_lid"""
-    res = models.Buy.query.whoosh_search(q)
+    res = models.Buy.query
     res = res.filter(or_(models.Buy.user.has(status=0),
         models.Buy.user.has(status=1)))
     res = statuses and res.filter(models.Buy.status.in_(statuses)) or res
@@ -396,6 +398,8 @@ def get_buys_q_cid_lid(q, category_id=0, location_id=0, statuses=[0], page=1,
         res.filter(models.Buy.category.has(status=0))
     res = location_id and res.filter_by(location_id=location_id) or \
         res.filter(models.Buy.location.has(status=0))
-    res = res.order_by(models.Buy.create_time.desc())
-    res = res.paginate(page, per_page, False)
-    return res
+    res = res.whoosh_search(q)
+    res = res.all()[:limit]
+    total = len(res)
+    res = res[(page - 1) * per_page: page * per_page]
+    return total, res

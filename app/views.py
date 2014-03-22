@@ -563,6 +563,8 @@ def buy_id(id):
     context = {
         'buy': lib.get_buy_by_id(id),
     }
+    context['buy'].phone = lib.number_encode(context['buy'].phone)
+    context['buy'].qq = lib.number_encode(context['buy'].qq)
     if context['buy'] and context['buy'].status < 4:
         return render_template("buy/detail.html", **context)
     flash(MSG_BUY_INVALID, MSG_CATEGORY_DANGER)

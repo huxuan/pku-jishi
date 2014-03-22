@@ -10,3 +10,4 @@ flask-mail
 flask-images
 flask-mobility
 jieba
+flup

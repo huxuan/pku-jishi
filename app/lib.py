@@ -249,6 +249,7 @@ def number_encode(number):
 
 def images_encode(uploadset, id, images_files):
     """docstring for images_encode"""
+    images_files = filter(None, images_files)
     images = []
     thumbnails = ''
     if images_files and images_files[0]:

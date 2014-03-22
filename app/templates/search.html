@@ -3,6 +3,7 @@
 {% block title %}搜索结果{% endblock %}
 
 {% block custom_css %}
+<link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
 <style type="text/css">
     .goods-div { margin-top: 5px;margin-bottom: 5px;	border: 1px solid grey;}
     .goods-div hr { border-style: dotted; }
@@ -50,7 +51,7 @@
                 <div class="col-md-10">
                     <h3 class="goods-title"><a href="{{ url_for('sell_id', id=goods.id) }}">{{ goods.title }}</a></h3>
                     <p class="goods-location">{{ goods.location.name }}</p>
-                    <p class="goods-price">{{ goods.price }}元</p>
+                    <p class="goods-price price">￥{{ goods.price }}</p>
                     <p class="description">{{goods.description}}</p>		
                     <p class="goods-time">发布时间: {{ goods.create_time }}</p>
                 </div>
@@ -70,7 +71,7 @@
                 <div class="col-md-12">
                     <h3 class="goods-title"><a href="{{ url_for('buy_id', id=goods.id) }}">标题:{{ goods.title }}</a></h3>
                     <p class="goods-status-1">状态：{{goods.status}}</p>
-                    <p class="goods-price"> 要价范围{{ goods.low_price }} - {{ goods.high_price }}元</p>
+                    <p class="goods-price price"> 要价范围￥{{ goods.price_low }} - ￥{{ goods.price_high }}</p>
 
                     <p class="description">{{goods.description}}</p>		
                     <p class="goods-time">发布时间: {{goods.create_time}}</p>		

@@ -20,6 +20,8 @@
 <div class="col-md-9">
   {% include 'shared/carousel.html' with context %}
   {% include 'shared/category_sell.html' with context %}
+
+  
   <!-- Free Floor -->
   <div class="floor panel panel-default">
     <div class="goods-type col-md-12 panel-heading">
@@ -52,9 +54,16 @@
 	{% endfor %}
   </div>
   </div> <!-- ./floor-->
-
-  <a>分类浏览</a> | 
-  <a href="{{ url_for('sell_index') }}">查看所有</a>
+  
+  <div class="row" style="margin-bottom: -25px;">
+      <div class="col-md-12">
+          <ol class="breadcrumb">
+              <li class="active">分类浏览</li>
+              <li><a href="{{ url_for('sell_index') }}">查看所有</a></li>
+          </ol>
+      </div>
+  </div>
+  
   {% for sells_floor in sells_floors %}
   <!-- Floor -->
   <div class="floor panel panel-info">

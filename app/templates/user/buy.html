@@ -3,6 +3,7 @@
 {% block title %}我求购的商品{% endblock %}
 
 {% block custom_css %}
+<link href="{{ url_for('static', filename='css/home.css')}}" rel="stylesheet">
 <style type="text/css">
 #goods-div { margin-top: 5px;margin-bottom: 5px;	border: 1px solid grey;}
 #goods-div hr { border-style: dotted; }
@@ -66,6 +67,13 @@
                         {{ goods.title }}
                     </a>
                 </h3>
+               <p class="description">
+               {{goods.description}}
+               </p>    
+                <p class="price">
+                    出价范围: ￥{{goods.price_low}} - 
+                    ￥{{goods.price_high}}
+                </p>
                 <p class="goods-status-{{goods.status}}">状态：{{g.status['buy'][goods.status]}}</p>
                 <p class="goods-time">发布时间: {{goods.create_time }}</p>		
             </div>

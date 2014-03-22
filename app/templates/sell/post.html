@@ -10,12 +10,16 @@
         border: 1px solid #000;
         margin: 10px 5px 0 0;
     }
+    .hidden-file-div {
+        display:none;
+    }
 </style>
 {% endblock %}
 
 {% block custom_script %}
 <script>
     $(function() {
+        div_id = 2;
         function handleFileSelect(evt) {
             var files = evt.target.files; // FileList object
             var listname = ($(this).attr('datalist'));
@@ -45,6 +49,13 @@
             // Add more images 
         }
         $('.files').bind('change', handleFileSelect);
+        $('#add-more').click(function(){
+            $('#file-div-' + div_id).show();
+            div_id += 1;
+            if(div_id == 6) {
+                $(this).hide();
+            }
+        });
     })
 </script>
 {% endblock %}
@@ -74,6 +85,11 @@
                 <div class="col-md-6">
                     {{ form.images(id='files', class='files', datalist='list1') }}
                     {{ render_field_error(form.images) }}
+                    <br />
+                    <a id="add-more" class="btn btn-default btn-sm" >
+                        <span class="glyphicon glyphicon-plus"></span>
+                        添加更多
+                    </a>
                 </div>
                 <div class="col-md-4">
                     <p class="text-info">
@@ -82,23 +98,35 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-2 control-label" for="images">更多图片</label>
+                <label class="col-md-2 control-label" for="images">
+                </label>
                 <div class="col-md-6">
+                    <div id="file-div-2" class="hidden-file-div">
                     {{ form.images(class='files', datalist='list2') }}
                     <br />
+                    </div>
+
+                    <div id="file-div-3" class="hidden-file-div">
                     {{ form.images(class='files', datalist='list3') }}
                     <br />
+                    </div>
+
+                    <div id="file-div-4" class="hidden-file-div">
                     {{ form.images(class='files', datalist='list4') }}
                     <br />
+                    </div>
+
+                    <div id="file-div-5" class="hidden-file-div">
                     {{ form.images(class='files', datalist='list5') }}
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <p class="text-info">
                     </p>
                 </div>
             </div>   
-            <div class="row form-group">
-                <div class="col-md-2"></div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="images-more"></label>
                 <div id="list" class="col-md-10">
                     <span id="list1"></span>
                     <span id="list2"></span>

@@ -35,6 +35,7 @@ MAIL_DEFAULT_SENDER = 'no-reply@pkujishi.com'
 # flask-images
 SECRET_KEY = 'monkey'
 IMAGES_PATH = ['static']
+IMAGES_CACHE = '/alidata1/Code/pku-jishi/app/static/flask-images'
 
 # flask-paginate
 PER_PAGE = 20

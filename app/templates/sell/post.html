@@ -72,29 +72,28 @@
             <div class="form-group">
                 {{ form.images.label(class='col-md-2 control-label') }}
                 <div class="col-md-6">
-                    {{ form.images(multiple='', id='files', class='files', datalist='list1') }}
+                    {{ form.images(id='files', class='files', datalist='list1') }}
                     {{ render_field_error(form.images) }}
                 </div>
                 <div class="col-md-4">
                     <p class="text-info">
-                    可选多张图片（推荐图片比例4:3)
+                    推荐图片比例4:3 (可选)
                     </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label" for="images">更多图片</label>
                 <div class="col-md-6">
-                    {{ form.images2(multiple='', class='files', datalist='list2') }}
+                    {{ form.images(class='files', datalist='list2') }}
                     <br />
-                    {{ form.images3(multiple='', class='files', datalist='list3') }}
+                    {{ form.images(class='files', datalist='list3') }}
                     <br />
-                    {{ form.images4(multiple='', class='files', datalist='list4') }}
+                    {{ form.images(class='files', datalist='list4') }}
                     <br />
-                    {{ form.images5(multiple='', class='files', datalist='list5') }}
+                    {{ form.images(class='files', datalist='list5') }}
                 </div>
                 <div class="col-md-4">
                     <p class="text-info">
-                    更多图片(可选)
                     </p>
                 </div>
             </div>   

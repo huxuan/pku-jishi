@@ -248,19 +248,9 @@ class SellForm(Form):
         validators.length(max=LEN_MAX_NAME, message=MSG_TITLE_LENGTH),],
     )
     images = FileField(LABEL_IMAGES, [
-        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
-    )
-    images2 = FileField(LABEL_IMAGES2, [
-        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
-    )
-    images3 = FileField(LABEL_IMAGES3, [
-        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
-    )
-    images4 = FileField(LABEL_IMAGES3, [
-        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
-    )
-    images5 = FileField(LABEL_IMAGES4, [
-        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
+        FileAllowed(images_sell, MSG_IMAGE_ALLOW),
+        validators.Optional(),
+        ],
     )
     price = StringField(LABEL_PRICE, [
         validators.InputRequired(MSG_PRICE_REQUIRED),

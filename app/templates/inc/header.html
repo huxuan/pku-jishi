@@ -29,8 +29,10 @@
             <ul class="dropdown-menu">
                 <li><a href="{{ url_for('user_sell') }}">我的商品</a></li>
                 <li><a href="{{ url_for('user_buy') }}">我的求购</a></li>
-                <li class="divider"></li>
                 <li><a href="{{ url_for('user_info') }}">我的资料</a></li>
+                <li class="divider"></li>
+                <li><a href="{{ url_for('sell_post') }}">发布商品</a></li>
+                <li><a href="{{ url_for('buy_post') }}">求购商品</a></li>
                 <li><a href="{{ url_for('user_logout') }}">注销</a></li>
             </ul>
             </li>

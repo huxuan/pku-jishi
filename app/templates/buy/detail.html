@@ -16,8 +16,8 @@
   <!-- Free Floor -->
   <div class="floor">
   <div class="row">
-  <legend>{{ buy.title }}</legend>
   <div class="goods-detail-div col-md-12">
+    <legend>{{ buy.title }}</legend>
     <table class="table table-bordered">
         <tr>
         	<th class="col-md-3">出价范围</th>
@@ -51,6 +51,12 @@
   </div>
   </div>
   </div> <!-- ./floor-->
+    
+  <div class="row">
+      <div class="col-md-12">
+          {% include 'shared/comment.html' with context %}
+      </div>
+  </div>
 
 </div><!-- ./col-md-9 -->
 <div class="col-md-3">

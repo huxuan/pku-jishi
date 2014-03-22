@@ -21,7 +21,7 @@
     <table class="table table-bordered">
         <tr>
         	<th class="col-md-3">出价范围</th>
-            <td>{{ buy.price_low }} - {{ buy.price_high }} 元</td>
+            <td>￥{{ buy.price_low }} - ￥{{ buy.price_high }}</td>
         </tr>
         <tr>
         	<th>交易地点</th>
@@ -60,7 +60,8 @@
 
 </div><!-- ./col-md-9 -->
 <div class="col-md-3">
-  <a href="{{ url_for('buy_post') }}" class="btn btn-primary btn-lg">我要求购</a>
+  <a href="{{ url_for('sell_post') }}" class="btn btn-primary btn-lg">我要出售</a>
+  <a href="{{ url_for('buy_post') }}" class="btn btn-info btn-lg">我要求购</a>
   <br /><br />
   {% include 'shared/board.html' with context %}
 </div><!-- ./col-md-3 -->

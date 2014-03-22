@@ -94,7 +94,7 @@
     <table class="table table-bordered">
         <tr>
         	<th class="col-md-3">价格</th>
-            <td><strong>{{ sell.price }} 元</strong></td>
+            <td><strong>￥{{ sell.price }}</strong></td>
         </tr>
         <tr>
         	<th>状态</th>
@@ -144,7 +144,8 @@
 
 </div><!-- ./col-md-9 -->
 <div class="col-md-3">
-    <a href="{{ url_for('sell_post') }}" class="btn btn-primary btn-lg">我要发布</a>
+    <a href="{{ url_for('sell_post') }}" class="btn btn-primary btn-lg">我要出售</a>
+    <a href="{{ url_for('buy_post') }}" class="btn btn-info btn-lg">我要求购</a>
     <br /><br />
     {% include 'shared/board.html' with context %}
 </div><!-- ./col-md-3 -->

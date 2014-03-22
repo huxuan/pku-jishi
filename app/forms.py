@@ -40,6 +40,10 @@ LABEL_CAPTCHA = u'验证码'
 LABEL_TOS = u'同意网站协议'
 LABEL_TITLE = u'标题'
 LABEL_IMAGES = u'商品图片'
+LABEL_IMAGES2 = u'商品图片'
+LABEL_IMAGES3 = u'商品图片'
+LABEL_IMAGES4 = u'商品图片'
+LABEL_IMAGES5 = u'商品图片'
 LABEL_PRICE = u'商品价格'
 LABEL_DEPRECATE = u'新旧程度'
 LABEL_CATEGORY = u'商品分类'
@@ -244,6 +248,18 @@ class SellForm(Form):
         validators.length(max=LEN_MAX_NAME, message=MSG_TITLE_LENGTH),],
     )
     images = FileField(LABEL_IMAGES, [
+        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
+    )
+    images2 = FileField(LABEL_IMAGES2, [
+        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
+    )
+    images3 = FileField(LABEL_IMAGES3, [
+        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
+    )
+    images4 = FileField(LABEL_IMAGES3, [
+        FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
+    )
+    images5 = FileField(LABEL_IMAGES4, [
         FileAllowed(images_sell, MSG_IMAGE_ALLOW),],
     )
     price = StringField(LABEL_PRICE, [

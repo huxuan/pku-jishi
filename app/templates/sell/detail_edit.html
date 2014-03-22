@@ -4,11 +4,51 @@
 {% block title %}修改发布商品信息{% endblock %}
 
 {% block custom_css %}
+<style>
+    .thumb {
+        height: 75px;
+        border: 1px solid #000;
+        margin: 10px 5px 0 0;
+    }
+</style>
 {% endblock %}
 
 {% block custom_script %}
-{% endblock %}
+<script>
+    $(function() {
+        function handleFileSelect(evt) {
+            var files = evt.target.files; // FileList object
+            var listname = ($(this).attr('datalist'));
+            $("#"+listname).html('');
 
+            // Loop through the FileList and render image files as thumbnails.
+            for (var i = 0, f; f = files[i]; i++) {
+                // Only process image files.
+                if (!f.type.match('image.*')) {
+                    continue;
+                }
+                var reader = new FileReader();
+                // Closure to capture the file information.
+                reader.onload =
+                (function(theFile) {
+                    return function(e) {
+                        // Render thumbnail.
+                        var span = document.createElement('span'); 
+                            span.innerHTML = ['<img class="thumb" src="', e.target.result, '" title="', 
+                            escape(theFile.name), '"/>'].join(''); 
+                        document.getElementById(listname).insertBefore(span, null); 
+                    };
+                })(f);
+                // Read in the image file as a data URL.
+                reader.readAsDataURL(f);
+            }
+            // Add more images 
+        }
+        $('.files').bind('change', handleFileSelect);
+    })
+</script>
+{% endblock %}
+    
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
@@ -25,11 +65,39 @@
     </div>
     <div class="form-group">
         {{ form.images.label(class='col-sm-2 control-label') }}
-        <div class="col-sm-10">
-            {{ form.images(multiple='') }}
+        <div class="col-sm-6">
+            {{ form.images(multiple='', class='files', datalist='list1') }}
             {{ render_field_error(form.images) }}
         </div>
+        <div class="col-md-4">
+            <p class="text-info">
+            * 之前上传的图片将被覆盖
+            </p>
+        </div>
     </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="images"></label>
+        <div class="col-md-6">
+            {{ form.images2(multiple='', class='files', datalist='list2') }}
+            <br />
+            {{ form.images3(multiple='', class='files', datalist='list3') }}
+            <br />
+            {{ form.images4(multiple='', class='files', datalist='list4') }}
+            <br />
+            {{ form.images5(multiple='', class='files', datalist='list5') }}
+        </div>
+    </div>   
+    <div class="row form-group">
+        <div class="col-md-2"></div>
+        <div id="list" class="col-md-10">
+            <span id="list1"></span>
+            <span id="list2"></span>
+            <span id="list3"></span>
+            <span id="list4"></span>
+            <span id="list5"></span>
+        </div>
+    </div>      
+
     <div class="form-group">
         {{ form.price.label(class='col-sm-2 control-label') }}
         <div class="col-sm-10">
@@ -96,7 +164,8 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">确认修改</button>
+            <button type="submit" class="btn btn-primary btn-lg">确认修改</button>
+            <a href="javascript:history.back()" class="btn btn-default">取消修改</a>
         </div>
     </div>
 </form>

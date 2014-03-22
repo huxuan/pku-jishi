@@ -46,7 +46,9 @@ USER = [
 
 def fake_category_status(order, status):
     """docstring for fake_category_status"""
-    name = CATEGORY[order] + unicode(status)
+    name = CATEGORY[order]
+    if status != 0:
+        name += unicode(status)
     c = models.Category(
         name = name,
         order = order + 1,
@@ -64,7 +66,9 @@ def fake_category():
 
 def fake_location_category(order, status):
     """docstring for fake_location_category"""
-    name = LOCATION[order] + unicode(status)
+    name = LOCATION[order]
+    if status != 0:
+        name += unicode(status)
     l = models.Location(
         name = name,
         order = order + 1,
@@ -81,7 +85,8 @@ def fake_location():
 
 def fake_user_status(user, status):
     """docstring for fake_user_status"""
-    user += str(status)
+    if status != 0:
+        user += str(status)
     u = models.User(
         email = user + '@pku.edu.cn',
         name = user,

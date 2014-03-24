@@ -22,6 +22,7 @@
             </form>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('phone_intro') }}" target="_blank">手机发布指南</a></li>
             {% if g.user.is_authenticated() %}
             <!-- LOGGED -->
             <li class="dropdown">

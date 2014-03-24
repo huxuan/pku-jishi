@@ -130,6 +130,12 @@ def intro():
     }
     return render_template("intro.html", **context)
 
+@app.route('/phone_intro')
+def phone_intro():
+    context = {
+    }
+    return render_template("phone_intro.html", **context)
+
 @app.route('/m')
 def m():
     """docstring for m"""

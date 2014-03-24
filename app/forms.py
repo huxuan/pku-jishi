@@ -127,7 +127,10 @@ CHOICE_VALID = [
 class EmailValidation(object):
     """docstring for EmailValidation"""
     def __call__(self, form, field):
-        user = db.session.query(models.User).filter_by(email=field.data).first()
+        email = field.data
+        if '@' not in email:
+            email += '@pku.edu.cn'
+        user = lib.get_user_by_email(email)
         if not user:
             raise validators.StopValidation(MSG_EMAIL_NONEXIST)
         if user.status > 1:
@@ -197,7 +200,6 @@ class PriceValidation(object):
 class LoginForm(Form):
     """docstring for LoginForm"""
     email = StringField(LABEL_EMAIL, [
-        validators.Email(MSG_EMAIL_FORMAT_ERROR),
         validators.InputRequired(MSG_EMAIL_REQUIRED),
         EmailValidation(),
     ])

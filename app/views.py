@@ -160,6 +160,8 @@ def user_login():
     }
     if context['form'].validate_on_submit():
         email = context['form'].email.data
+        if '@' not in email:
+            email += '@pku.edu.cn'
         user = lib.get_user_by_email(email)
         remember = context['form'].remember.data
         login_user(user, remember=remember)

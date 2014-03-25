@@ -284,6 +284,10 @@ def get_user_by_email(email):
     """docstring for get_user_by_email"""
     return db.session.query(models.User).filter_by(email=email).first()
 
+def get_user_by_name(name):
+    """docstring for get_user_by_name"""
+    return db.session.query(models.User).filter_by(name=name).first()
+
 def get_categories(statuses=[0]):
     """docstring for get_categories"""
     return db.session.query(models.Category).\

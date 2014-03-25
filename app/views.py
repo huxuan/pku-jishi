@@ -377,8 +377,13 @@ def user_info():
 @login_required
 def user_info_edit():
     """docstring for user_info_edit"""
-    context = {}
-    # TODO(huxuan): form of user_info_edit
+    context = {
+        'form': forms.UserEditForm(obj=g.user),
+    }
+    if context['form'].validate_on_submit():
+        g.user.phone = context['form'].phone.data
+        g.user.qq = context['form'].qq.data
+        db.session.commit()
     return render_template("user/info_edit.html", **context)
 
 @app.route('/sell/')

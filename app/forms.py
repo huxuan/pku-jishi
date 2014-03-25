@@ -211,6 +211,15 @@ class LoginForm(Form):
         validators.Optional(),
     ])
 
+class UserEditForm(Form):
+    """docstring for UserEditForm"""
+    phone = StringField(LABEL_PHONE, [
+        validators.Regexp(RE_PHONE, message=MSG_PHONE_INVALID),],
+    )
+    qq = StringField(LABEL_QQ, [
+        validators.Regexp(RE_QQ, message=MSG_QQ_INVALID),],
+    )
+
 class RegisterForm(Form):
     """docstring for RegisterForm"""
     email = StringField(LABEL_EMAIL_REGISTER, [

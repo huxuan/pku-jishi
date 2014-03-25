@@ -24,7 +24,7 @@
 	<form class="form-signin" role="form" action="#" method="post">
     {{ form.hidden_tag() }}
 	<h2 class="form-signin-heading">用户登录</h2>
-    {{ form.email(class="form-control",placeholder="邮箱",autofocus=True,required=True) }}
+    {{ form.email(class="form-control",placeholder="邮箱/用户名",autofocus=True,required=True) }}
     {{ render_field_error(form.email) }}
     {{ form.password(class="form-control",placeholder="密码",required=True) }}
     {{ render_field_error(form.password) }}

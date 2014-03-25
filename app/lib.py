@@ -256,7 +256,7 @@ def images_encode(uploadset, id, images_files):
         for index in xrange(len(images_files)):
             name = '%d_%d_%d%s' % (id, index,
                 random.randint(100000, 999999),
-                os.path.splitext(images_files[index].filename)[-1])
+                os.path.splitext(images_files[index].filename)[-1].lower())
             uploadset.save(images_files[index], name=name)
             images.append(name)
         thumbnails = images[0]

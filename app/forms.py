@@ -143,6 +143,8 @@ class CorrespondToEmailPassword(object):
 
     def __call__(self, form, field):
         email = form[self.email_fieldname].data
+        if '@' not in email:
+            email += '@pku.edu.cn'
         user = db.session.query(models.User).filter_by(email=email).first()
         password = hashlib.md5(field.data).hexdigest()
         if user and password != user.password:

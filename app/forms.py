@@ -9,12 +9,15 @@ Description: forms used in app
 
 import hashlib
 
+import sys
+sys.path.insert(0, 'flask-wtf')
+from flask_wtf import Form
+from flask_wtf import RecaptchaField
+from flask_wtf.file import FileField
+from flask_wtf.file import FileAllowed
+from flask_wtf import validators as ext_validators
+
 from flask import g
-from flask.ext.wtf import Form
-from flask.ext.wtf import RecaptchaField
-from flask.ext.wtf.file import FileField
-from flask.ext.wtf.file import FileAllowed
-from flask.ext.wtf import validators as ext_validators
 from wtforms import BooleanField
 from wtforms import StringField
 from wtforms import PasswordField

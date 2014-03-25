@@ -8,6 +8,7 @@
     .goods-div { margin-top: 5px;margin-bottom: 5px;	border: 1px solid grey;}
     .goods-div hr { border-style: dotted; }
     .goods-row {margin-top: 5px; margin-bottom: 5px;}
+    .goods-status-0 { color: green; font-weight: bold;}
     .goods-status-1 { color: green; font-weight: bold;}
     .goods-status-2 { color: grey; font-weight: bold;}
     .goods-title {font-size: 1.2em; font-weight: bold; line-height: 1; margin-top: 10px;}
@@ -53,6 +54,7 @@
                     <p class="goods-location">{{ goods.location.name }}</p>
                     <p class="goods-price price">￥{{ goods.price }}</p>
                     <p class="description">{{goods.description}}</p>		
+                    <p class="goods-status-{{goods.status}}">状态：{{ g.status['sell'][goods.status] }}</p>
                     <p class="goods-time">发布时间: {{ goods.create_time }}</p>
                 </div>
             </div>
@@ -70,10 +72,9 @@
             <div class="row goods-row">
                 <div class="col-md-12">
                     <h3 class="goods-title"><a href="{{ url_for('buy_id', id=goods.id) }}">标题:{{ goods.title }}</a></h3>
-                    <p class="goods-status-1">状态：{{goods.status}}</p>
                     <p class="goods-price price"> 要价范围￥{{ goods.price_low }} - ￥{{ goods.price_high }}</p>
-
                     <p class="description">{{goods.description}}</p>		
+                    <p class="goods-status-{{goods.status}}">状态：{{g.status['buy'][goods.status]}}</p>
                     <p class="goods-time">发布时间: {{goods.create_time}}</p>		
                 </div>
             </div>

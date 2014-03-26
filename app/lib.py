@@ -20,6 +20,16 @@ from flask import render_template
 from flask.ext.mail import Message
 from sqlalchemy import or_
 
+from wheezy.captcha.image import captcha
+from wheezy.captcha.image import background
+from wheezy.captcha.image import curve
+from wheezy.captcha.image import noise
+from wheezy.captcha.image import smooth
+from wheezy.captcha.image import text
+from wheezy.captcha.image import offset
+from wheezy.captcha.image import rotate
+from wheezy.captcha.image import warp
+
 from app import app
 from app import models
 from app import mail
@@ -67,6 +77,25 @@ NUM = {
     8: u'八',
     9: u'⑨'
 }
+
+CAPTCHA_IMAGE = captcha(drawings=[
+    background(),
+    text(fonts=[
+        'fonts/CourierNew-Bold.ttf',
+        'fonts/LiberationMono-Bold.ttf'],
+        drawings=[
+            warp(),
+            rotate(),
+            offset()
+        ]),
+    curve(),
+    noise(),
+    smooth()
+])
+
+def generate_captcha(code):
+    """docstring for generate_captcha"""
+    return CAPTCHA_IMAGE(code)
 
 def async(f):
     def wrapper(*args, **kwargs):

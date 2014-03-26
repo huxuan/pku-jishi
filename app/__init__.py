@@ -18,6 +18,8 @@ from flask.ext.mobility import Mobility
 
 app = Flask(__name__)
 app.config.from_object('config')
+app.secret_key = 'pkujishi_secret_key'
+
 db = SQLAlchemy(app)
 mail = Mail(app)
 Mobility(app)

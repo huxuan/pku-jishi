@@ -7,6 +7,9 @@ Email: i(at)huxuan.org
 Description: views for app
 """
 
+import random
+import string
+import StringIO
 from functools import wraps
 
 from flask import g
@@ -17,6 +20,7 @@ from flask import url_for
 from flask import flash
 from flask import Markup
 from flask import jsonify
+from flask import session
 from flask.ext.login import login_user
 from flask.ext.login import logout_user
 from flask.ext.login import login_required
@@ -664,3 +668,16 @@ def search():
             css_framework='foundation'
         )
     return render_template("search.html", **context)
+
+@app.route('/captcha')
+def captcha():
+    """docstring for captcha"""
+    code = ''.join(random.sample(string.uppercase + string.digits, 4))
+    session['captcha'] = code
+    image = lib.generate_captcha(code)
+    buf = StringIO.StringIO()
+    image.save(buf, 'JPEG', quality=75)
+    buf_str = buf.getvalue()
+    response = app.make_response(buf_str)
+    response.headers['Content-Type'] = 'image/jpeg'
+    return response

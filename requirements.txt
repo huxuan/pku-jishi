@@ -11,3 +11,4 @@ flask-images
 flask-mobility
 jieba
 flup
+wheezy.captcha

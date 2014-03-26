@@ -12,12 +12,12 @@ import hashlib
 import sys
 sys.path.insert(0, 'flask-wtf')
 from flask_wtf import Form
-from flask_wtf import RecaptchaField
 from flask_wtf.file import FileField
 from flask_wtf.file import FileAllowed
 from flask_wtf import validators as ext_validators
 
 from flask import g
+from flask import session
 from wtforms import BooleanField
 from wtforms import StringField
 from wtforms import PasswordField
@@ -202,6 +202,20 @@ class PriceValidation(object):
         if int(field.data) < 0:
             raise validators.StopValidation(MSG_PRICE_INVALID)
 
+class CaptchaValidation(object):
+    """docstring for CaptchaValidation"""
+    def __call__(self, form, filed):
+        """docstring for __call__"""
+        if hashlib.md5(field.data.lower()).hexdigest() != session['captcha']:
+            raise validators.StopValidation(MSG_CAPTCHA)
+
+class CaptchaForm(Form):
+    """docstring for EmailCaptchaForm"""
+    captcha = StringField(LABEL_CAPTCHA, [
+        CaptchaValidation(),],
+        description = DESC_CAPTCHA,
+    )
+
 class LoginForm(Form):
     """docstring for LoginForm"""
     email = StringField(LABEL_EMAIL, [
@@ -225,7 +239,7 @@ class UserEditForm(Form):
         validators.Regexp(RE_QQ, message=MSG_QQ_INVALID),],
     )
 
-class RegisterForm(Form):
+class RegisterForm(CaptchaForm):
     """docstring for RegisterForm"""
     email = StringField(LABEL_EMAIL_REGISTER, [
         validators.Email(MSG_EMAIL_FORMAT_ERROR),
@@ -251,10 +265,6 @@ class RegisterForm(Form):
     accept_tos = BooleanField(LABEL_TOS, [
         validators.InputRequired(MSG_TOS),],
         default = True,
-    )
-    recaptcha = RecaptchaField(LABEL_CAPTCHA, [
-        ext_validators.Recaptcha(MSG_CAPTCHA),],
-        description = DESC_CAPTCHA,
     )
 
 class SellForm(Form):
@@ -348,7 +358,7 @@ class BuyForm(Form):
         default=7,
     )
 
-class ChangePasswordForm(Form):
+class ChangePasswordForm(CaptchaForm):
     """docstring for ChangePasswordForm"""
     old_password = PasswordField(LABEL_OLD_PASSWD, [
         validators.InputRequired(MSG_OLD_PASSWD_REQUIRED),
@@ -365,12 +375,8 @@ class ChangePasswordForm(Form):
         validators.InputRequired(MSG_PASSWD_CONFIRM_REQUIRED),],
         description = DESC_PASSWD_CONFIRM,
     )
-    recaptcha = RecaptchaField(LABEL_CAPTCHA, [
-        ext_validators.Recaptcha(MSG_CAPTCHA),],
-        description = DESC_CAPTCHA,
-    )
 
-class ResetPasswordForm(Form):
+class ResetPasswordForm(CaptchaForm):
     """docstring for ResetPasswordForm"""
     password = PasswordField(LABEL_PASSWD, [
         validators.InputRequired(MSG_PASSWD_REQUIRED),
@@ -382,20 +388,12 @@ class ResetPasswordForm(Form):
         validators.InputRequired(MSG_PASSWD_CONFIRM_REQUIRED),],
         description = DESC_PASSWD_CONFIRM,
     )
-    recaptcha = RecaptchaField(LABEL_CAPTCHA, [
-        ext_validators.Recaptcha(MSG_CAPTCHA),],
-        description = DESC_CAPTCHA,
-    )
 
-class EmailCaptchaForm(Form):
+class EmailCaptchaForm(CaptchaForm):
     """docstring for EmailCaptchaForm"""
     email = StringField(LABEL_EMAIL_REGISTER, [
         validators.Email(MSG_EMAIL_FORMAT_ERROR),
         validators.InputRequired(MSG_EMAIL_REQUIRED),
         EmailExistValidation(), ],
         description = DESC_EMAIL_FORGET,
-    )
-    recaptcha = RecaptchaField(LABEL_CAPTCHA, [
-        ext_validators.Recaptcha(MSG_CAPTCHA),],
-        description = DESC_CAPTCHA,
     )

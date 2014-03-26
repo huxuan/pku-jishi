@@ -9,6 +9,7 @@ Description: views for app
 
 import random
 import string
+import hashlib
 import StringIO
 from functools import wraps
 
@@ -673,7 +674,7 @@ def search():
 def captcha():
     """docstring for captcha"""
     code = ''.join(random.sample(string.uppercase + string.digits, 4))
-    session['captcha'] = code
+    session['captcha'] = hashlib.md5(code.lower()).hexdigest()
     image = lib.generate_captcha(code)
     buf = StringIO.StringIO()
     image.save(buf, 'JPEG', quality=75)

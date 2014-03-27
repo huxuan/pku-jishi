@@ -33,7 +33,7 @@ from app import images_sell
 
 LEN_MAX_NAME = 30
 
-LABEL_EMAIL = u'邮箱'
+LABEL_EMAIL_OR_NAME = u'邮箱/用户名'
 LABEL_EMAIL_REGISTER = u'注册邮箱'
 LABEL_USERNAME = u'用户名'
 LABEL_PASSWD = u'密码'
@@ -61,8 +61,9 @@ LABEL_NEW_PASSWD = u'新密码'
 
 MSG_EMAIL_FORMAT_ERROR = u'邮箱格式错误'
 MSG_EMAIL_REQUIRED = u'邮箱不能为空'
-MSG_EMAIL_INVALID = u'用户无效'
-MSG_EMAIL_NONEXIST = u'此邮箱不存在'
+MSG_EMAIL_OR_NAME_REQUIRED = u'邮箱/用户名不能为空'
+MSG_EMAIL_OR_NAME_INVALID = u'此用户无效'
+MSG_EMAIL_OR_NAME_NONEXIST = u'此邮箱/用户名不存在'
 MSG_EMAIL_EXIST = u'此邮箱已注册'
 MSG_EMAIL_PKU = u'请使用北大邮箱@pku.edu.cn注册'
 MSG_USERNAME_REQUIRED = u'用户名不能为空'
@@ -127,28 +128,30 @@ CHOICE_VALID = [
     for x in range(1, 30)
 ]
 
-class EmailValidation(object):
-    """docstring for EmailValidation"""
+class EmailOrNameValidation(object):
+    """docstring for EmailOrNameValidation"""
     def __call__(self, form, field):
-        email = field.data
-        if '@' not in email:
-            email += '@pku.edu.cn'
-        user = lib.get_user_by_email(email)
+        email_or_name = field.data
+        if '@' in email_or_name:
+            user = lib.get_user_by_email(email_or_name)
+        else:
+            user = lib.get_user_by_name(email_or_name)
         if not user:
-            raise validators.StopValidation(MSG_EMAIL_NONEXIST)
+            raise validators.StopValidation(MSG_EMAIL_OR_NAME_NONEXIST)
         if user.status > 1:
-            raise validators.StopValidation(MSG_EMAIL_INVALID)
+            raise validators.StopValidation(MSG_EMAIL_OR_NAME_INVALID)
 
 class CorrespondToEmailPassword(object):
     """docstring for CorrespondToEmailPassword"""
-    def __init__(self, email_fieldname):
-        self.email_fieldname = email_fieldname
+    def __init__(self, email_or_name_fieldname):
+        self.email_or_name_fieldname = email_or_name_fieldname
 
     def __call__(self, form, field):
-        email = form[self.email_fieldname].data
-        if '@' not in email:
-            email += '@pku.edu.cn'
-        user = db.session.query(models.User).filter_by(email=email).first()
+        email_or_name = form[self.email_or_name_fieldname].data
+        if '@' in email_or_name:
+            user = lib.get_user_by_email(email_or_name)
+        else:
+            user = lib.get_user_by_name(email_or_name)
         password = hashlib.md5(field.data).hexdigest()
         if user and password != user.password:
             raise validators.StopValidation(MSG_PASSWD_INVALID)
@@ -218,13 +221,13 @@ class CaptchaForm(Form):
 
 class LoginForm(Form):
     """docstring for LoginForm"""
-    email = StringField(LABEL_EMAIL, [
-        validators.InputRequired(MSG_EMAIL_REQUIRED),
-        EmailValidation(),
+    email_or_name = StringField(LABEL_EMAIL_OR_NAME, [
+        validators.InputRequired(MSG_EMAIL_OR_NAME_REQUIRED),
+        EmailOrNameValidation(),
     ])
     password = PasswordField(LABEL_PASSWD, [
         validators.InputRequired(MSG_PASSWD_REQUIRED),
-        CorrespondToEmailPassword('email'),
+        CorrespondToEmailPassword('email_or_name'),
     ])
     remember = BooleanField(LABEL_REMEMBER, [
         validators.Optional(),

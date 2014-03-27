@@ -164,13 +164,13 @@ def user_login():
         'form': forms.LoginForm(),
     }
     if context['form'].validate_on_submit():
-        email = context['form'].email.data
-        if '@' not in email:
-            email += '@pku.edu.cn'
-        user = lib.get_user_by_email(email)
+        email_or_name = context['form'].email_or_name.data
+        if '@' in email_or_name:
+            user = lib.get_user_by_email(email_or_name)
+        else:
+            user = lib.get_user_by_name(email_or_name)
         remember = context['form'].remember.data
         login_user(user, remember=remember)
-        #flash(MSG_LOGIN_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(request.args.get('next') or url_for('index'))
     return render_template("user/login.html", **context)
 

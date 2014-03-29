@@ -1,6 +1,7 @@
 {% extends "layout/default.html" %}
+{% from "shared/_formhelpers.html" import render_field_error %}
 
-{% block title %}我的资料{% endblock %}
+{% block title %}修改资料{% endblock %}
 
 {% block custom_css %}
 <style type="text/css">
@@ -28,21 +29,38 @@
 </div>
 
 <div id="info-div" class="row">
-	<div class="col-md-12">
-		<table class="table table-bordered table-hover">
-			<tr>
-				<td>用户名</td>
-				<td>qiangrw</td>
-			</tr>
-			<tr>
-				<td>注册邮箱</td>
-				<td>qiangrw@pku.edu.cn</td>
-			</tr>
-		</table>
-		<div id="op-div">
-			<a class="btn btn-link" href="{{ url_for('user_change_password') }}">修改密码</a>
-		</div>
-	</div>
+    <form role="form" class="form-horizontal" action="" method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.phone.label(class='col-sm-2 control-label') }}
+            <div class="col-sm-6">
+                {{ form.phone(class='form-control') }}
+                {{ render_field_error(form.phone) }}
+            </div>
+            <div class="col-sm-4">
+                <p class="text-info">
+                {{ form.phone.description }}
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.qq.label(class='col-sm-2 control-label') }}
+            <div class="col-sm-6">
+                {{ form.qq(class='form-control') }}
+                {{ render_field_error(form.qq) }}
+            </div>
+            <div class="col-sm-4">
+                <p class="text-info">
+                {{ form.qq.description }}
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">确认修改</button>
+            </div>
+        </div>     
+    </form>
 </div>
 
 </div><!--/.container-->

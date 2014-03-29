@@ -38,9 +38,19 @@
 				<td>注册邮箱</td>
                 <td>{{ g.user.email }}</td>
 			</tr>
+			<tr>
+				<td>我的手机</td>
+                <td>{{ g.user.phone }}</td>
+			</tr>
+			<tr>
+				<td>我的QQ</td>
+                <td>{{ g.user.qq }}</td>
+			</tr>
 		</table>
 		<div id="op-div">
-			<a class="btn btn-link" href="{{ url_for('user_change_password') }}">修改密码</a>
+            <a class="btn btn-link" href="{{ url_for('user_change_password') }}">修改密码</a>
+            |
+			<a class="btn btn-link" href="{{ url_for('user_info_edit') }}">修改信息</a>
 		</div>
 	</div>
 </div>

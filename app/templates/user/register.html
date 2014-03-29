@@ -12,6 +12,11 @@
 <script>
     $(function(){
         $("#email").autoEmail(["pku.edu.cn", "icst.pku.edu.cn"], true);
+        $(".change-captcha").click(function(){
+            $('#captcha-img').remove();
+            var captcha = "<img src='{{ url_for('captcha') }}' alt='验证码' id='captcha-img'/>";
+            $('#captcha-link').html(captcha);
+        });
     });
 </script>
 {% endblock %}
@@ -72,14 +77,22 @@
         </div>
     </div>
     <div class="form-group">
-        {{ form.recaptcha.label(class='col-sm-2 control-label') }}
+        {{ form.captcha.label(class='col-sm-2 control-label') }}
         <div class="col-sm-6">
-        {{ form.recaptcha(class='form-control') }}
-        {{ render_field_error(form.recaptcha) }}
+        {{ form.captcha(class='form-control') }}
+        {{ render_field_error(form.captcha) }}
+        <div id="captcha-div">
+            <br />
+            <a id="captcha-link" class="change-captcha" title="点击换一张" href="#">
+            <img src="{{ url_for('captcha') }}" alt="验证码" id='captcha-img'/>
+            </a>
+        </div>
+        <br />
+        <a class="change-captcha" href="#">看不清楚,换一张</a>
         </div>
         <div class="col-sm-4">
             <p class="text-info">
-            {{ form.recaptcha.description }}
+            {{ form.captcha.description }}
             </p>
         </div>
     </div>

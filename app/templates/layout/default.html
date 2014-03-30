@@ -18,6 +18,7 @@
 {% block custom_script %}{% endblock %}
 </head>
 <body>
+{% include 'shared/analyticstracking.html'%}
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     <div class=container>

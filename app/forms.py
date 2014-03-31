@@ -213,7 +213,7 @@ class CaptchaValidation(object):
             raise validators.StopValidation(MSG_CAPTCHA)
 
 class CaptchaForm(Form):
-    """docstring for EmailCaptchaForm"""
+    """docstring for CaptchaForm"""
     captcha = StringField(LABEL_CAPTCHA, [
         CaptchaValidation(),],
         description = DESC_CAPTCHA,

@@ -378,7 +378,7 @@ def user_info():
     context = {}
     return render_template("user/info.html", **context)
 
-@app.route('/user/info/edit')
+@app.route('/user/info/edit', methods=('GET', 'POST'))
 @login_required
 def user_info_edit():
     """docstring for user_info_edit"""
@@ -389,6 +389,7 @@ def user_info_edit():
         g.user.phone = context['form'].phone.data
         g.user.qq = context['form'].qq.data
         db.session.commit()
+        return redirect(url_for('user_info'))
     return render_template("user/info_edit.html", **context)
 
 @app.route('/sell/')
@@ -503,7 +504,7 @@ def sell_edit_id(id):
 def sell_post():
     """docstring for sell_post"""
     context = {
-        'form': forms.SellForm(),
+        'form': forms.SellForm(obj=g.user),
     }
     if context['form'].validate_on_submit():
         sell = lib.create_sell(
@@ -616,7 +617,7 @@ def buy_edit_id(id):
 def buy_post():
     """docstring for buy_post"""
     context = {
-        'form': forms.BuyForm(),
+        'form': forms.BuyForm(obj=g.user),
     }
     if context['form'].validate_on_submit():
         buy = lib.create_buy(

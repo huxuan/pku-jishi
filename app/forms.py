@@ -207,7 +207,7 @@ class PriceValidation(object):
 
 class CaptchaValidation(object):
     """docstring for CaptchaValidation"""
-    def __call__(self, form, filed):
+    def __call__(self, form, field):
         """docstring for __call__"""
         if hashlib.md5(field.data.lower()).hexdigest() != session['captcha']:
             raise validators.StopValidation(MSG_CAPTCHA)

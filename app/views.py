@@ -300,18 +300,6 @@ def user_change_password():
         flash(MSG_CHANGE_PASSWD_SUCCESS, MSG_CATEGORY_SUCCESS)
         return redirect(url_for('user_info'))
     return render_template("user/change_password.html", **context)
- 
-@app.route('/user/info_edit', methods=('GET', 'POST'))
-@login_required
-def info_edit():
-    """docstring for user_info_edit"""
-    context = {
-        'form': forms.UserEditForm(),
-    }
-    if context['form'].validate_on_submit():
-        #TODO @huxuan, plz add the logic here
-        return redirect(url_for('user_info'))
-    return render_template("user/info_edit", **context)
 
 @app.route('/user/sell')
 @login_required

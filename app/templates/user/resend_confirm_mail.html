@@ -24,7 +24,7 @@
 {% include 'inc/header.html' with context %}
 <div id="main" class="container">
     <div class="row">
-        <form role="form" class="form-horizontal" >
+        <form role="form" class="form-horizontal" method="post" action="">
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.email.label(class='col-sm-2 control-label') }}

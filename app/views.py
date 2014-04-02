@@ -408,6 +408,9 @@ def sell_index():
         location_id=context['location_id'],
         category_id=context['category_id'],
         page=page, per_page=PER_PAGE)
+    context['total'] = total
+    context['page'] = page
+    context['per_page'] = PER_PAGE
     context['pagination'] = Pagination(page=page,
         total=total,
         record_name='sells',

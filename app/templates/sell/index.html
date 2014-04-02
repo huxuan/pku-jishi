@@ -32,9 +32,6 @@
         </div>
         <div class="goods-div panel-body">
             {% for goods in sells %}
-            {% if loop.index % 4 == 1 %} 
-            <div class="row">
-            {% endif %}
             <div class="col-md-3">
                 <div class="thumbnail">
                     <a href="{{ url_for('sell_id', id=goods.id) }}">
@@ -54,13 +51,7 @@
                     </div>
                 </div>
             </div>
-            {% if loop.index % 4 == 0 %} 
-            </div>
-            {% endif %}
             {% endfor %}
-            {% if page * per_page > total %} 
-            </div>
-            {% endif %}
         </div>
     </div> <!-- ./floor-->
     {{ pagination.links|safe }}

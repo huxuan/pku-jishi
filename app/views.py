@@ -227,7 +227,7 @@ def user_resend_confirm_mail():
         token = lib.activation_token_encode(user.id, token.confirm)
         lib.send_activation_mail(user, url)
         flash(MSG_RESEND_CONFIRM_SUCCESS, MSG_CATEGORY_SUCCESS)
-        return redirect(url_for('user_index'))
+        return redirect(url_for('user_register_succ'))
     return render_template("user/resend_confirm_mail.html", **context)
 
 @app.route('/user/activation/<token>')

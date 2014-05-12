@@ -1,4 +1,16 @@
-<div class="row">
+<ul id="category-list" class="nav nav-pills nav-stacked">
+    {% for c in g.categories %}
+    <li>
+    <a href="{{url_for('buy_index', category_id=c.id) }}">
+        <center>
+            {{c.name}}
+        </center>
+    </a>
+    </li>
+    {% endfor %}
+</ul>   
+
+<!--<div class="row">
     <div id="category-div">
         <ul id="category-list" class="list-unstyled text-center">
             {% for c in g.categories %}
@@ -6,4 +18,4 @@
             {% endfor %}
         </ul>
     </div>
-</div><!--./row-->
+</div>--><!--./row-->

@@ -1,0 +1,29 @@
+<!-- Search Row -->
+<div class="row" style="margin-top: -36px;">
+    <div class="col-md-3">
+        <img src="{{url_for('static', filename='images/head-logo.png') }}" alt="LOGO">
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            <div class="col-md-7">
+            <h3 class="slogan">物联网 惠生活</h3>
+            </div>
+            <div class="col-md-5">
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-md-8">
+            <form id="searchForm" class="navbar-form navbar-left" role="search" method="get" action="{{ url_for('search') }}" style="margin-left:-15px!important;">
+                <div class="form-group search-form">
+                    <input name="q" type="text" class="form-control input input-sm" style="width: 380px;" placeholder="搜索商品">
+                </div>
+                <button type="submit" class="btn btn-default btn-sm">搜索</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('sell_post') }}" class="btn btn-default main-btn">我要出售</a>
+            <a href="{{ url_for('buy_post') }}" class="btn btn-default main-btn">我要求购</a>
+        </div>
+        </div>
+    </div>
+</div>  

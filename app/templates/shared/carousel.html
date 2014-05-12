@@ -11,7 +11,7 @@
         <div class="item active">
             <a target="_blank" href="{{ url_for('intro') }}">
             <center>
-                <img src="static/images/slides/slide.png" alt="pic">
+                <img src="{{url_for('static', filename='images/slides/slide.png')}}" alt="pic">
             </center>
             </a>
             <div class="carousel-caption">
@@ -20,13 +20,17 @@
         </div>
 
         <div class="item">
-            <center><img src="static/images/slides/slide-01.jpg" alt="pic"></center>
+            <center>
+                <img src="{{url_for('static', filename='images/slides/slide-01.jpg')}}" alt="pic">
+            </center>
             <div class="carousel-caption">
                 <!-- Description HERE -->
             </div>
         </div>
         <div class="item">
-            <center><img src="static/images/slides/slide-02.jpg" alt="pic"></center>
+            <center>
+                <img src="{{url_for('static', filename='images/slides/slide-02.jpg')}}" alt="pic">
+            </center>
             <div class="carousel-caption">
                 <!-- Description HERE -->
             </div>

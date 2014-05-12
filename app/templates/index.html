@@ -17,11 +17,59 @@
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div class="container">
-<div class="col-md-9">
-  {% include 'shared/carousel.html' with context %}
-  {% include 'shared/category_sell.html' with context %}
+<!-- Search Row -->
+<div class="row" style="margin-top: -36px;">
+    <div class="col-md-3">
+        <img src="{{url_for('static', filename='images/head-logo.png') }}" alt="LOGO">
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            <div class="col-md-7">
+            <h3 class="slogan">物联网 惠生活</h3>
+            </div>
+            <div class="col-md-5">
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-md-8">
+            <form id="searchForm" class="navbar-form navbar-left" role="search" method="get" action="{{ url_for('search') }}" style="margin-left:-15px!important;">
+                <div class="form-group search-form">
+                    <input name="q" type="text" class="form-control input input-sm" style="width: 380px;" placeholder="搜索商品">
+                </div>
+                <button type="submit" class="btn btn-default btn-sm">搜索</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('sell_post') }}" class="btn btn-default main-btn">我要出售</a>
+            <a href="{{ url_for('buy_post') }}" class="btn btn-default main-btn">我要求购</a>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <ul id="category-list" class="nav nav-pills nav-stacked">
+            {% for c in g.categories %}
+            <li>
+                <a href="{{url_for('sell_index', category_id=c.id) }}">
+                <center>
+                {{c.name}}
+                </center>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-7" style="padding-left: 40px;">
+        {% include 'shared/carousel.html' with context %}
+    </div>
+    <div class="col-md-3">
+        {% include 'shared/board.html' with context %}
+    </div>
+</div>
 
-  
+<div class="row">
+<div class="col-md-12">  
   <!-- Free Floor -->
   <div class="floor panel panel-default">
     <div class="goods-type col-md-12 panel-heading">
@@ -31,27 +79,26 @@
     <br />
     </div>
   <div class="goods-div panel-body">
-	{% for goods in sells_free %}
-	<div class="col-md-3">
+  {% for goods in sells_free %}
+    <div class="col-md-3">
       <div class="thumbnail">
           <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}">
               {% if(goods.thumbnails != "") : %}
-              <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=128, height=128)}}">
+              <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=300, height=300)}}">
               {% else: %}
-              <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
+              <img width=300 height=300 src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
               {% endif %}
           </a>
         <div class="caption">
         <h3><a href="{{ url_for('sell_id', id=goods.id) }}" >{{ goods.title }}</a></h3>
         <p>
           <span class="location">{{ goods.location.name }}</span>
-          <br />
           <span class="price">免费赠送</span>
         </p>
         </div>
       </div>
     </div>
-	{% endfor %}
+    {% endfor %}
   </div>
   </div> <!-- ./floor-->
   
@@ -78,39 +125,34 @@
   </div>
   <div class="panel-body">
   <div class="goods-div">
-	{% for goods in sells_floor %}
+  {% for goods in sells_floor %}
     <div class="col-md-3">
       <div class="thumbnail">
           <a href="{{ url_for('sell_id', id=goods.id) }}" alt="{{goods.title}}">
               {% if(goods.thumbnails != "") : %}
-              <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=128, height=128)}}">
+              <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=300, height=300)}}">
               {% else: %}
-              <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
+              <img width=300 height=300 src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
               {% endif %}
           </a>
         <div class="caption">
         <h3><a href="{{ url_for('sell_id', id=goods.id) }}" >{{ goods.title }}</a></h3>
         <p>
         <span class="location">{{ goods.location.name }}</span>
-        <br />
         <span class="price">￥{{ goods.price }}</span>
         </p>
         </div>
       </div>
     </div>
-	{% endfor %}
+    {% endfor %}
   </div>
   </div>
   </div> <!-- ./floor-->
   {% endfor %}
 
-</div><!-- ./col-md-9 -->
-<div class="col-md-3">
-  {% include 'shared/main_btn.html' with context %}
-  <br /><br />
-  {% include 'shared/board.html' with context %}
-</div><!-- ./col-md-3 -->
-</div>
+</div><!-- ./col-md-12 -->
+</div><!-- ./row -->
+</div><!-- ./container -->
 
 {% include 'inc/footer.html' with context %}
 {% endblock %}

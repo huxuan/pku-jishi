@@ -326,6 +326,14 @@ def get_category(id):
     """docstring for get_category"""
     return db.session.query(models.Category).get(id)
 
+def get_category_by_id(id):
+    """docstring for get_category_by_id"""
+    return get_category(id)
+
+def get_category_by_name(name):
+    """docstring for get_category_by_name"""
+    return db.session.query(models.Category).filter_by(name=name).first()
+
 def get_locations(statuses=[0]):
     """docstring for get_locations"""
     return db.session.query(models.Location).\

@@ -9,6 +9,7 @@ flask-uploads
 flask-mail
 flask-images
 flask-mobility
+flask-admin
 jieba
 flup
 wheezy.captcha

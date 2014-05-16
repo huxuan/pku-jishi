@@ -17,18 +17,33 @@ from app import lib
 from app import images_sell
 
 CATEGORY = [
-    u'代步工具',
-    u'电脑办公',
-    u'手机数码',
+    u'电脑/手机/数码',
+    u'家电/家具',
+    u'美妆护肤',
+    u'服饰鞋帽/箱包',
     u'图书音像',
-    u'运动健身',
-    u'日用产品',
-    u'衣服鞋帽',
-    u'娱乐票务',
-    u'电器产品',
-    u'房屋租赁',
+    u'文体/健身/户外',
+    u'娱乐展演票务',
+    u'代步工具',
+    u'日用百货/杂货',
     u'食品饮料',
-    u'其他分类',
+    u'租赁服务',
+    u'其他',
+]
+
+SUBCATEGORIES = [
+    [u'笔记本', u'平板电脑', u'台式机', u'电脑配件', u'手机', u'单反/相机', u'移动硬盘/U盘', u'MP3/4', u'其他数码',],
+    [u'洗衣机', u'空调', u'电视机', u'电冰箱', u'电风扇', u'电吹风', u'其他电器', u'家具', ],
+    [u'女生美妆用品', u'女生护肤用品', u'男生洁面护肤用品', ],
+    [u'女生服饰', u'女生鞋帽', u'女生箱包', u'男生服饰鞋帽', u'男生箱包', ],
+    [u'教材/工具书', u'考研', u'GRE/雅思/托福', u'小说文学', u'音像制品', ],
+    [u'乐器', u'体育用品', u'健身卡', u'游泳卡', u'户外用品', ],
+    [u'电影票', u'演出票', u'优惠/团购券', u'其他票务', ],
+    [u'自行车', u'电动车', u'配件/装备', ],
+    [u'日用百货', u'杂货', ],
+    [u'休闲食品', u'地方特产', u'饮料', ],
+    [u'房屋租赁', u'房屋合租', u'其他产品出租', ],
+    [u'其他分类', ],
 ]
 
 LOCATION = [
@@ -62,6 +77,41 @@ def fake_category():
     for order in xrange(len(CATEGORY)):
         fake_category_status(order, 0)
         fake_category_status(order, 1)
+    db.session.commit()
+
+def fake_category_order_parent_id(name, order, parent_id):
+    """docstring for fake_category_order_parent_id"""
+    c = lib.get_category_by_id(order)
+    if c:
+        c.name = name
+        c.order = order
+        c.parent_id = parent_id
+        c.status = 0
+    else:
+        c = models.Category(
+            name = name,
+            order = order,
+            parent_id = parent_id,
+            status = 0,
+        )
+    db.session.add(c)
+
+def fake_category_subcategory_new():
+    """docstring for fake_category_subcategory_new"""
+    categories = db.session.query(models.Category).all()
+    for order in xrange(len(categories)):
+        categories[order].name = order + 1
+    db.session.commit()
+    order = 0
+    for name in CATEGORY:
+        order += 1
+        fake_category_order_parent_id(name, order, 0)
+    parent_id = 0
+    for subcategories in SUBCATEGORIES:
+        parent_id += 1
+        for subcategory in subcategories:
+            order += 1
+            fake_category_order_parent_id(subcategory, order, parent_id)
     db.session.commit()
 
 def fake_location_category(order, status):
@@ -179,11 +229,12 @@ def fake_buy():
 
 def main():
     """docstring for main"""
-    fake_category()
-    fake_location()
-    fake_user()
-    fake_sell()
-    fake_buy()
+    #fake_category()
+    fake_category_subcategory_new()
+    #fake_location()
+    #fake_user()
+    #fake_sell()
+    #fake_buy()
 
 if __name__ == '__main__':
     main()

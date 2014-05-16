@@ -12,17 +12,28 @@
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div class="container">
-<div class="col-md-9">
-    {% include 'shared/category_buy.html' with context %}
+    {% include 'shared/search.html' with context %}
+    <div class="row">
+        <div class="col-md-2">
+            {% include 'shared/category_buy.html' with context %}
+        </div>
+        <div class="col-md-7" style="padding-left: 40px;">
+            {% include 'shared/carousel.html' with context %}
+        </div>
+        <div class="col-md-3">
+            {% include 'shared/board.html' with context %}
+        </div>
+    </div>
+
     <div class="row">
         <br />
         <div class="col-md-12">
-        <div class="btn-group">
-            <a href="{{ url_for('buy_index', category_id=category_id) }}" class="btn btn-default">全部</a>
-            {% for location in g.locations %}
-            <a href="{{ url_for('buy_index', location_id=location.id, category_id=category_id) }}" class="btn btn-default">{{ location.name }}</a>
-            {% endfor %}
-        </div>
+            <div class="btn-group">
+                <a href="{{ url_for('buy_index', category_id=category_id) }}" class="btn btn-default">全部</a>
+                {% for location in g.locations %}
+                <a href="{{ url_for('buy_index', location_id=location.id, category_id=category_id) }}" class="btn btn-default">{{ location.name }}</a>
+                {% endfor %}
+            </div>
         </div>
     </div>
     <div class="floor panel panel-info">
@@ -64,12 +75,6 @@
         </div>
     </div> <!-- ./floor-->
     {{ pagination.links|safe }}
-</div><!-- ./col-md-9 -->
-<div class="col-md-3">
-  {% include 'shared/main_btn.html' with context %}
-  <br /><br />
-  {% include 'shared/board.html' with context %}
-</div><!-- ./col-md-3 -->
 </div>
 {% include 'inc/footer.html' with context %}
 {% endblock %}

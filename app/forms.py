@@ -295,6 +295,11 @@ class SellForm(Form):
         choices=[(x.id, x.name) for x in lib.get_categories()],
         coerce=int,
     )
+    subcategory_id = SelectField(LABEL_CATEGORY, [
+        validators.InputRequired(MSG_CATEGORY_REQUIRED),],
+        choices=[],
+        coerce=int,
+    )
     location_id = SelectField(LABEL_LOCATION, [
         validators.InputRequired(MSG_LOCATION_REQUIRED),],
         choices=[(x.id, x.name) for x in lib.get_locations()],
@@ -337,6 +342,11 @@ class BuyForm(Form):
     category_id = SelectField(LABEL_CATEGORY, [
         validators.InputRequired(MSG_CATEGORY_REQUIRED),],
         choices=[(x.id, x.name) for x in lib.get_categories()],
+        coerce=int,
+    )
+    subcategory_id = SelectField(LABEL_CATEGORY, [
+        validators.InputRequired(MSG_CATEGORY_REQUIRED),],
+        choices=[],
         coerce=int,
     )
     location_id = SelectField(LABEL_LOCATION, [

@@ -197,9 +197,11 @@ def create_token(user):
     token.create_time = datetime.datetime.now()
     return token
 
-def create_sell(user_id, title, price, deprecate, category_id, location_id,
-        description, phone, qq, valid):
+def create_sell(user_id, title, price, deprecate, category_id, subcategory_id,
+        location_id, description, phone, qq, valid):
     """docstring for create_sell"""
+    if subcategory_id != 0:
+        category_id = subcategory_id
     sell = models.Sell(
         user_id = user_id,
         category_id = category_id,
@@ -223,6 +225,8 @@ def update_sell_from_form(sell, form):
     sell.deprecate = form.deprecate.data
     sell.location_id = form.location_id.data
     sell.category_id = form.category_id.data
+    if form.subcategory_id.data != 0:
+        buy.category_id = form.subcategory_id.data
     sell.description = form.description.data
     sell.phone = form.phone.data
     sell.qq = form.qq.data
@@ -230,9 +234,11 @@ def update_sell_from_form(sell, form):
         datetime.timedelta(days=int(form.valid.data))
     return sell
 
-def create_buy(user_id, title, price_low, price_high, category_id, location_id,
-        description, phone, qq, valid):
+def create_buy(user_id, title, price_low, price_high, category_id,
+        subcategory_id, location_id, description, phone, qq, valid):
     """docstring for create_buy"""
+    if subcategory_id != 0:
+        category_id = subcategory_id
     buy = models.Buy(
         user_id = user_id,
         category_id = category_id,
@@ -256,6 +262,8 @@ def update_buy_from_form(buy, form):
     buy.price_high = form.price_high.data
     buy.location_id = form.location_id.data
     buy.category_id = form.category_id.data
+    if form.subcategory_id.data != 0:
+        buy.category_id = form.subcategory_id.data
     buy.description = form.description.data
     buy.phone = form.phone.data
     buy.qq = form.qq.data

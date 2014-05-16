@@ -112,6 +112,7 @@ def before_request():
     g.sell_count = lib.get_sell_count()
     g.buy_count = lib.get_buy_count()
     g.categories = lib.get_categories()
+    g.subcategories = lib.get_subcategories()
     g.locations = lib.get_locations()
     g.status = lib.STATUS
 

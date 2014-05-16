@@ -320,7 +320,22 @@ def get_user_by_name(name):
 def get_categories(statuses=[0]):
     """docstring for get_categories"""
     return db.session.query(models.Category).\
-        filter(models.Category.status.in_(statuses)).all()
+        filter_by(parent_id=0).\
+        filter(models.Category.status.in_(statuses)).\
+        order_by(models.Category.order).all()
+
+def get_subcategories(statuses=[0]):
+    """docstring for get_categories"""
+    subcategories = db.session.query(models.Category).\
+        filter(models.Category.parent_id!=0).\
+        filter(models.Category.status.in_(statuses)).\
+        order_by(models.Category.order).all()
+    res = []
+    for subcategory in subcategories:
+        if not res or res[-1][-1].parent_id != subcategory.parent_id:
+            res.append([])
+        res[-1].append(subcategory)
+    return res
 
 def get_category(id):
     """docstring for get_category"""

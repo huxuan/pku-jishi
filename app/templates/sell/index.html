@@ -12,8 +12,7 @@
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div class="container">
-<div class="col-md-9">
-    {% include 'shared/category_sell.html' with context %}
+<div class="col-md-12">
     <div class="row">
         <br />
         <div class="col-md-12">
@@ -36,16 +35,15 @@
                 <div class="thumbnail">
                     <a href="{{ url_for('sell_id', id=goods.id) }}">
               {% if(goods.thumbnails != "") : %}
-              <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=128, height=128)}}">
+              <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=300, height=300)}}">
               {% else: %}
-              <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
+              <img width=300 height=300 src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
               {% endif %}
                     </a>
                     <div class="caption">
                         <h3><a href="{{ url_for('sell_id', id=goods.id) }}">{{ goods.title }}</h3> </a>
                         <p>
                         <span class="location">{{ goods.location.name }}</span>
-                        <br />
                         <span class="price">￥{{goods.price}}</span>
                         </p>
                     </div>
@@ -56,11 +54,6 @@
     </div> <!-- ./floor-->
     {{ pagination.links|safe }}
 </div><!-- ./col-md-9 -->
-<div class="col-md-3">
-    {% include 'shared/main_btn.html' with context %}
-    <br /><br />
-    {% include 'shared/board.html' with context %}
-</div><!-- ./col-md-3 -->
 </div>
 {% include 'inc/footer.html' with context %}
 {% endblock %}

@@ -7,7 +7,7 @@
     background-color: #eeeeed;
     color: #7a7a78;
     border: 2px solid #9f9f9f;
-    min-width: 180px;
+    min-width: 150px;
 }
 #category-list>li>a {
     padding: 4px 10px;
@@ -20,6 +20,14 @@ div.caption h3 {
     white-space:nowrap;
     overflow:hidden;
     text-overflow: ellipsis;
+}
+.category-row .col-md-2, 
+.category-row .col-md-7, 
+{
+    padding-right: 2px!important;
+}
+.category-row .col-md-3{
+    padding-left: 2px!important;
 }
 /*
 #category-list{

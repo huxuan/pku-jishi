@@ -11,8 +11,7 @@
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div class="container">
-<div class="col-md-9">
-  {% include 'shared/category_buy.html' with context %}
+<div class="col-md-12">
   <!-- Free Floor -->
   <div class="floor">
   <div class="row">
@@ -58,12 +57,7 @@
       </div>
   </div>
 
-</div><!-- ./col-md-9 -->
-<div class="col-md-3">
-  {% include 'shared/main_btn.html' with context %}
-  <br /><br />
-  {% include 'shared/board.html' with context %}
-</div><!-- ./col-md-3 -->
+</div><!-- ./col-md-12 -->
 </div>
 {% include 'inc/footer.html' with context %}
 {% endblock %}

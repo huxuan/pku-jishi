@@ -11,8 +11,8 @@
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li {% if request.path == "/" %}class="active"{% endif %}><a href="/">首页</a></li>
-            <li {% if request.path == "/user/index" %}class="active"{% endif %}><a href="{{ url_for('user_index') }}">我的个人主页</a></li>
             <li {% if request.path == "/buy/" %}class="active"{% endif %}><a href="{{ '/buy/' }}">求购专区</a></li>
+            <li {% if request.path == "/user/index" %}class="active"{% endif %}><a href="{{ url_for('user_index') }}">我的个人主页</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ url_for('phone_intro') }}" target="_blank">手机发布指南</a></li>

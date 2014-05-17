@@ -42,7 +42,7 @@ from app import models
 class MyModelView(ModelView):
     """docstring for MyModelView"""
     def is_accessible(self):
-        return g.user.id <= 3
+        return g.user.is_authenticated() and g.user.id <= 3
 
     def __init__(self, model, session, **kwargs):
         super(MyModelView, self).__init__(model, session, **kwargs)

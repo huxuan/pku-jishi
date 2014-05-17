@@ -339,10 +339,12 @@ def get_subcategories(statuses=[0]):
         filter(models.Category.status.in_(statuses)).\
         order_by(models.Category.order).all()
     res = []
+    last_parent_id = 0
     for subcategory in subcategories:
-        if not res or res[-1][-1].parent_id != subcategory.parent_id:
+        if not res or last_parent_id != subcategory.parent_id:
+            last_parent_id = subcategory.parent_id
             res.append([])
-        res[-1].append(subcategory)
+        res[-1].append(subcategory.to_dict())
     return res
 
 def get_category(id):

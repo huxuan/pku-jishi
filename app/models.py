@@ -8,13 +8,29 @@ Description: models used in app
 """
 
 import sys
+import json
 sys.path.insert(0, 'Flask-WhooshAlchemy')
 import flask_whooshalchemy as whooshalchemy
 
 from app import app
 from app import db
 
-class User(db.Model):
+class Serializer(object):
+    """docstring for Serializer"""
+    __public__ = None
+
+    def to_serializable_dict(self):
+        """docstring for to_serializable_dict"""
+        res = {}
+        for public_key in self.__public__:
+            res[public_key] = getattr(self, public_key)
+        return res
+
+    def to_json(self):
+        """docstring for to_json"""
+        return json.dumps(self.to_serializable_dict())
+
+class User(db.Model, Serializer):
     """docstring for User"""
 
     id = db.Column(db.Integer, primary_key=True)
@@ -46,8 +62,9 @@ class User(db.Model):
         """docstring for __repr__"""
         return '<User %r>' % self.name
 
-class Category(db.Model):
+class Category(db.Model, Serializer):
     """docstring for Category"""
+    __public__ = ['id', 'name', 'order', 'parent_id', 'status', ]
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
@@ -61,7 +78,7 @@ class Category(db.Model):
         """docstring for __repr__"""
         return '<Category %r>' % self.name
 
-class Location(db.Model):
+class Location(db.Model, Serializer):
     """docstring for location"""
 
     id = db.Column(db.Integer, primary_key=True)
@@ -75,7 +92,7 @@ class Location(db.Model):
         """docstring for __repr__"""
         return '<Location %r>' % self.name
 
-class Sell(db.Model):
+class Sell(db.Model, Serializer):
     """docstring for Sell"""
     __searchable__ = ['title', 'description']
 
@@ -100,7 +117,7 @@ class Sell(db.Model):
         return '<Sell id:%r user_id:%r title:%r>' % (self.id, self.user_id,
                 self.title)
 
-class Buy(db.Model):
+class Buy(db.Model, Serializer):
     """docstring for Buy"""
     __searchable__ = ['title', 'description']
 
@@ -123,7 +140,7 @@ class Buy(db.Model):
         return '<Buy id:%r user_id:%r title:%r>' % (self.id, self.user_id,
                 self.title)
 
-class Token(db.Model):
+class Token(db.Model, Serializer):
     """docstring for Token"""
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

@@ -43,6 +43,12 @@ div.caption h3 {
 	border: 1px solid #fff;
 	background-color: #f5f5f5;
 }*/
+.more-category {
+    padding-left: 10px;
+}
+.more-category a {
+    padding-right: 10px;
+}
 .floor {
 	margin-top: 10px;
 }

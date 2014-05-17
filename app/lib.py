@@ -357,6 +357,14 @@ def get_category_by_name(name):
     """docstring for get_category_by_name"""
     return db.session.query(models.Category).filter_by(name=name).first()
 
+def get_category_ids_from_category_id(category_id):
+    """docstring for get_category_ids_from_id"""
+    category_ids = [category_id, ]
+    category = get_category_by_id(category_id)
+    if category.parent_id != 0:
+        category_ids.append(category.parent_id)
+    return category_ids
+
 def get_locations(statuses=[0]):
     """docstring for get_locations"""
     return db.session.query(models.Location).\
@@ -383,8 +391,11 @@ def get_sells(statuses=[0], price=-1, user_id=0, category_id=0, location_id=0,
     sells = user_id and sells.filter_by(user_id=user_id) or \
         sells.filter(or_(models.Sell.user.has(status=0),
             models.Sell.user.has(status=1)))
-    sells = category_id and sells.filter_by(category_id=category_id) or \
-        sells.filter(models.Sell.category.has(status=0))
+    if category_id:
+        category_ids = get_category_ids_from_category_id(category_id)
+        sells = sells.filter(models.Sell.category_id.in_(category_ids))
+    else:
+        sells = sells.filter(models.Sell.category.has(status=0))
     sells = location_id and sells.filter_by(location_id=location_id) or \
         sells.filter(models.Sell.location.has(status=0))
     sells = sells.order_by(models.Sell.create_time.desc())
@@ -408,8 +419,11 @@ def get_sells_q_cid_lid(q, category_id=0, location_id=0, statuses=[0], page=1,
     res = res.filter(or_(models.Sell.user.has(status=0),
         models.Sell.user.has(status=1)))
     res = statuses and res.filter(models.Sell.status.in_(statuses)) or res
-    res = category_id and res.filter_by(category_id=category_id) or \
-            res.filter(models.Sell.category.has(status=0))
+    if category_id:
+        category_ids = get_category_ids_from_category_id(category_id)
+        res = res.filter(models.Sell.category_id.in_(category_ids))
+    else:
+        res = res.filter(models.Sell.category.has(status=0))
     res = location_id and res.filter_by(location_id=location_id) or \
             res.filter(models.Sell.location.has(status=0))
     res = res.whoosh_search(q)
@@ -434,8 +448,11 @@ def get_buys(statuses=[0], user_id=0, category_id=0, location_id=0, limit=1000,
     buys = user_id and buys.filter_by(user_id=user_id) or \
         buys.filter(or_(models.Buy.user.has(status=0),
             models.Buy.user.has(status=1)))
-    buys = category_id and buys.filter_by(category_id=category_id) or \
-        buys.filter(models.Buy.category.has(status=0))
+    if category_id:
+        category_ids = get_category_ids_from_category_id(category_id)
+        buys = buys.filter(models.Buy.category_id.in_(category_ids))
+    else:
+        buys = buys.filter(models.Buy.category.has(status=0))
     buys = location_id and buys.filter_by(location_id=location_id) or \
         buys.filter(models.Buy.location.has(status=0))
     buys = buys.order_by(models.Buy.create_time.desc())
@@ -459,8 +476,11 @@ def get_buys_q_cid_lid(q, category_id=0, location_id=0, statuses=[0], page=1,
     res = res.filter(or_(models.Buy.user.has(status=0),
         models.Buy.user.has(status=1)))
     res = statuses and res.filter(models.Buy.status.in_(statuses)) or res
-    res = category_id and res.filter_by(category_id=category_id) or \
-        res.filter(models.Buy.category.has(status=0))
+    if category_id:
+        category_ids = get_category_ids_from_category_id(category_id)
+        res = res.filter(models.Buy.category_id.in_(category_ids))
+    else:
+        res = res.filter(models.Buy.category.has(status=0))
     res = location_id and res.filter_by(location_id=location_id) or \
         res.filter(models.Buy.location.has(status=0))
     res = res.whoosh_search(q)

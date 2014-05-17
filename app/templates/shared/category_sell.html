@@ -1,20 +1,20 @@
-<ul id="category-list" class="nav nav-pills nav-stacked">
+<script src="{{ url_for('static', filename='js/jquery.menu-aim.js') }}"></script>
+<ul id="category-list" class="nav nav-pills nav-stacked dropdown-menu" style="display:block!important;">
     {% for c in g.categories %}
-    <li>
-    <a href="{{url_for('sell_index', category_id=c.id) }}">
-        <center>
-            {{c.name}}
-        </center>
-    </a>
+    <li data-submenu-id="sub-{{c.id}}">
+    <a href="{{url_for('sell_index', category_id=c.id) }}"> <center> {{c.name}} </center> </a>
+    <div id="sub-{{c.id}}" class="popover">  
+        <div class="popover-content">
+            <ul>
+                {% for subcategory in g.subcategories[c.id-1] %}
+                <li> <a href="{{ url_for('sell_index', category_id=subcategory.id) }}">{{subcategory.name}}</a> </li>
+                {% endfor %}
+            </ul>
+
+        </div>                       
+    </div>
     </li>
     {% endfor %}
 </ul>    
-<!--<div class="row">
-    <div id="category-div">
-        <ul id="category-list" class="list-unstyled text-center">
-            {% for c in g.categories %}
-            <li class="col-md-3"><a href="{{ url_for('sell_index', category_id=c.id) }}">{{c.name}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-</div>--><!--./row-->
+
+<script src="{{ url_for('static', filename='js/submenu.js') }}"></script>

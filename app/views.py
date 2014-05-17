@@ -512,6 +512,15 @@ def sell_post():
     context = {
         'form': forms.SellForm(obj=g.user),
     }
+    context['subcategories'] = [ 
+            [{"id": 4, "name": "子类1"},  {"id": 5, "name": "子类2"}], 
+            [{"id": 4, "name": "子类3"},  {"id": 5, "name": "子类4"}], 
+            [{"id": 4, "name": "子类5"},  {"id": 5, "name": "子类6"}], 
+            [{"id": 4, "name": "子类7"},  {"id": 5, "name": "子类8"}], 
+            [{"id": 4, "name": "子类9"},  {"id": 5, "name": "子类10"}], 
+            [{"id": 4, "name": "子类11"},  {"id": 5, "name": "子类12"}], 
+            [{"id": 4, "name": "子类13"},  {"id": 5, "name": "子类14"}] 
+            ]
     if context['form'].validate_on_submit():
         sell = lib.create_sell(
             user_id = g.user.id,

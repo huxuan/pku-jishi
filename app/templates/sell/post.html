@@ -56,7 +56,26 @@
                 $(this).hide();
             }
         });
+        var subcategories={{ subcategories|tojson|safe }};
+        var category_id = $('#category_id').val();
+        $('#subcategory_id option').remove('option');
+        var cur_subcategories = subcategories[category_id];
+        set_categorylist(cur_subcategories);
+
+        $('#category_id').change(function(){
+            var category_id = $(this).val();
+            $('#subcategory_id option').remove('option');
+            var cur_subcategories = subcategories[category_id];
+            set_categorylist(cur_subcategories);
+        });
+
     })
+
+    function set_categorylist(cur_subcategories) {
+        for (var i=0; i<cur_subcategories.length; i++) {
+            $('#subcategory_id').append($('<option value="' + cur_subcategories[i].id + '">' + cur_subcategories[i].name + '</option>'));
+        }
+    }
 </script>
 {% endblock %}
 
@@ -65,188 +84,201 @@
 <div id="main" class="container">
     <div class="row">
         <div class="col-md-12">
-        <legend>发布商品</legend>
-        <form role="form" class="form-horizontal" method="post" enctype='multipart/form-data' action="">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                {{ form.title.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    {{ form.title(class='form-control') }}
-                    {{ render_field_error(form.title) }}
-                </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    <font color=red size=5px>*</font> 请输入发布商品的名称
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.images.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    {{ form.images(id='files', class='files', datalist='list1') }}
-                    {{ render_field_error(form.images) }}
-                    <br />
-                    <a id="add-more" class="btn btn-default btn-sm" >
-                        <span class="glyphicon glyphicon-plus"></span>
-                        添加更多
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    推荐图片比例4:3 (可选)
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-2 control-label" for="images">
-                </label>
-                <div class="col-md-6">
-                    <div id="file-div-2" class="hidden-file-div">
-                    {{ form.images(class='files', datalist='list2') }}
-                    <br />
+            <legend>发布商品</legend>
+            <form role="form" class="form-horizontal" method="post" enctype='multipart/form-data' action="">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.title.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        {{ form.title(class='form-control') }}
+                        {{ render_field_error(form.title) }}
                     </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font> 请输入发布商品的名称
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.images.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        {{ form.images(id='files', class='files', datalist='list1') }}
+                        {{ render_field_error(form.images) }}
+                        <br />
+                        <a id="add-more" class="btn btn-default btn-sm" >
+                            <span class="glyphicon glyphicon-plus"></span>
+                            添加更多
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        推荐图片比例4:3 (可选)
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="images">
+                    </label>
+                    <div class="col-md-6">
+                        <div id="file-div-2" class="hidden-file-div">
+                            {{ form.images(class='files', datalist='list2') }}
+                            <br />
+                        </div>
 
-                    <div id="file-div-3" class="hidden-file-div">
-                    {{ form.images(class='files', datalist='list3') }}
-                    <br />
-                    </div>
+                        <div id="file-div-3" class="hidden-file-div">
+                            {{ form.images(class='files', datalist='list3') }}
+                            <br />
+                        </div>
 
-                    <div id="file-div-4" class="hidden-file-div">
-                    {{ form.images(class='files', datalist='list4') }}
-                    <br />
-                    </div>
+                        <div id="file-div-4" class="hidden-file-div">
+                            {{ form.images(class='files', datalist='list4') }}
+                            <br />
+                        </div>
 
-                    <div id="file-div-5" class="hidden-file-div">
-                    {{ form.images(class='files', datalist='list5') }}
+                        <div id="file-div-5" class="hidden-file-div">
+                            {{ form.images(class='files', datalist='list5') }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        </p>
+                    </div>
+                </div>   
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="images-more"></label>
+                    <div id="list" class="col-md-10">
+                        <span id="list1"></span>
+                        <span id="list2"></span>
+                        <span id="list3"></span>
+                        <span id="list4"></span>
+                        <span id="list5"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    </p>
-                </div>
-            </div>   
-            <div class="form-group">
-                <label class="col-md-2 control-label" for="images-more"></label>
-                <div id="list" class="col-md-10">
-                    <span id="list1"></span>
-                    <span id="list2"></span>
-                    <span id="list3"></span>
-                    <span id="list4"></span>
-                    <span id="list5"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.price.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon">¥</span>
-                        {{ form.price(class='form-control') }}
-                        <span class="input-group-addon">.00</span>
+                <div class="form-group">
+                    {{ form.price.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">¥</span>
+                            {{ form.price(class='form-control') }}
+                            <span class="input-group-addon">.00</span>
+                        </div>
+                        {{ render_field_error(form.price) }}
                     </div>
-                    {{ render_field_error(form.price) }}
-                </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    <font color=red size=5px>*</font>请输入发布商品的价格
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.deprecate.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    {{ form.deprecate(class='form-control') }}
-                    {{ render_field_error(form.deprecate) }}
-                </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    <font color=red size=5px>*</font>请选择商品的新旧程度
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.category_id.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    {{ form.category_id(class='form-control') }}
-                    {{ render_field_error(form.category_id) }}
-                </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    <font color=red size=5px>*</font>请选择发布商品的分类
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.location_id.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    {{ form.location_id(class='form-control') }}
-                    {{ render_field_error(form.location_id) }}
-                </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                   <font color=red size=5px>*</font> 请选择商品的交易地点
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.description.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    {{ form.description(class='form-control', rows='5') }}
-                    {{ render_field_error(form.description) }}
-                </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    <font color=red size=5px>*</font> 请简单描述下商品
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.phone.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    {{ form.phone(class='form-control', placeholder='请输入阿拉伯数字，系统会自动为您加密变换') }}
-                    {{ render_field_error(form.phone) }}
-                </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    <font color=red size=5px>*</font>请填写联系您的手机或电话
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.qq.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    {{ form.qq(class='form-control', placeholder='请输入阿拉伯数字，系统会自动为您加密变换') }}
-                    {{ render_field_error(form.qq) }}
-                </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    <font color=red size=5px>*</font>请填写联系您的QQ
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.valid.label(class='col-md-2 control-label') }}
-                <div class="col-md-6">
-                    <div class="input-group">
-                        {{ form.valid(class='form-control') }}
-                        <span class="input-group-addon">
-                            {{ form.valid.description }}
-                        </span>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font>请输入发布商品的价格
+                        </p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <p class="text-info">
-                    <font color=red size=5px>*</font>请选择商品有效时间（到期下架）
-                    </p>
+                <div class="form-group">
+                    {{ form.deprecate.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        {{ form.deprecate(class='form-control') }}
+                        {{ render_field_error(form.deprecate) }}
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font>请选择商品的新旧程度
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-6">
-                    <button type="submit" class="btn btn-primary">确认发布</button>
+                <div class="form-group">
+                    {{ form.category_id.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        {{ form.category_id(class='form-control') }}
+                        {{ render_field_error(form.category_id) }}
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font>请选择发布商品的分类
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+                <div class="form-group">
+                    {{ form.subcategory_id.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        {{ form.subcategory_id(class='form-control') }}
+                        {{ render_field_error(form.subcategory_id) }}
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font>请选择发布商品的二级分类
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.location_id.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        {{ form.location_id(class='form-control') }}
+                        {{ render_field_error(form.location_id) }}
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font> 请选择商品的交易地点
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.description.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        {{ form.description(class='form-control', rows='5') }}
+                        {{ render_field_error(form.description) }}
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font> 请简单描述下商品
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.phone.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        {{ form.phone(class='form-control', placeholder='请输入阿拉伯数字，系统会自动为您加密变换') }}
+                        {{ render_field_error(form.phone) }}
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font>请填写联系您的手机或电话
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.qq.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        {{ form.qq(class='form-control', placeholder='请输入阿拉伯数字，系统会自动为您加密变换') }}
+                        {{ render_field_error(form.qq) }}
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font>请填写联系您的QQ
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.valid.label(class='col-md-2 control-label') }}
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            {{ form.valid(class='form-control') }}
+                            <span class="input-group-addon">
+                                {{ form.valid.description }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-info">
+                        <font color=red size=5px>*</font>请选择商品有效时间（到期下架）
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-6">
+                        <button type="submit" class="btn btn-primary">确认发布</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 </div>
 </div> <!-- ./container -->
 {% include 'inc/footer.html' with context %}

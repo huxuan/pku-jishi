@@ -297,7 +297,7 @@ class SellForm(Form):
     )
     subcategory_id = SelectField(LABEL_CATEGORY, [
         validators.InputRequired(MSG_CATEGORY_REQUIRED),],
-        choices=[],
+        choices=[(0, u'请选择')],
         coerce=int,
     )
     location_id = SelectField(LABEL_LOCATION, [
@@ -346,7 +346,7 @@ class BuyForm(Form):
     )
     subcategory_id = SelectField(LABEL_CATEGORY, [
         validators.InputRequired(MSG_CATEGORY_REQUIRED),],
-        choices=[],
+        choices=[(0, u'请选择')],
         coerce=int,
     )
     location_id = SelectField(LABEL_LOCATION, [

@@ -19,8 +19,8 @@ class Serializer(object):
     """docstring for Serializer"""
     __public__ = None
 
-    def to_serializable_dict(self):
-        """docstring for to_serializable_dict"""
+    def to_dict(self):
+        """docstring for to_dict"""
         res = {}
         for public_key in self.__public__:
             res[public_key] = getattr(self, public_key)
@@ -28,7 +28,7 @@ class Serializer(object):
 
     def to_json(self):
         """docstring for to_json"""
-        return json.dumps(self.to_serializable_dict())
+        return json.dumps(self.to_dict())
 
 class User(db.Model, Serializer):
     """docstring for User"""

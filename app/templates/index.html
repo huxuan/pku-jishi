@@ -74,8 +74,9 @@
   <div class="panel-heading">
       <span class="pull-left">{{ loop.index }}F {{g.categories[loop.index-1].name}}</span> 
       <span class="more-category"> 
-          <a href="{{ url_for('sell_index', category_id=g.categories[loop.index-1].id) }}">子类1</a>
-          <a href="{{ url_for('sell_index', category_id=g.categories[loop.index-1].id) }}">子类2</a>
+        {% for subcategory in g.subcategories[loop.index-1] %}
+            <a href="{{ url_for('sell_index', category_id=subcategory.id) }}">{{subcategory.name}}</a>
+        {% endfor %}
       </span>
       <span class="pull-right">
           <a href="{{ url_for('sell_index', category_id=g.categories[loop.index-1].id) }}">查看更多</a>

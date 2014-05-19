@@ -50,6 +50,7 @@ LABEL_IMAGES5 = u'商品图片'
 LABEL_PRICE = u'商品价格'
 LABEL_DEPRECATE = u'新旧程度'
 LABEL_CATEGORY = u'商品分类'
+LABEL_SUBCATEGORY = u'二级分类'
 LABEL_LOCATION = u'交易地点'
 LABEL_DESCRIPTION = u'商品详情'
 LABEL_PHONE = u'联系手机'
@@ -295,7 +296,7 @@ class SellForm(Form):
         choices=[(x.id, x.name) for x in lib.get_categories()],
         coerce=int,
     )
-    subcategory_id = SelectField(LABEL_CATEGORY, [
+    subcategory_id = SelectField(LABEL_SUBCATEGORY, [
         validators.InputRequired(MSG_CATEGORY_REQUIRED),],
         choices=[(0, u'请选择')],
         coerce=int,
@@ -344,7 +345,7 @@ class BuyForm(Form):
         choices=[(x.id, x.name) for x in lib.get_categories()],
         coerce=int,
     )
-    subcategory_id = SelectField(LABEL_CATEGORY, [
+    subcategory_id = SelectField(LABEL_SUBCATEGORY, [
         validators.InputRequired(MSG_CATEGORY_REQUIRED),],
         choices=[(0, u'请选择')],
         coerce=int,

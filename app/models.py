@@ -60,7 +60,7 @@ class User(db.Model, Serializer):
 
     def __repr__(self):
         """docstring for __repr__"""
-        return '<User %r>' % self.name
+        return '<User %s>' % self.name
 
 class Category(db.Model, Serializer):
     """docstring for Category"""
@@ -76,7 +76,7 @@ class Category(db.Model, Serializer):
 
     def __repr__(self):
         """docstring for __repr__"""
-        return '<Category %r>' % self.name
+        return '<Category %s>' % self.name
 
 class Location(db.Model, Serializer):
     """docstring for location"""
@@ -90,7 +90,7 @@ class Location(db.Model, Serializer):
 
     def __repr__(self):
         """docstring for __repr__"""
-        return '<Location %r>' % self.name
+        return '<Location %s>' % self.name
 
 class Sell(db.Model, Serializer):
     """docstring for Sell"""
@@ -114,7 +114,7 @@ class Sell(db.Model, Serializer):
 
     def __repr__(self):
         """docstring for __repr__"""
-        return '<Sell id:%r user_id:%r title:%r>' % (self.id, self.user_id,
+        return '<Sell id:%s user_id:%s title:%s>' % (self.id, self.user_id,
                 self.title)
 
 class Buy(db.Model, Serializer):
@@ -137,7 +137,7 @@ class Buy(db.Model, Serializer):
 
     def __repr__(self):
         """docstring for __repr__"""
-        return '<Buy id:%r user_id:%r title:%r>' % (self.id, self.user_id,
+        return '<Buy id:%s user_id:%s title:%s>' % (self.id, self.user_id,
                 self.title)
 
 class Token(db.Model, Serializer):
@@ -149,7 +149,7 @@ class Token(db.Model, Serializer):
 
     def __repr__(self):
         """docstring for __repr__"""
-        return '<Token user_id:%r confirm:%r create_time:%r>' % (self.user_id,
+        return '<Token user_id:%s confirm:%s create_time:%s>' % (self.user_id,
             self.confirm, self.create_time)
 
 whooshalchemy.whoosh_index(app, Sell)

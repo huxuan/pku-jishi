@@ -226,7 +226,7 @@ def update_sell_from_form(sell, form):
     sell.location_id = form.location_id.data
     sell.category_id = form.category_id.data
     if form.subcategory_id.data != 0:
-        buy.category_id = form.subcategory_id.data
+        sell.category_id = form.subcategory_id.data
     sell.description = form.description.data
     sell.phone = form.phone.data
     sell.qq = form.qq.data

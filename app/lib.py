@@ -359,12 +359,17 @@ def get_category_by_name(name):
     """docstring for get_category_by_name"""
     return db.session.query(models.Category).filter_by(name=name).first()
 
+def get_categories_by_parent_id(parent_id):
+    """docstring for get_categories_by_parent_id"""
+    return db.session.query(models.Category).filter_by(parent_id=parent_id)\
+        .all()
+
 def get_category_ids_from_category_id(category_id):
     """docstring for get_category_ids_from_id"""
     category_ids = [category_id, ]
-    category = get_category_by_id(category_id)
-    if category.parent_id != 0:
-        category_ids.append(category.parent_id)
+    categories = get_categories_by_parent_id(category_id)
+    for category in categories:
+        category_ids.append(category.id)
     return category_ids
 
 def get_locations(statuses=[0]):

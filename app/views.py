@@ -491,6 +491,17 @@ def sell_edit_id(id):
         'form': forms.SellForm(obj=sell),
         'images': lib.images_decode(images_sell, sell.images),
     }
+    category_id = sell.category_id
+    if category_id > len(g.categories):
+        subcategory_id = category_id
+        context['form'].subcategory_id.data = subcategory_id
+        subcategory = lib.get_category_by_id(subcategory_id)
+        category_id = subcategory.parent_id
+        context['form'].category_id.data = category_id
+    category_id = context['form'].category_id.data
+    if category_id > 0 and category_id <= len(g.categories):
+        context['form'].subcategory_id.choices = [(x['id'], x['name'])
+            for x in g.subcategories[category_id - 1]]
     if context['form'].validate_on_submit():
         sell = lib.update_sell_from_form(sell, context['form'])
         images_files = request.files.getlist('images')
@@ -512,6 +523,10 @@ def sell_post():
     context = {
         'form': forms.SellForm(obj=g.user),
     }
+    category_id = context['form'].category_id.data
+    if category_id > 0 and category_id <= len(g.categories):
+        context['form'].subcategory_id.choices = [(x['id'], x['name'])
+            for x in g.subcategories[category_id - 1]]
     if context['form'].validate_on_submit():
         sell = lib.create_sell(
             user_id = g.user.id,
@@ -611,6 +626,17 @@ def buy_edit_id(id):
     context = {
         'form': forms.BuyForm(obj=buy),
     }
+    category_id = sell.category_id
+    if category_id > len(g.categories):
+        subcategory_id = category_id
+        context['form'].subcategory_id.data = subcategory_id
+        subcategory = lib.get_category_by_id(subcategory_id)
+        category_id = subcategory.parent_id
+        context['form'].category_id.data = category_id
+    category_id = context['form'].category_id.data
+    if category_id > 0 and category_id <= len(g.categories):
+        context['form'].subcategory_id.choices = [(x['id'], x['name'])
+            for x in g.subcategories[category_id - 1]]
     if context['form'].validate_on_submit():
         buy = lib.update_buy_from_form(buy, context['form'])
         db.session.commit()
@@ -626,6 +652,10 @@ def buy_post():
     context = {
         'form': forms.BuyForm(obj=g.user),
     }
+    category_id = context['form'].category_id.data
+    if category_id > 0 and category_id <= len(g.categories):
+        context['form'].subcategory_id.choices = [(x['id'], x['name'])
+            for x in g.subcategories[category_id - 1]]
     if context['form'].validate_on_submit():
         buy = lib.create_buy(
             user_id=g.user.id,

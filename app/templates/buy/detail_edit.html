@@ -7,6 +7,28 @@
 {% endblock %}
 
 {% block custom_script %}
+<script type="text/javascript">
+$(function(){
+    var subcategories={{ g.subcategories|tojson|safe }};
+    var category_id = $('#category_id').val();
+    $('#subcategory_id option').remove('option');
+    var cur_subcategories = subcategories[category_id-1];
+    set_categorylist(cur_subcategories);
+
+    $('#category_id').change(function(){
+        var category_id = $(this).val();
+        $('#subcategory_id option').remove('option');
+        var cur_subcategories = subcategories[category_id-1];
+        set_categorylist(cur_subcategories);
+    });   
+});
+
+function set_categorylist(cur_subcategories) {
+    for (var i=0; i<cur_subcategories.length; i++) {
+        $('#subcategory_id').append($('<option value="' + cur_subcategories[i].id + '">' + cur_subcategories[i].name + '</option>'));
+    }
+}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -47,6 +69,13 @@
         <div class="col-sm-10">
             {{ form.category_id(class='form-control') }}
             {{ render_field_error(form.category_id) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form.subcategory_id.label(class='col-sm-2 control-label') }}
+        <div class="col-sm-10">
+            {{ form.subcategory_id(class='form-control') }}
+            {{ render_field_error(form.subcategory_id) }}
         </div>
     </div>
     <div class="form-group">

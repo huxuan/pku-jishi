@@ -626,7 +626,7 @@ def buy_edit_id(id):
     context = {
         'form': forms.BuyForm(obj=buy),
     }
-    category_id = sell.category_id
+    category_id = buy.category_id
     if category_id > len(g.categories):
         subcategory_id = category_id
         context['form'].subcategory_id.data = subcategory_id

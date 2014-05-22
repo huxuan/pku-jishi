@@ -50,11 +50,6 @@
 <script type="text/javascript">
 $(function(){
     var subcategories={{ g.subcategories|tojson|safe }};
-    var category_id = $('#category_id').val();
-    $('#subcategory_id option').remove('option');
-    var cur_subcategories = subcategories[category_id-1];
-    set_categorylist(cur_subcategories);
-
     $('#category_id').change(function(){
         var category_id = $(this).val();
         $('#subcategory_id option').remove('option');

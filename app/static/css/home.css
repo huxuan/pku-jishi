@@ -1,3 +1,13 @@
+.panel-info>.panel-heading {
+    color: white;
+    background-color: #60c9f9;
+    border-color:#40bef8;
+    font-size: 1.2em;
+}
+.panel-info>.panel-heading a {
+    color: white;
+    font-size: 0.9em;
+}
 .slogan {
     color: #ccc;
     letter-spacing: 1em;
@@ -39,7 +49,7 @@
 }
 div.caption h3 {
     margin-top:0px!important;
-    font-size: 0.9em!important;
+    font-size: 0.8em!important;
     word-break:keep-all;
     white-space:nowrap;
     overflow:hidden;

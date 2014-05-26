@@ -213,7 +213,7 @@ def user_register_succ():
 @app.route('/user/resend_confirm_mail', methods=('GET', 'POST'))
 def user_resend_confirm_mail():
     """docstring for user_resend_confirm_mail"""
-    if g.user.status == 0:
+    if g.user.is_authenticated() and g.user.status == 0:
         return redirect(url_for('user_index'))
     context = {
         'form': forms.EmailCaptchaForm(),

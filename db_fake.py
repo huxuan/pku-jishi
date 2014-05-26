@@ -7,6 +7,8 @@ Email: i(at)huxuan.org
 Description: script to create fake items in database
 """
 
+import re
+import pickle
 import datetime
 import hashlib
 import random
@@ -227,14 +229,26 @@ def fake_buy():
                     fake_buy_status(user, category, location, status)
     db.session.commit()
 
+def images_repair():
+    """docstring for images_repair"""
+    for sell in db.session.query(models.Sell):
+        pattern = re.compile(r'%d_.*?jpg' % sell.id)
+        images = pattern.findall(sell.images)
+        print images
+        print repr(pickle.dumps(images))
+        sell.images = pickle.dumps(images)
+        print pickle.loads(sell.images)
+        db.session.commit()
+
 def main():
     """docstring for main"""
     #fake_category()
-    fake_category_subcategory_new()
+    #fake_category_subcategory_new()
     #fake_location()
     #fake_user()
     #fake_sell()
     #fake_buy()
+    images_repair()
 
 if __name__ == '__main__':
     main()

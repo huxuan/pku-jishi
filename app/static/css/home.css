@@ -2,10 +2,13 @@
     color: white;
     background-color: #60c9f9;
     border-color:#40bef8;
-    font-size: 1.2em;
+    font-size: 1.1em;
+}
+.panel-info>.panel-heading>.pull-left {
+    padding-right: 1.5em;
 }
 .panel-info>.panel-heading a {
-    color: white;
+    color: #333;
     font-size: 0.9em;
 }
 .slogan {
@@ -85,6 +88,7 @@ background-color: #f5f5f5;
     }
     .floor {
         margin-top: 10px;
+        margin-bottom: 2px!important;
     }
     .floor .goods-div .caption > h3 {
         font-size: 1.2em;

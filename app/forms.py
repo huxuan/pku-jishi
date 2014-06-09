@@ -161,7 +161,7 @@ class RegisterEmailValidation(object):
     """docstring for RegisterEmailValidation"""
     def __call__(self, form, field):
         email = field.data
-        if not email.endswith('@pku.edu.cn'):
+        if not email.endswith('.edu.cn'):
             raise validators.StopValidation(MSG_EMAIL_PKU)
         user = db.session.query(models.User).filter_by(email=email).first()
         if user:

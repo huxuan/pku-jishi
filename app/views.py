@@ -176,7 +176,6 @@ def user_login():
     return render_template("user/login.html", **context)
 
 @app.route("/user/logout")
-@login_required
 def user_logout():
     logout_user()
     return redirect(url_for('user_login'))
@@ -195,7 +194,7 @@ def user_register():
             password = context['form'].password.data,
         )
         db.session.add(user)
-        db.session.flush()
+        db.session.commit()
         if user.status == 0:
             return redirect(url_for('user_logout'))
         token = lib.create_token(user)

@@ -196,6 +196,8 @@ def user_register():
         )
         db.session.add(user)
         db.session.flush()
+        if user.status == 0:
+            return redirect(url_for('user_logout'))
         token = lib.create_token(user)
         db.session.add(token)
         db.session.commit()

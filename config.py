@@ -6,6 +6,8 @@ Author: huxuan
 Email: i(at)huxuan.org
 Description: config for app
 """
+# Custom
+DEFAULT_USER_STATUS = 0
 
 # mysql / sqlalchemy
 SQLALCHEMY_DATABASE_URI = 'mysql://pkujishi:jishipku@localhost/pkujishi'

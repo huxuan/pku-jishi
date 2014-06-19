@@ -186,7 +186,7 @@ def create_user(email, name, password):
         phone = '',
         qq = '',
         create_time = datetime.datetime.now(),
-        status = 1,
+        status = app.config.get('DEFAULT_USER_STATUS'),
     )
     return user
 

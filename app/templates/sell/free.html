@@ -12,10 +12,7 @@
 {% block content %}
 {% include 'inc/header.html' with context %}
 <div class="container">
-<div class="col-md-9">
-    {% include 'shared/category_sell_free.html' with context %}
     <div class="row">
-        <br />
         <div class="col-md-12">
             <div class="btn-group">
                 <a href="{{ url_for('sell_free', category_id=category_id) }}" class="btn btn-default">全部</a>
@@ -57,13 +54,6 @@
         </div>
     </div> <!-- ./floor-->
     {{ pagination.links|safe }}
-
-</div><!-- ./col-md-9 -->
-<div class="col-md-3">
-    {% include 'shared/main_btn.html' with context %}
-    <br /><br />
-    {% include 'shared/board.html' with context %}
-</div><!-- ./col-md-3 -->
 </div>
 {% include 'inc/footer.html' with context %}
 {% endblock %}

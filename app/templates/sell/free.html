@@ -35,9 +35,9 @@
                 <div class="thumbnail">
                     <a href="{{ url_for('sell_id', id=goods.id) }}">
               {% if goods.thumbnails : %}
-              <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=128, height=128)}}">
+              <img src="{{url_for('images.crop', filename='uploads/sell/' + goods.thumbnails, width=300, height=300)}}">
               {% else: %}
-              <img src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png">
+              <img style="max-height:300px!important;" src="{{url_for('static', filename='images/small')}}/{{ goods.category.id}}.png" width="300" height="300">
               {% endif %}
                     </a>
                     <div class="caption">

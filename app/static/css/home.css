@@ -66,59 +66,46 @@ div.caption h3 {
 .category-row .col-md-3{
     padding-left: 2px!important;
 }
-/*
-#category-list{
-padding-left: 14px;
-padding-right: 14px;
+.more-category {
+    padding-left: 10px;
 }
-#category-list>li
-{
-height: 40px;
-line-height: 40px;
-font-size: 15px;
-text-align: center;
-border: 1px solid #fff;
-background-color: #f5f5f5;
-}*/
-    .more-category {
-        padding-left: 10px;
-    }
-    .more-category a {
-        padding-right: 10px;
-    }
-    .floor {
-        margin-top: 10px;
-        margin-bottom: 2px!important;
-    }
-    .floor .goods-div .caption > h3 {
-        font-size: 1.2em;
-        font-weight: bold;
-    }
-    .floor .goods-div .caption > p {
-        font-size: 1em;
-    }
-    .location { font-size: 0.9em; }
-    .price { 
-        color: red;
-        font-size: 0.9em;
-        padding-right: 2px;
-        font-weight: bold;
-    }
-    .thumbnail {
-        border:none!important;
-        margin-bottom: 0px!important;
-        margin-bottom: -10px!important;
-    }
-    .goods-div .thumbnail img{
-        border: 1px solid #f5f5f5!important;
-    }
-    .panel {
-        border-radius: 1px!important;
-    }
-    .panel-heading {
-        border-top-right-radius: 0px;
-        border-top-left-radius: 0px;
-    }
-    .main-btn {
-        margin-bottom: 6px;
-    }
+.more-category a {
+    padding-right: 10px;
+}
+.floor {
+    margin-top: 10px;
+    margin-bottom: 2px!important;
+}
+.floor .goods-div .caption > h3 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.floor .goods-div .caption > p {
+    font-size: 1em;
+}
+.location { font-size: 0.9em; }
+.price { 
+    color: red;
+    font-size: 0.9em;
+    padding-right: 2px;
+    font-weight: bold;
+}
+.thumbnail {
+    border:none!important;
+    margin-bottom: 0px!important;
+    margin-bottom: -10px!important;
+}
+.goods-div .thumbnail img{
+    border: 1px solid #f5f5f5!important;
+    max-height: 225px!important;
+}
+.panel {
+    border-radius: 1px!important;
+}
+.panel-heading {
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+}
+.main-btn {
+    margin-bottom: 6px;
+}

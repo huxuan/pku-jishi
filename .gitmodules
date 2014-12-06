@@ -1,6 +1,3 @@
 [submodule "Flask-WhooshAlchemy"]
 	path = Flask-WhooshAlchemy
 	url = https://github.com/huxuan/Flask-WhooshAlchemy.git
-[submodule "flask-wtf"]
-	path = flask-wtf
-	url = https://github.com/huxuan/flask-wtf.git

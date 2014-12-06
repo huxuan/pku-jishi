@@ -3,4 +3,4 @@
 	url = https://github.com/huxuan/Flask-WhooshAlchemy.git
 [submodule "flask-wtf"]
 	path = flask-wtf
-	url = git@github.com:huxuan/flask-wtf.git
+	url = https://github.com/huxuan/flask-wtf.git

@@ -10,7 +10,6 @@ Description: forms used in app
 import hashlib
 
 import sys
-sys.path.insert(0, 'flask-wtf')
 from flask_wtf import Form
 from flask_wtf.file import FileField
 from flask_wtf.file import FileAllowed
